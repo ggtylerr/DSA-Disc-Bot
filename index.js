@@ -3,7 +3,7 @@
  * 
  * DSA Bot
  * 
- * A Discord bot made for the DSA server.
+ * A Discord bot made for the DSA Esports server.
  * 
  * ~~~developed by ggtylerr~~~ 
  */
