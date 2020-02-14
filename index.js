@@ -29,11 +29,21 @@ const defprefix = ';' // Default prefix, configure if needed
 let prefix = defprefix;
 var logMsgUpdates = false; // If true, logs whenever the message count is updated(Auto-saves every minute)
 
+// Grabbing Message Count
+let count = [];
+var allDb = db.all();
+for (var i = 0; i < Object.keys(allDb).length; i++) {
+  var curr = allDb[i];
+  if (curr.ID.startsWith('count_')) {
+    curr.ID = curr.ID.substr(6);
+    count.push(allDb[i]);
+  }
+}
+
 // Setting Message Count
-let count = {};
 function setCount() {
   for (var i = 0; i < Object.keys(count).length; i++) {
-    db.set(`count_${count[i].id}`, count[i].count);
+    db.set(`count_${count[i].ID}`, count[i].data);
   }
   if (logMsgUpdates) console.log('Message count updated.');
 }
@@ -65,15 +75,16 @@ client.on('message', fulmsg => {
     var i = 0;
     var c = 0;
     for (; i < Object.keys(count).length; i++) {
-      if (count[i].id === id) {
-        c = count[i].count;
+      if (count[i].ID === id) {
+        c = count[i].data;
+        if (c instanceof String) c = parseInt(c);
         delete count[i];
         break;
       }
     }
     count[i] = {
-      id    : id,
-      count : c + 1
+      ID    : id,
+      data  : c + 1
     }
   }
 
@@ -120,7 +131,7 @@ client.on('ready', () => {
     .catch(console.error);
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
   console.log('          DSABOT')
-  console.log('           v0.1')
+  console.log('           v0.2')
   console.log('~~~developed by ggtylerr~~~')
   console.log('Please note that console lists all *attempted* commands, including non existant ones.')
   console.log('Also, due to various issues out of our hands, this bot may attempt to end its own life. We highly suggest you either make it automatically restart or you continuously monitor it via console, UptimeRobot, or other means.')

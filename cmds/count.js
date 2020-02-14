@@ -15,6 +15,6 @@ exports.run = (client, message, args) => {
 
   if (id === null) return;
   count = db.fetch(`count_${id}`);
-  if (count === null) message.channel.send('Couldn\'t get the count from our database. This probably only happens if nobody has said anything since the bot joined (excluding other bots). Since you said something, just wait around a minute before it automatically updates.\n*(If you believe this is a bug, please DM @\\\\GGTyler\\\\#8605*)');
+  if (count === null) message.channel.send('Couldn\'t get the count from our database. This probably only happens if nobody has said anything since the bot joined (excluding other bots). Since you said something, just wait around a minute before it automatically updates.\n*(If you believe this is a bug, please DM @\\\\\\\\GGTyler\\\\\\\\#8605*)');
   else message.channel.send(count);
 }
