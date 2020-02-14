@@ -18,7 +18,11 @@ exports.run = (client, message, args) => {
     description: 'Set prefix for this server: ' + args[args.length-1],
     fields: [{
         name: 'General Commands',
-        value: 'help: Displays this message.\nsayhelp: Displays this message, but sends it in the channel instead of DM\'ing you it.\ncount: Shows the # of msgs that has been sent since this bot existed (or 5 minutes after the count was implemented)\nrng (num): Chooses a random number from 1 thru (num)\nvote (msg): Makes a vote message.\nyorn (msg): Answers a yes/no question.\nsend (msg): Makes me send a message. @ becomes italicized to prevent pings.\nflip: Flip a coin.\nping: Pong.\nf: Presses [F] to pay respects.\nbruh: Certifies a bruh moment.\ngeico: Save 15% or more on car insurance.'
+        value: 'help: Displays this message.\nsayhelp: Displays this message, but sends it in the channel instead of DM\'ing you it.\ncount: Shows the # of msgs that has been sent since this bot existed (or 5 minutes after the count was implemented)\nrng (num): Chooses a random number from 1 thru (num)\nvote (msg): Makes a vote message.\nyorn (msg): Answers a yes/no question.\nsend (msg): Makes me send a message. @ becomes italicized to prevent pings.\nflip: Flip a coin.\nrngcase (msg): Randomize the case of a message.'
+      },
+      {
+        name: 'Meme Commands',
+        value: 'ping: Pong.\nf: Presses [F] to pay respects.\nbruh: Certifies a bruh moment.\ngeico: Save 15% or more on car insurance.\ngold: Give reddit gold.'
       },
       {
         name: 'Admin Only Commands',
