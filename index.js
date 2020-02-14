@@ -80,7 +80,13 @@ client.on('message', fulmsg => {
   // Non prefix commands
   if (msg.toLowerCase() === 'ayy') fulmsg.channel.send('lmao');
   if (msg.toLowerCase() === 'owo') fulmsg.channel.send('What\'s this?');
-  if (msg.toLowerCase() === 'cough') fulmsg.channel.send('Cough');
+  if (msg.toLowerCase() === 'cough') {
+    fulmsg.channel.send('Cough');
+    count = db.fetch(`cough_${id}`);
+    if (count === null) count = 2
+    else count += 2
+    db.set(`cough_${id}`,count);
+  }
   if (msg.toLowerCase() === 'me2' || msg.toLowerCase() === 'me to' || msg.toLowerCase() === 'me too') fulmsg.channel.send('me too');
   if (msg.toLowerCase() === 'twitch.tv/ggtylerr') fulmsg.channel.send('two r\'s all lowercase')
   if (msg.toLowerCase() === 'go the marcus' || msg.toLowerCase() === 'go da marcus') fulmsg.channel.send('go da marcus')

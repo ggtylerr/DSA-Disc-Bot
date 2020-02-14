@@ -22,7 +22,7 @@ exports.run = (client, message, args) => {
       },
       {
         name: 'Meme Commands',
-        value: 'ping: Pong.\nf: Presses [F] to pay respects.\nbruh: Certifies a bruh moment.\ngeico: Save 15% or more on car insurance.\ngold: Give reddit gold.'
+        value: 'ping: Pong.\nf: Presses [F] to pay respects.\nbruh: Certifies a bruh moment.\ngeico: Save 15% or more on car insurance.\ngold: Give reddit gold.\ncoughcount: Shows the # of coughs (including the ones by the bot)'
       },
       {
         name: 'Admin Only Commands',
