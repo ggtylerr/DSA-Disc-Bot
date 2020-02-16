@@ -77,7 +77,10 @@ client.on('message', fulmsg => {
     for (; i < Object.keys(count).length; i++) {
       if (count[i].ID === id) {
         c = count[i].data;
-        if (c instanceof String) c = parseInt(c);
+        if (c instanceof String) {
+          c.replace(/\"/g,'');
+          c = parseInt(c);
+        }
         delete count[i];
         break;
       }
