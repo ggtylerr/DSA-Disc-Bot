@@ -27,7 +27,7 @@ const db = require('quick.db');
 const client = new Discord.Client();
 const defprefix = ';' // Default prefix, configure if needed
 let prefix = defprefix;
-var logMsgUpdates = false; // If true, logs whenever the message count is updated(Auto-saves every minute)
+var logMsgUpdates = true; // If true, logs whenever the message count is updated(Auto-saves every minute)
 
 // Grabbing Message Count
 let count = [];
