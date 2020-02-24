@@ -92,7 +92,7 @@ client.on('message', fulmsg => {
     for (; i < Object.keys(count).length; i++) {
       if (count[i].ID === id) {
         c = count[i].data;
-        if (c instanceof String) {
+        if (c.constructor === String) {
           c.replace(/[^0-9]/g,'');
           c = parseInt(c);
         }
@@ -116,7 +116,7 @@ client.on('message', fulmsg => {
       return;
     }
     else if (coughTimeOut > 10) return;
-    console.log('Cough');
+    console.log(fulmsg.author.tag + ' coughed');
     fulmsg.channel.send('Cough');
     count = db.fetch(`cough_${id}`);
     if (count === null) count = 2
