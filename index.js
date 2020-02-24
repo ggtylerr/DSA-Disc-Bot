@@ -43,9 +43,11 @@ for (var i = 0; i < Object.keys(allDb).length; i++) {
 // Setting Message Count
 function setCount() {
   for (var i = 0; i < Object.keys(count).length; i++) {
-    if (count[i].data.constructor === String) {
+    try {
       count[i].data.replace(/[^0-9]/g,'');
       count[i].data = parseInt(count[i].data);
+    } catch (e) {
+      // data is not string
     }
     db.set(`count_${count[i].ID}`, count[i].data);
   }
@@ -92,9 +94,11 @@ client.on('message', fulmsg => {
     for (; i < Object.keys(count).length; i++) {
       if (count[i].ID === id) {
         c = count[i].data;
-        if (c.constructor === String) {
+        try {
           c.replace(/[^0-9]/g,'');
           c = parseInt(c);
+        } catch (e) {
+          // data is not string
         }
         delete count[i];
         break;
