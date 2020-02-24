@@ -43,11 +43,23 @@ for (var i = 0; i < Object.keys(allDb).length; i++) {
 // Setting Message Count
 function setCount() {
   for (var i = 0; i < Object.keys(count).length; i++) {
+    if (count[i].data.constructor === String) {
+      count[i].data.replace(/[^0-9]/g,'');
+      count[i].data = parseInt(count[i].data);
+    }
     db.set(`count_${count[i].ID}`, count[i].data);
   }
   if (logMsgUpdates) console.log('Message count updated.');
 }
 setInterval(setCount, 60*1000);
+
+// Time out coughs
+var coughTimeOut = 0;
+function coughReset() {
+  coughTimeOut = 0;
+  console.log('Cough reset');
+}
+setInterval(coughReset,60*1000);
 
 // Listen Events
 client.on('message', fulmsg => {
@@ -56,6 +68,9 @@ client.on('message', fulmsg => {
   let sender = fulmsg.author;
   let args = msg.slice(prefix.length).trim().split(' ');
   let cmd = args.shift().toLowerCase();
+  
+  // Return if DMs
+  if (fulmsg.channel.guild === undefined || fulmsg.channel.guild === null) return;
 
   // Prefix Command
   var id = fulmsg.channel.guild.id;
@@ -71,14 +86,14 @@ client.on('message', fulmsg => {
   if (fulmsg.author.bot) return;
 
   // Message count updating
-  if (id != null) {
+  if (id !== null) {
     var i = 0;
     var c = 0;
     for (; i < Object.keys(count).length; i++) {
       if (count[i].ID === id) {
         c = count[i].data;
         if (c instanceof String) {
-          c.replace(/\"/g,'');
+          c.replace(/[^0-9]/g,'');
           c = parseInt(c);
         }
         delete count[i];
@@ -95,18 +110,26 @@ client.on('message', fulmsg => {
   if (msg.toLowerCase() === 'ayy') fulmsg.channel.send('lmao');
   if (msg.toLowerCase() === 'owo') fulmsg.channel.send('What\'s this?');
   if (msg.toLowerCase() === 'cough') {
+    coughTimeOut += 1;
+    if (coughTimeOut == 10) {
+      fulmsg.channel.send('Too many coughs. Please wait about a minute.')
+      return;
+    }
+    else if (coughTimeOut > 10) return;
+    console.log('Cough');
     fulmsg.channel.send('Cough');
     count = db.fetch(`cough_${id}`);
     if (count === null) count = 2
     else count += 2
     db.set(`cough_${id}`,count);
+    console.log('Cough set');
   }
   if (msg.toLowerCase() === 'me2' || msg.toLowerCase() === 'me to' || msg.toLowerCase() === 'me too') fulmsg.channel.send('me too');
   if (msg.toLowerCase() === 'twitch.tv/ggtylerr') fulmsg.channel.send('two r\'s all lowercase')
   if (msg.toLowerCase() === 'go the marcus' || msg.toLowerCase() === 'go da marcus') fulmsg.channel.send('go da marcus')
-  if (msg.toLowerCase() === '<@675555531901108296> help' || msg.toLowerCase() === '<@675555531901108296>') {
+  if (msg.toLowerCase() === '<@!675555531901108296> help' || msg.toLowerCase() === '<@!675555531901108296>') {
     let help = require('./cmds/help.js');
-    help.run(client,fullmsg,args);
+    help.run(client,fulmsg,args);
   }
 
   // Return if non prefix from here
