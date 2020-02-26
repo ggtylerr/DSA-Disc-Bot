@@ -27,7 +27,8 @@ const db = require('quick.db');
 const client = new Discord.Client();
 const defprefix = ';' // Default prefix, configure if needed
 let prefix = defprefix;
-var logMsgUpdates = true; // If true, logs whenever the message count is updated(Auto-saves every minute)
+var logMsgUpdates = false; // If true, logs whenever the message count is updated(Auto-saves every minute)
+var logCoughResets = false; // If true, logs whenever the cough is no longer timed out.
 
 // Grabbing Message Count
 let count = [];
@@ -58,8 +59,8 @@ setInterval(setCount, 60*1000);
 // Time out coughs
 var coughTimeOut = 0;
 function coughReset() {
+  if (coughTimeOut === 0 && logCoughResets) console.log('Cough reset');
   coughTimeOut = 0;
-  console.log('Cough reset');
 }
 setInterval(coughReset,60*1000);
 
@@ -111,6 +112,7 @@ client.on('message', fulmsg => {
   }
 
   // Non prefix commands
+  // todo: transfer to a non prefix file
   if (msg.toLowerCase() === 'ayy') fulmsg.channel.send('lmao');
   if (msg.toLowerCase() === 'owo') fulmsg.channel.send('What\'s this?');
   if (msg.toLowerCase() === 'cough') {
@@ -128,7 +130,7 @@ client.on('message', fulmsg => {
     db.set(`cough_${id}`,count);
     console.log('Cough set');
   }
-  if (msg.toLowerCase() === 'me2' || msg.toLowerCase() === 'me to' || msg.toLowerCase() === 'me too') fulmsg.channel.send('me too');
+  if (msg.toLowerCase() === 'me2' || msg.toLowerCase() === 'me to' || msg.toLowerCase() === 'me too' || msg.toLowerCase() === 'me two' || msg.toLowerCase() === 'mewtwo') fulmsg.channel.send('me too');
   if (msg.toLowerCase() === 'twitch.tv/ggtylerr') fulmsg.channel.send('two r\'s all lowercase')
   if (msg.toLowerCase() === 'go the marcus' || msg.toLowerCase() === 'go da marcus') fulmsg.channel.send('go da marcus')
   if (msg.toLowerCase() === '<@!675555531901108296> help' || msg.toLowerCase() === '<@!675555531901108296>') {
