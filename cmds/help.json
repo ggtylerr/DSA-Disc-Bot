@@ -1,0 +1,26 @@
+{
+  "embed": {
+    "color": 3447003,
+    "author": {
+      "name": "CHANGE THIS TO client.user.username",
+      "icon_url": "CHANGE THIS TO client.user.avatarURL"
+    },
+    "title": "Here's the commands for this bot!",
+    "description": "CHANGE THIS TO \"Set prefix for this server: \" + args[args.length-1]",
+    "fields": [{
+      "name": "General Commands",
+      "value": "help: Displays this message.\nsayhelp: Displays this message, but sends it in the channel instead of DM'ing you it.\ncount: Shows the # of msgs that has been sent since this bot existed (or 5 minutes after the count was implemented)\nrng (num): Chooses a random number from 1 thru (num)\nvote (msg): Makes a vote message.\nyorn (msg): Answers a yes/no question.\nsend (msg): Makes me send a message. @ becomes italicized to prevent pings.\nflip: Flip a coin.\nrngcase (msg): Randomize the case of a message."
+    },
+    {
+      "name": "Meme Commands",
+      "value": "ping: Pong.\nf: Presses [F] to pay respects.\nbruh: Certifies a bruh moment.\ngeico: Save 15% or more on car insurance.\ngold: Give reddit gold.\ncoughcount: Shows the # of coughs (including the ones by the bot)\noof: OOF\ncum: **COMSUME THE CUM CHALICE**"
+    },
+    {
+      "name": "Admin Only Commands",
+      "value": "*These commands require you to have the administrator permission on your server*\nprefix (prefix): Sets a new prefix for the server."
+    },
+    {
+      "name": "No Prefix",
+      "value": "ayy: lmao\nowo: What's this?\nCough: Cough\nme2 *or* me too *or* me to *or* me two *or* mewtwo: me too\ntwitch.tv/ggtylerr: two r's all lowercase\ngo the marcus *or* go da marcus\npinging me (like saying '@Bot#4200') *or* pinging me and adding help (like saying '@Bot#4200 help'): DMs you this message."
+    }]
+}}
