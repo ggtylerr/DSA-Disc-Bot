@@ -112,9 +112,11 @@ client.on('message', fulmsg => {
   }
 
   // Non prefix commands
-  // todo: transfer to a non prefix file
-  if (msg.toLowerCase() === 'ayy') fulmsg.channel.send('lmao');
-  if (msg.toLowerCase() === 'owo') fulmsg.channel.send('What\'s this?');
+  let noprefix = require('./noprefix.js');
+  noprefix.run(client,fulmsg,args);
+
+  // Coughing
+  // (Not in the noprefix script for now)
   if (msg.toLowerCase() === 'cough') {
     coughTimeOut += 1;
     if (coughTimeOut == 10) {
@@ -129,13 +131,6 @@ client.on('message', fulmsg => {
     else count += 2
     db.set(`cough_${id}`,count);
     console.log('Cough set');
-  }
-  if (msg.toLowerCase() === 'me2' || msg.toLowerCase() === 'me to' || msg.toLowerCase() === 'me too' || msg.toLowerCase() === 'me two' || msg.toLowerCase() === 'mewtwo') fulmsg.channel.send('me too');
-  if (msg.toLowerCase() === 'twitch.tv/ggtylerr') fulmsg.channel.send('two r\'s all lowercase')
-  if (msg.toLowerCase() === 'go the marcus' || msg.toLowerCase() === 'go da marcus') fulmsg.channel.send('go da marcus')
-  if (msg.toLowerCase() === '<@!675555531901108296> help' || msg.toLowerCase() === '<@!675555531901108296>') {
-    let help = require('./cmds/help.js');
-    help.run(client,fulmsg,args);
   }
 
   // Return if non prefix from here
