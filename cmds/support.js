@@ -1,11 +1,11 @@
 /**
  * THIS CODE WAS MADE FOR THE DSA DISCORD BOT AND CAN BE REUSED FOR ANY PURPOSE WITHOUT CREDIT. FOR FULL LEGAL AND LICENSING DISCLAIMERS, PLEASE READ LEGAL.TXT.
  * 
- * Simple meme command.
+ * Simple support command.
  * 
  * ~~~developed by ggtylerr~~~
  */
 
 exports.run = (client, message, args) => {
-  message.channel.send('That\'s a bruh moment right there...');
+  message.channel.send('Need help? Check out the support server: https://discord.gg/N5HnVrA');
 }

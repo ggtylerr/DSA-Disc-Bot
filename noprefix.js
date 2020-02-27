@@ -27,5 +27,6 @@ exports.run = (client, message, args) => {
       let help = require('./cmds/help.js');
       help.run(client,message,args);
       break;
+    case 'bruh': message.channel.send('That\'s a bruh moment right there...'); break;
   }
 }

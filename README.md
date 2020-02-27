@@ -1,5 +1,7 @@
-# DSA-Disc-Bot
+# DSA Discord Bot
 A Discord bot made for the DSA Esports server.
+
+Need help? [Check out the support server.](https://discord.gg/N5HnVrA)
 
 # Commands
 A command list can be DM'd to you by pinging the bot, pinging it and adding 'help', or by saying '{prefix}help' You can also do '{prefix}sayhelp' to send it to the current channel instead.

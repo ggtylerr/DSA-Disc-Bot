@@ -9,11 +9,11 @@
     "description": "CHANGE THIS TO \"Set prefix for this server: \" + args[args.length-1]",
     "fields": [{
       "name": "General Commands",
-      "value": "help: Displays this message.\nsayhelp: Displays this message, but sends it in the channel instead of DM'ing you it.\ncount: Shows the # of msgs that has been sent since this bot existed (or 5 minutes after the count was implemented)\nrng (num): Chooses a random number from 1 thru (num)\nvote (msg): Makes a vote message.\nyorn (msg): Answers a yes/no question.\nsend (msg): Makes me send a message. @ becomes italicized to prevent pings.\nflip: Flip a coin.\nrngcase (msg): Randomize the case of a message."
+      "value": "help: Displays this message.\nsayhelp: Displays this message, but sends it in the channel instead of DM'ing you it.\ncount: Shows the # of msgs that has been sent since this bot implemented this feature.\nrng (num): Chooses a random number from 1 thru (num)\nvote (msg): Makes a vote message.\nyorn (msg): Answers a yes/no question.\nsend (msg): Makes me send a message. @ becomes italicized to prevent pings.\nflip: Flip a coin.\nrngcase (msg): Randomize the case of a message.\nsupport: Links the support server"
     },
     {
       "name": "Meme Commands",
-      "value": "ping: Pong.\nf: Presses [F] to pay respects.\nbruh: Certifies a bruh moment.\ngeico: Save 15% or more on car insurance.\ngold: Give reddit gold.\ncoughcount: Shows the # of coughs (including the ones by the bot)\noof: OOF\ncum: **COMSUME THE CUM CHALICE**"
+      "value": "ping: Pong.\nf: Presses [F] to pay respects.\ngeico: Save 15% or more on car insurance.\ngold: Give reddit gold.\ncoughcount: Shows the # of coughs (including the ones by the bot)\noof: OOF\ncum: **COMSUME THE CUM CHALICE**\nowoify (msg): owoifies a message"
     },
     {
       "name": "Admin Only Commands",
@@ -21,6 +21,10 @@
     },
     {
       "name": "No Prefix",
-      "value": "ayy: lmao\nowo: What's this?\nCough: Cough\nme2 *or* me too *or* me to *or* me two *or* mewtwo: me too\ntwitch.tv/ggtylerr: two r's all lowercase\ngo the marcus *or* go da marcus\npinging me (like saying '@Bot#4200') *or* pinging me and adding help (like saying '@Bot#4200 help'): DMs you this message."
+      "value": "ayy: lmao\nowo: What's this?\nCough: Cough\nme2 *or* me too *or* me to *or* me two *or* mewtwo: me too\ntwitch.tv/ggtylerr: two r's all lowercase\ngo the marcus *or* go da marcus\nbruh: Certifies a bruh moment.\npinging me (like saying '@Bot#4200') *or* pinging me and adding help (like saying '@Bot#4200 help'): DMs you this message."
+    },
+    {
+      "name": "Need help?",
+      "value": "Check out the support server: https://discord.gg/N5HnVrA"
     }]
 }}
