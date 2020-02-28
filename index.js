@@ -153,7 +153,7 @@ client.on('message', fulmsg => {
 
 // Ready up event
 client.on('ready', () => {
-  client.user.setActivity('for commands (Ping for cmds)', { type: 'WATCHING' })
+  client.user.setActivity('for commands (Ping for help)', { type: 'WATCHING' })
     .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
     .catch(console.error);
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
