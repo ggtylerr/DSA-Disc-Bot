@@ -1,7 +1,7 @@
 /**
  * THIS CODE WAS MADE FOR THE DSA DISCORD BOT AND CAN BE REUSED FOR ANY PURPOSE WITHOUT CREDIT. FOR FULL LEGAL AND LICENSING DISCLAIMERS, PLEASE READ LEGAL.TXT.
  * 
- * Setting prefix command. Utilizes quick.db to set a server-specific prefix. Requires having the 'administrator' permission to use the command.
+ * Cough timeout command. Utilizes quick.db to have server-specific cough timeouts.
  * 
  * ~~~developed by ggtylerr~~~
  */
@@ -15,8 +15,17 @@ var serverDB = new JsonDB(new Config(global.appRoot + "/db/serverDB",true,true,'
 
 exports.run = (client, message, args) => {
   serverDB.load();
-  if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('You must have admin privileges to do that.');
 
-  serverDB.push(`/${message.channel.guild.id}/prefix`, args.join(' '));
-  message.channel.send('Updated!');
+  if (!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('You must have admin privileges to do that.');
+  if (isNaN(args[0])) return message.channel.send('Argument needs to be a number.');
+
+  var id = message.channel.guild.id;
+
+  if (id === null) return;
+  serverDB.push(`/${id}/coughtimeout/curr`,0);
+  serverDB.push(`/${id}/coughtimeout/set`,parseInt(args[0]))
+  serverDB.push(`/${id}/coughtimeout/time`,0);
+
+  message.channel.send('Timeout updated!');
+  
 }

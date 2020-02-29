@@ -1,7 +1,7 @@
 /**
  * THIS CODE WAS MADE FOR THE DSA DISCORD BOT AND CAN BE REUSED FOR ANY PURPOSE WITHOUT CREDIT. FOR FULL LEGAL AND LICENSING DISCLAIMERS, PLEASE READ LEGAL.TXT.
  * 
- * Cough count command. Utilizes node-json-db to have server-specific cough counts.
+ * Cough count command. Utilizes quick.db to have server-specific cough counts.
  * 
  * ~~~developed by ggtylerr~~~
  */
@@ -12,9 +12,9 @@ const JsonDB = require('node-json-db').JsonDB;
 const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
 
 var serverDB = new JsonDB(new Config(global.appRoot + "/db/serverDB",false,true,'/'));
-serverDB.load();
 
 exports.run = (client, message, args) => {
+  serverDB.load();
   var id = message.channel.guild.id;
 
   if (id === null) return;

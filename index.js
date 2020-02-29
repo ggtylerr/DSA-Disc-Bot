@@ -34,7 +34,6 @@ serverDB.load();
 const defprefix = ';' // Default prefix, configure if needed
 let prefix = defprefix;
 var logDBSaves = false; // If true, logs whenever the database is saved (Auto-saves every minute)
-var logCoughResets = false; // If true, logs whenever the cough is no longer timed out.
 
 // Saving database (every minute)
 function dbSave() {
@@ -42,14 +41,6 @@ function dbSave() {
   if (logDBSaves) console.log('Database successfully saved.');
 }
 setInterval(dbSave, 60*1000);
-
-// Time out coughs
-var coughTimeOut = 0;
-function coughReset() {
-  if (coughTimeOut === 0 && logCoughResets) console.log('Cough reset');
-  coughTimeOut = 0;
-}
-setInterval(coughReset,60*1000);
 
 // Listen Events
 client.on('message', fulmsg => {
@@ -91,25 +82,6 @@ client.on('message', fulmsg => {
   // Non prefix commands
   let noprefix = require('./noprefix.js');
   noprefix.run(client,fulmsg,args);
-
-  // Coughing
-  // (Not in the noprefix script for now)
-  if (msg.toLowerCase() === 'cough') {
-    coughTimeOut += 1;
-    if (coughTimeOut == 10) {
-      fulmsg.channel.send('Too many coughs. Please wait about a minute.')
-      return;
-    }
-    else if (coughTimeOut > 10) return;
-    console.log(fulmsg.author.tag + ' coughed');
-    fulmsg.channel.send('Cough');
-    try {
-      var coughcount = serverDB.getData(`/${id}/coughcount`) + 2;
-      serverDB.push(`/${id}/coughcount`,coughcount);
-    } catch {
-      serverDB.push(`/${id}/coughcount`,2);
-    }
-  }
 
   // Return if non prefix from here
   if (!msg.startsWith(prefix)) return;
