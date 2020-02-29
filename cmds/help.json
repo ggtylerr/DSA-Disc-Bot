@@ -17,7 +17,7 @@
     },
     {
       "name": "Admin Only Commands",
-      "value": "*These commands require you to have the administrator permission on your server*\nprefix (prefix): Sets a new prefix for the server."
+      "value": "*These commands require you to have the administrator permission on your server*\nprefix (prefix): Sets a new prefix for the server.\ncoughtimeout (num): # of coughs allowed before it times out. Is reset after a minute has passed since the first cough. Setting to a negative integer will remove it."
     },
     {
       "name": "No Prefix",

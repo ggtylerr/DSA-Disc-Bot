@@ -22,9 +22,13 @@ exports.run = (client, message, args) => {
   var id = message.channel.guild.id;
 
   if (id === null) return;
-  serverDB.push(`/${id}/coughtimeout/curr`,0);
-  serverDB.push(`/${id}/coughtimeout/set`,parseInt(args[0]))
-  serverDB.push(`/${id}/coughtimeout/time`,0);
+  if (parseInt[args[0]] < 0) {
+    serverDB.delete(`/${id}/coughtimeout`);
+  } else {
+    serverDB.push(`/${id}/coughtimeout/curr`,0);
+    serverDB.push(`/${id}/coughtimeout/set`,parseInt(args[0]))
+    serverDB.push(`/${id}/coughtimeout/time`,0);
+  }
 
   message.channel.send('Timeout updated!');
   
