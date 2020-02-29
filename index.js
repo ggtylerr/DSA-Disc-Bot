@@ -126,10 +126,10 @@ client.on('message', fulmsg => {
     else if (coughTimeOut > 10) return;
     console.log(fulmsg.author.tag + ' coughed');
     fulmsg.channel.send('Cough');
-    count = db.fetch(`cough_${id}`);
-    if (count === null) count = 2
-    else count += 2
-    db.set(`cough_${id}`,count);
+    coughcount = db.fetch(`cough_${id}`);
+    if (coughcount === null) coughcount = 2
+    else coughcount += 2
+    db.set(`cough_${id}`,coughcount);
     console.log('Cough set');
   }
 
