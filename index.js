@@ -20,41 +20,28 @@ app.use('/', (req, res) => {
 });
 
 // Packages
+var path = require('path');
+global.appRoot = path.resolve(__dirname);
+
 const Discord = require('discord.js');
-const db = require('quick.db');
+const JsonDB = require('node-json-db').JsonDB;
+const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
 
 // Important Variables
 const client = new Discord.Client();
+var serverDB = new JsonDB(new Config(global.appRoot + "/db/serverDB",false,true,'/'));
+serverDB.load();
 const defprefix = ';' // Default prefix, configure if needed
 let prefix = defprefix;
-var logMsgUpdates = false; // If true, logs whenever the message count is updated(Auto-saves every minute)
+var logDBSaves = false; // If true, logs whenever the database is saved (Auto-saves every minute)
 var logCoughResets = false; // If true, logs whenever the cough is no longer timed out.
 
-// Grabbing Message Count
-let count = [];
-var allDb = db.all();
-for (var i = 0; i < Object.keys(allDb).length; i++) {
-  var curr = allDb[i];
-  if (curr.ID.startsWith('count_')) {
-    curr.ID = curr.ID.substr(6);
-    count.push(allDb[i]);
-  }
+// Saving database (every minute)
+function dbSave() {
+  serverDB.save();
+  if (logDBSaves) console.log('Database successfully saved.');
 }
-
-// Setting Message Count
-function setCount() {
-  for (var i = 0; i < Object.keys(count).length; i++) {
-    try {
-      count[i].data.replace(/[^0-9]/g,'');
-      count[i].data = parseInt(count[i].data);
-    } catch (e) {
-      // data is not string
-    }
-    db.set(`count_${count[i].ID}`, count[i].data);
-  }
-  if (logMsgUpdates) console.log('Message count updated.');
-}
-setInterval(setCount, 60*1000);
+setInterval(dbSave, 60*1000);
 
 // Time out coughs
 var coughTimeOut = 0;
@@ -78,8 +65,11 @@ client.on('message', fulmsg => {
   // Prefix Command
   var id = fulmsg.channel.guild.id;
   if (id === null) prefix = defprefix;
-  else prefix = db.fetch(`prefix_${id}`);
-  if (prefix === null) prefix = defprefix;
+  try {
+    prefix = serverDB.getData(`/${id}/prefix`);
+  } catch (e) {
+    prefix = defprefix;
+  }
 
   // Help command arguments
   // (This is done because the help command needs the prefix, and obviously we don't want to pass the prefix around to every single command)
@@ -90,24 +80,11 @@ client.on('message', fulmsg => {
 
   // Message count updating
   if (id !== null) {
-    var i = 0;
-    var c = 0;
-    for (; i < Object.keys(count).length; i++) {
-      if (count[i].ID === id) {
-        c = count[i].data;
-        try {
-          c.replace(/[^0-9]/g,'');
-          c = parseInt(c);
-        } catch (e) {
-          // data is not string
-        }
-        delete count[i];
-        break;
-      }
-    }
-    count[i] = {
-      ID    : id,
-      data  : c + 1
+    try {
+      var countData = serverDB.getData(`/${id}/count`) + 1;
+      serverDB.push(`/${id}/count`,countData);
+    } catch {
+      serverDB.push(`/${id}/count`,1);
     }
   }
 
@@ -126,11 +103,12 @@ client.on('message', fulmsg => {
     else if (coughTimeOut > 10) return;
     console.log(fulmsg.author.tag + ' coughed');
     fulmsg.channel.send('Cough');
-    coughcount = db.fetch(`cough_${id}`);
-    if (coughcount === null) coughcount = 2
-    else coughcount += 2
-    db.set(`cough_${id}`,coughcount);
-    console.log('Cough set');
+    try {
+      var coughcount = serverDB.getData(`/${id}/coughcount`) + 2;
+      serverDB.push(`/${id}/coughcount`,coughcount);
+    } catch {
+      serverDB.push(`/${id}/coughcount`,2);
+    }
   }
 
   // Return if non prefix from here
@@ -158,7 +136,7 @@ client.on('ready', () => {
     .catch(console.error);
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
   console.log('          DSABOT')
-  console.log('           v0.2')
+  console.log('           v0.3')
   console.log('~~~developed by ggtylerr~~~')
   console.log('Please note that console lists all *attempted* commands, including non existant ones.')
   console.log('Also, due to various issues out of our hands, this bot may attempt to end its own life. We highly suggest you either make it automatically restart or you continuously monitor it via console, UptimeRobot, or other means.')

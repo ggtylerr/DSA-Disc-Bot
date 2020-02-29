@@ -11,7 +11,7 @@ This bot was primarily made for running on a repl.it node.js server, accompanied
 
 ### Setting up for repl.it
 1. [Fork this repl](https://repl.it/@TylerFlowers/DSA-Disc-Bot)
-2. Delete json.sqlite (unless you want to use the bot's database for whatever reason)
+2. Delete the db folder (unless you want to use the bot's database for whatever reason)
 3. In index.js, you can make any adjustments you want to make, such as the default prefix. Just follow the comments.
 4. [Make a new developer application on Discord Developer Portal.](https://discordapp.com/developers/applications)
 5. Open the application, go to the Bot Settings, add a bot and copy the token.
@@ -31,29 +31,11 @@ This bot was primarily made for running on a repl.it node.js server, accompanied
 1. [Download node.js](https://nodejs.org/en/)
 2. Download the repository. You can do this through here (GitHub) or through the repl (link above)
 3. Extract it.
-4. Delete json.sqlite (Unless you want to use the bot's database for whatever reason)
-5. Depending on your operating system, do the following:
+4. Delete the db folder (Unless you want to use the bot's database for whatever reason)
+5. In your command prompt / terminal, do the following:
 
-Windows
-* Open Powershell (Administrator)
-* Run the following: `npm -g --add-python-to-path install windows-build-tools node-gyp`
-* Close and open CMD prompt
-* Navigate to the bot folder using `cd`
-* Run `npm i quick.db`
-* `npm i discord.js`
-* `npm i express` *Only do this if you need to use UptimeMonitor*
-
-Mac
-* Install XCode
-* Run `npm i -g node-gyp` in terminal
-* `node-gyp --python /path/to/python2.7` *(skip if you don't have Python 2.7)*
-* `npm i quick.db`
-* `npm i discord.js`
-* `npm i express` *Only do this if you need to use UptimeMonitor*
-
-Linux
-* `npm i -g node-gyp@latest`
-* `npm i quick.db` *If this doesn't work, do `npm i better-sqlite3` before doing this*
+* Make sure the selected directory is the same folder as the extracted one.
+* Run `npm i node-json-db`
 * `npm i discord.js`
 * `npm i express` *Only do this if you need to use UptimeMonitor*
 

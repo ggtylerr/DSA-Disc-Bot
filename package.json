@@ -14,6 +14,6 @@
     "discord.js": "^11.5.1",
     "express": "^4.17.1",
     "node-gyp": "^6.1.0",
-    "quick.db": "^7.0.0-b22"
+    "node-json-db": "^1.0.3"
   }
 }
