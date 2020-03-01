@@ -29,18 +29,10 @@ const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
 
 // Important Variables
 const client = new Discord.Client();
-var serverDB = new JsonDB(new Config(global.appRoot + "/db/serverDB",false,true,'/'));
+var serverDB = new JsonDB(new Config(global.appRoot + "/db/serverDB",true,true,'/'));
 serverDB.load();
 const defprefix = ';' // Default prefix, configure if needed
 let prefix = defprefix;
-var logDBSaves = false; // If true, logs whenever the database is saved (Auto-saves every minute)
-
-// Saving database (every minute)
-function dbSave() {
-  serverDB.save();
-  if (logDBSaves) console.log('Database successfully saved.');
-}
-setInterval(dbSave, 60*1000);
 
 // Listen Events
 client.on('message', fulmsg => {
@@ -97,7 +89,8 @@ client.on('message', fulmsg => {
       fulmsg.channel.send('```' + e.stack + '```');
     }
   } finally {
-    console.log(`${fulmsg.author.tag} ran command ${cmd} on ${(new Date()).toJSON().slice(0, 19).replace(/[-T]/g, ':')}`)
+    console.log(`${fulmsg.author.tag} ran command ${cmd} on ${(new Date()).toJSON().slice(0, 19).replace(/[-T]/g, ':')}`);
+    serverDB.load();
   }
 });
 
