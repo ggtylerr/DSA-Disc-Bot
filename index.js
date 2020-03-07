@@ -109,5 +109,18 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
+// Disconnects
+client.on('disconnect', info => 
+  console.log('Disconnected and will no longer attempt to reconnect.')
+);
+
+// Reconnects
+client.on('reconnecting', () => 
+  console.log('Attempting to reconnect...')
+);
+client.on('resume', replays => 
+  console.log('WebSocket resumed (we\'re back online.) ' + replays + ' events have been replayed.')
+);
+
 // Login
 client.login(process.env.token);
