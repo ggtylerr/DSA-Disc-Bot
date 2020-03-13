@@ -101,7 +101,7 @@ client.on('ready', () => {
     .catch(console.error);
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
   console.log('          DSABOT')
-  console.log('           v0.3')
+  console.log('           v0.4')
   console.log('~~~developed by ggtylerr~~~')
   console.log('Please note that console lists all *attempted* commands, including non existant ones.')
   console.log('Also, due to various issues out of our hands, this bot may attempt to end its own life. We highly suggest you either make it automatically restart or you continuously monitor it via console, UptimeRobot, or other means.')

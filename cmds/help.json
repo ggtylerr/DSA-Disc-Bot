@@ -9,11 +9,15 @@
     "description": "CHANGE THIS TO \"Set prefix for this server: \" + args[args.length-1]",
     "fields": [{
       "name": "General Commands",
-      "value": "help: Displays this message.\nsayhelp: Displays this message, but sends it in the channel instead of DM'ing you it.\ncount: Shows the # of msgs that has been sent since this bot implemented this feature.\nrng (num): Chooses a random number from 1 thru (num)\nvote (msg): Makes a vote message.\nyorn (msg): Answers a yes/no question.\nsend (msg): Makes me send a message. @ becomes italicized to prevent pings.\nflip: Flip a coin.\nrngcase (msg): Randomize the case of a message.\nsupport: Links the support server\ncovid19: Provides information regarding the COVID-19 virus"
+      "value": "help: Displays this message.\nsayhelp: Displays this message, but sends it in the channel instead of DM'ing you it.\ncount: Shows the # of msgs that has been sent since this bot implemented this feature.\nrng (num): Chooses a random number from 1 thru (num)\nvote (msg): Makes a vote message.\nyorn (msg): Answers a yes/no question.\nsend (msg): Makes me send a message. @ becomes italicized to prevent pings.\nflip: Flip a coin.\nrngcase (msg): Randomize the case of a message.\nsupport: Links the support server"
     },
     {
       "name": "Meme Commands",
       "value": "ping: Pong.\nf: Presses [F] to pay respects.\ngeico: Save 15% or more on car insurance.\ngold: Give reddit gold.\ncoughcount: Shows the # of coughs (including the ones by the bot)\noof: OOF\ncum: **COMSUME THE CUM CHALICE**\nowoify (msg): owoifies a message"
+    },
+    {
+      "name": "COVID-19 Commands",
+      "value": "*These commands relate to COVID-19*\ncovid19: General info, including global and USA statistics.\ncovid19 help: All commands that start with 'covid19'\ncovid19 global: Global statistics\ncovid19 (country): Country statistics. Rough JSON List: https://corona.lmao.ninja/countries\ncovid19 info: Displays resources and information regarding the virus."
     },
     {
       "name": "Admin Only Commands",
