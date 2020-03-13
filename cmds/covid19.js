@@ -52,9 +52,7 @@ exports.run = (client, message, args) => {
             .addField('Global Cases','Total: ' + allData.cases + '\nActive: ' + (allData.cases - (allData.deaths + allData.recovered)) + '\nRecovered: ' + allData.recovered + '\nDeaths: ' + allData.deaths,true)
             .addField('USA Cases','Total: ' + usa.cases + '\nActive: ' + (usa.cases - (usa.deaths + usa.recovered)) + '\nRecovered: ' + usa.recovered + '\nDeaths: ' + usa.deaths + '\nCritical: ' + usa.critical + '\nCases Today: ' + usa.todayCases + '\nDeaths Today: ' + usa.todayDeaths,true)
             .setTimestamp()
-            .setFooter('For more information, please do covid19 info\nFor commands relating to the virus, do covid19 help\Updated on:');
-        } else if (args[0] === 'info') {
-          
+            .setFooter('For more information, please do covid19 info\nFor commands relating to the virus, do covid19 help\nUpdated on:');
         } else if (args[0] === 'global') {
           embed = new Discord.RichEmbed()
             .setColor('#de2812')

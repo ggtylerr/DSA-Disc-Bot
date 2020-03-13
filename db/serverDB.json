@@ -1,11 +1,11 @@
 {
     "682386498884075534": {
-        "count": 87,
+        "count": 92,
         "coughcount": 16
     },
     "666380237101072403": {
         "prefix": "/",
-        "count": 1733,
+        "count": 1744,
         "coughcount": 280,
         "coughtimeout": {
             "curr": 0,
