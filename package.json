@@ -1,21 +1,29 @@
 {
-  "name": "DSA-Bot-b",
+  "name": "DSA-Disc-Bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Discord bot originally made for the DSA Esports server, which is now being made as a general-purpose / esports discord bot.",
   "main": "index.js",
+  "dependencies": {
+    "discord.js": "^11.6.2",
+    "discord.js-commando": "^0.10.0",
+    "express": "^4.17.1",
+    "node-json-db": "^1.0.3",
+    "novelcovid": "^1.0.4",
+    "sqlite": "^3.0.3"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ggtylerr/DSA-Disc-Bot.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "discord.js": "^11.5.1",
-    "discord.js-commando": "^0.10.0",
-    "express": "^4.17.1",
-    "node-gyp": "^6.1.0",
-    "node-json-db": "^1.0.3",
-    "novelcovid": "^1.0.4",
-    "sqlite": "^3.0.3"
-  }
+  "bugs": {
+    "url": "https://github.com/ggtylerr/DSA-Disc-Bot/issues"
+  },
+  "homepage": "https://github.com/ggtylerr/DSA-Disc-Bot#readme"
 }
