@@ -31,8 +31,7 @@ module.exports = class CoughCountCommand extends Commando.Command {
 
     if (id === null) return;
     try {
-      count = serverDB.getData(`/${id}/coughcount`);
-      message.channel.send(count);
+      message.channel.send(serverDB.getData(`/${id}/coughcount`));
     } catch (e) {
       message.channel.send('0');
     }
