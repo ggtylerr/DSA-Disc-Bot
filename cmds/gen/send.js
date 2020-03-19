@@ -21,15 +21,16 @@ module.exports = class SendCommand extends Commando.Command {
         {
           key: 'msg',
           prompt: 'What message do you want to make me send?',
-          type: 'string'
+          type: 'string',
+          default: '',
         }
       ]
     });
   }
   async run(message, {msg}) {
-    let msg = args.join(' ').replace('@','*@*');
+    msg = msg.replace('@','*@*');
     message.delete();
-    if (msg == '') message.channel.send('*** ***');
+    if (msg == '') message.channel.send(String.fromCharCode(8204));
     else message.channel.send(msg);
   }
 }
