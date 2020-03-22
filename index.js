@@ -43,7 +43,7 @@ global.client
   .on('warn',console.warn)
   .on('debug',console.log)
   .on('ready', () => {
-    global.client.user.setActivity(`for commands (${global.client.user.tag} help)`, { type: 'WATCHING' })
+    global.client.user.setActivity(`for commands (@${global.client.user.tag} help)`, { type: 'WATCHING' })
       .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
       .catch(console.error);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
@@ -54,7 +54,7 @@ global.client
     console.log(' go to the support server!')
     console.log('    discord.gg/N5HnVrA')
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-    console.log(`Logged in as ${global.client.user.tag}!`);
+    console.log(`Logged in as @${global.client.user.tag}!`);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
   })
   .on('disconnect', () => console.log('Disconnected and will no longer attempt to reconnect.'))
