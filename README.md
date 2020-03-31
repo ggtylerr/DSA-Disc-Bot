@@ -30,8 +30,16 @@ Configuring and running the bot
 3. In the .env file, type in "token=" and paste in your bot token.
 4. In Discord, copy the bot's ID by right clicking on it and selecting 'Copy ID'. If you don't see that option, go to the Appearance settings and enable 'Developer Mode'
 5. Back in the file, make a new line, type in "id=" and paste in your ID.
-6. Run the repl.
-7. You're done! (At least, if you don't want UptimeRobot)
+6. [Get an API Key from Challonge](https://challonge.com/settings/developer) and copy it. This will be used for commands that don't need a key, like challongematches.
+7. In .env, make a new line, type in "challongeapi=" and paste in your API key.
+8. Your .env file should look like this now:
+```
+token="bottoken"
+id="botid"
+challongeapi="challongeapikey"
+```
+9. Run the repl.
+10. You're done! (At least, if you don't want UptimeRobot)
 
 Configuring UptimeRobot
 1. On the upper right corner, a website will show up with the current date and time. Copy its URL.
@@ -62,8 +70,16 @@ Configuring and running the bot
 3. In the .env file, type in "token=" and paste in your bot token.
 4. In Discord, copy the bot's ID by right clicking on it and selecting 'Copy ID'. If you don't see that option, go to the Appearance settings and enable 'Developer Mode'
 5. Back in the file, make a new line, type in "id=" and paste in your ID.
-6. Run the application using `node index.js` in your command prompt/terminal.
-7. You're done! (At least, if you don't want UptimeRobot)
+6. [Get an API Key from Challonge](https://challonge.com/settings/developer) and copy it. This will be used for commands that don't need a key, like challongematches.
+7. In .env, make a new line, type in "challongeapi=" and paste in your API key.
+8. Your .env file should look like this now:
+```
+token="bot-token"
+id="bot-id"
+challongeapi="challonge-api-key"
+```
+9. Run the application using `node index.js` in your command prompt/terminal.
+10. You're done! (At least, if you don't want UptimeRobot)
 
 Configuring UptimeRobot
 1. Get the URL.

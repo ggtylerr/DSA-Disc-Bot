@@ -75,6 +75,7 @@ module.exports = class HelpCommand extends Command {
           .map(grp =>
             embed.addField(grp.name,grp.commands.filter(cmd => !cmd.hidden && (showAll || cmd.isUsable(msg))).map(cmd => `**${cmd.name}:** ${cmd.description}${cmd.nsfw ? ' (NSFW)' : ''}`).join('\n'))
         );
+        embed.addField('Need help?','Join our support server: https://discord.gg/N5HnVrA');
         msg.author.send(embed);
 				if(msg.channel.type !== 'dm') msg.reply('Sent you a DM with information.');
 			} catch(err) {

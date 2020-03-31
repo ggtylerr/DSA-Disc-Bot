@@ -48,7 +48,7 @@ global.client
       .catch(console.error);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     console.log('          DSABOT')
-    console.log('           v0.5')
+    console.log('           v0.6')
     console.log('~~~developed by ggtylerr~~~')
     console.log('If you have issues, please ')
     console.log(' go to the support server!')
@@ -86,8 +86,10 @@ global.client.setProvider(
 // Register Commands
 global.client.registry
   .registerDefaultTypes()
+  .registerTypesIn(path.join(__dirname,'types'))
   .registerGroups([
     ['gen','General Commands'],
+    ['esprt','eSports Commands'],
     ['meme','Meme Commands'],
     ['cvd19','COVID-19 Commands'],
     ['admin','Admin Commands'],

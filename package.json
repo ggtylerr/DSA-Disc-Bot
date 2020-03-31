@@ -4,6 +4,8 @@
   "description": "A Discord bot originally made for the DSA Esports server, which is now being made as a general-purpose / esports discord bot.",
   "main": "index.js",
   "dependencies": {
+    "challonge": "^2.2.0",
+    "discord-paginationembed": "^1.0.3",
     "discord.js": "^11.6.2",
     "discord.js-commando": "^0.10.0",
     "express": "^4.17.1",
