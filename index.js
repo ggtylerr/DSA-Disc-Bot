@@ -32,7 +32,8 @@ const sqlite = require('sqlite');
 // Important Variables
 global.client = new Commando.Client({
   owner: process.env.id,
-  commandPrefix: ';' // Default prefix, configure if needed
+  commandPrefix: ';', // Default prefix, configure if needed
+  unknownCommandResponse: false
 });
 var serverDB = new JsonDB(new Config(global.appRoot + "/db/serverDB",true,true,'/'));
 serverDB.load();

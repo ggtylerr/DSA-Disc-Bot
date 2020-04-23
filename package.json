@@ -11,7 +11,7 @@
     "express": "^4.17.1",
     "node-json-db": "^1.0.3",
     "novelcovid": "^1.0.4",
-    "sqlite": "^3.0.3"
+    "sqlite": "^4.0.7"
   },
   "devDependencies": {},
   "scripts": {
