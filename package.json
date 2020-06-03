@@ -10,7 +10,7 @@
     "discord.js-commando": "^0.10.0",
     "express": "^4.17.1",
     "node-json-db": "^1.0.3",
-    "novelcovid": "^1.0.4",
+    "novelcovid": "^2.2.0",
     "sqlite": "^4.0.7"
   },
   "devDependencies": {},
