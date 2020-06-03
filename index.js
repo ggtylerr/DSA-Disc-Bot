@@ -82,7 +82,7 @@ global.client
 
 // Set setting provider
 global.client.setProvider(
-  sqlite.open(path.join(__dirname,'db/commando.sqlite3')).then(db => new Commando.SQLiteProvider(db))
+	sqlite.open(path.join(__dirname, 'db/commando.sqlite3')).then(db => new Commando.SQLiteProvider(db))
 ).catch(console.error);
 // Register Commands
 global.client.registry
