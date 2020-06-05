@@ -10,6 +10,7 @@ const Commando = require('discord.js-commando');
 
 const Discord = require('discord.js');
 const covid = require('novelcovid');
+const IntUtils = require('../../util/intutils');
 
 module.exports = class COVID19Command extends Commando.Command {
   constructor(client) {
@@ -31,6 +32,7 @@ module.exports = class COVID19Command extends Commando.Command {
     });
   }
   async run(message, {cmd}) {
+    var s = IntUtils.stylize;
     // TODO: Cleanup code
     if (cmd === 'help') {
       var embed = new Discord.RichEmbed()
@@ -68,9 +70,9 @@ module.exports = class COVID19Command extends Commando.Command {
               .setTitle('COVID-19/Coronavirus Information')
               .setURL('https://www.cdc.gov/coronavirus/2019-ncov/index.html')
               .setAuthor('Provided by DSA Bot',global.client.user.avatarURL)
-              .setDescription('Coronavirus disease 2019 (COVID-19) is an infectious disease caused by severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2). Common symptoms include fever, cough, and shortness of breath. Other symptoms may include muscle pain, sputum production, diarrhea, sore throat, loss of smell, and abdominal pain. While the majority of cases result in mild symptoms, some progress to pneumonia and multi-organ failure. As of 28 March 2020, the overall rate of deaths per number of diagnosed cases is 4.6 percent; ranging from 0.2 percent to 15 percent according to age group and other health problems. In comparison, the overall mortality rate of the 1918 Spanish Flu were approximately 3% to 5%')
-              .addField('Global Cases','Total: ' + allData.cases + '\nActive: ' + (allData.cases - (allData.deaths + allData.recovered)) + '\nRecovered: ' + allData.recovered + '\nDeaths: ' + allData.deaths,true)
-              .addField('USA Cases','Total: ' + usa.cases + '\nActive: ' + (usa.cases - (usa.deaths + usa.recovered)) + '\nRecovered: ' + usa.recovered + '\nDeaths: ' + usa.deaths + '\nCritical: ' + usa.critical + '\nCases Today: ' + usa.todayCases + '\nDeaths Today: ' + usa.todayDeaths,true)
+              .setDescription('Coronavirus disease 2019 (COVID-19) is an infectious disease caused by severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2). Common symptoms include fever, cough, fatigue, shortness of breath, and loss of smell and taste. While the majority of cases result in mild symptoms, some progress to acute respiratory distress syndrome (ARDS) likely precipitated by a cytokine storm, multi-organ failure, septic shock, and blood clots. The time from exposure to onset of symptoms is typically around five days, but may range from two to fourteen days.')
+              .addField('Global Cases','Total: ' + s(allData.cases) + '\nActive: ' + s(allData.active) + '\nRecovered: ' + s(allData.recovered) + '\nDeaths: ' + s(allData.deaths) + '\nCritical: ' + s(allData.critical) + '\nCases Today: ' + s(allData.todayCases) + '\n Deaths today: ' + s(allData.todayDeaths),true)
+              .addField('USA Cases','Total: ' + s(usa.cases) + '\nActive: ' + s(usa.active) + '\nRecovered: ' + s(usa.recovered) + '\nDeaths: ' + s(usa.deaths) + '\nCritical: ' + s(usa.critical) + '\nCases Today: ' + s(usa.todayCases) + '\nDeaths Today: ' + s(usa.todayDeaths),true)
               .setTimestamp()
               .setFooter('For more information, please do covid19 info\nFor commands relating to the virus, do covid19 help\nUpdated on:');
           } else if (cmd === 'global') {
@@ -79,21 +81,21 @@ module.exports = class COVID19Command extends Commando.Command {
               .setTitle('Global Statistics on COVID-19')
               .setURL('https://www.worldometers.info/coronavirus')
               .setAuthor('Provided by DSA Bot',global.client.user.avatarURL)
-              .setDescription('Total: ' + allData.cases + '\nActive: ' + (allData.cases - (allData.deaths + allData.recovered)) + '\nRecovered: ' + allData.recovered + '\nDeaths: ' + allData.deaths)
+              .setDescription('Total: ' + s(allData.cases) + '\nActive: ' + s(allData.active) + '\nRecovered: ' + s(allData.recovered) + '\nDeaths: ' + s(allData.deaths) + '\nCritical: ' + s(allData.critical) + '\nTests: ' + s(allData.tests) + '\n\nCases Today: ' + s(allData.todayCases) + '\n Deaths today: ' + s(allData.todayDeaths) + '\n\nCases per 1Mil: ' + s(allData.casesPerOneMillion) + '\nActive per 1Mil: ' + s(allData.activePerOneMillion) + '\nRecovered per 1Mil: ' + s(allData.recoveredPerOneMillion) + '\nDeaths per 1Mil: ' + s(allData.deathsPerOneMillion) + '\nCritial per 1Mil: ' + s(allData.criticalPerOneMillion) + '\nTests per 1Mil: ' + s(allData.testsPerOneMillion) + '\n\nAffected Countries: ' + s(allData.affectedCountries) + '\nRemaining Population: ' + s(allData.population))
               .setTimestamp()
               .setFooter('Data scraped from corona.lmao.ninja\nUpdated on:');
           } else {
-            const test = args.join(' ');
-            if (!countryData.some(x => x.country.toLowerCase() === test.toLowerCase()))
+            if (!countryData.some(x => x.country.toLowerCase() === cmd.toLowerCase()))
               message.channel.send('Unknown country / command.');
             else {
-              d8a = countryData[countryData.findIndex(x=>x.country.toLowerCase() === test.toLowerCase())];
+              var d8a = countryData[countryData.findIndex(x=>x.country.toLowerCase() === cmd.toLowerCase())];
               embed = new Discord.RichEmbed()
                 .setColor('#de2812')
                 .setTitle('COVID-19 ' + d8a.country + ' statistics')
+                .setThumbnail(d8a.countryInfo.flag)
                 .setURL('https://www.worldometers.info/coronavirus/#countries')
                 .setAuthor('Provided by DSA Bot',global.client.user.avatarURL)
-                .setDescription('Total: ' + d8a.cases + '\nActive: ' + (d8a.cases - (d8a.deaths + d8a.recovered)) + '\nRecovered: ' + d8a.recovered + '\nDeaths: ' + d8a.deaths + '\nCritical: ' + d8a.critical + '\nCases Today: ' + d8a.todayCases + '\nDeaths Today: ' + d8a.todayDeaths)
+                .setDescription('Total: ' + s(d8a.cases) + '\nActive: ' + s(d8a.active) + '\nRecovered: ' + s(d8a.recovered) + '\nDeaths: ' + s(d8a.deaths) + '\nCritical: ' + s(d8a.critical) + '\nCases Today: ' + s(d8a.todayCases) + '\nDeaths Today: ' + s(d8a.todayDeaths) + '\nCases per 1Mil: ' + s(d8a.casesPerOneMillion) + '\nDeaths per 1Mil: ' + s(d8a.deathsPerOneMillion))
                 .setTimestamp()
                 .setFooter('Data scraped from corona.lmao.ninja\nUpdated on:');
             }
