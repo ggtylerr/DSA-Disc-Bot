@@ -36,16 +36,16 @@ module.exports = class SayHelpCommand extends Command {
 		const groups = this.client.registry.groups;
 		const commands = this.client.registry.findCommands(args.command, false, msg);
 		const showAll = args.command && args.command.toLowerCase() === 'all';
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
       .setColor('#3498DB')
       .setAuthor(global.client.user.username,global.client.user.avatarURL)
 		if(args.command && !showAll) {
 			if(commands.length === 1) {
         embed
           .setTitle(`Command ${commands[0].name}`)
-          .setDescription(commands[0].description + (commands[0].guildOnly ? ' (Usable only in servers)' : '') + (commands[0].nsfw ? ' (NSFW)' : ''))
+          .setDescription(commands[0].description + (commands[0].guildOnly ? ' (Usable only in servers' : '') + (commands[0].nsfw ? ' (NSFW)' : ''))
           .addField('Format',msg.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`));
-        if(commands[0].aliases.length > 0) embed.addField('Aliases',commands[0].aliases.join(', '));
+        if(commands[0].aliases.length > 0) embed.addField('Alises',commands[0].aliases.join(', '));
         embed.addField('Group',`${commands[0].group.name} (\`${commands[0].groupID}:${commands[0].memberName}\`)`);
         if(commands[0].details) embed.addField('Details',commands[0].details);
         if(commands[0].examples) embed.addField('Examples',commands[0].examples.join('\n'));

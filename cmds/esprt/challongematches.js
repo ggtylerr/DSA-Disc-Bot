@@ -9,7 +9,7 @@
 const Commando = require('discord.js-commando');
 const Challonge = require('challonge');
 const Pagination = require('discord-paginationembed');
-const {RichEmbed} = require('discord.js');
+const {MessageEmbed} = require('discord.js');
 const {getPlayerName,getMatch} = require('../../util/challonge');
 
 module.exports = class ChallongeMatchesCommand extends Commando.Command {
@@ -67,7 +67,7 @@ module.exports = class ChallongeMatchesCommand extends Commando.Command {
       state = (match.state === 'complete') ? `Winner: ${winner}` : state;
       state = (match.state === 'closed') ? 'The match has been closed.' : state; 
       state = (match.state === 'pending') ? 'The match is still pending.': state;
-      var curr = new RichEmbed()
+      var curr = new MessageEmbed()
         .setTitle(`Match #${i+1}: ${p1.name} vs. ${p2.name}`)
         .setDescription(`Match ${match.identifier}, Round ${match.round}`)
         .addField(`Match is ${match.state}.`,state)

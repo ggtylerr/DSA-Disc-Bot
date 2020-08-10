@@ -5,9 +5,9 @@
   "main": "index.js",
   "dependencies": {
     "challonge": "^2.2.0",
-    "discord-paginationembed": "^1.0.3",
-    "discord.js": "^11.6.2",
-    "discord.js-commando": "^0.10.0",
+    "discord-paginationembed": "^2.1.0",
+    "discord.js": "^12.2.0",
+    "discord.js-commando": "github:discordjs/Commando",
     "express": "^4.17.1",
     "node-json-db": "^1.0.3",
     "novelcovid": "^2.2.0",

@@ -21,16 +21,17 @@ module.exports = class CountCommand extends Commando.Command {
       group: 'gen',
       memberName: 'count',
       description: '# of msgs sent since the bot was added to the server.',
-      details: 'Count is server-specific and messages only count if they are made by a human.',
+      details: 'Count is server-specific, and only count if they aren\'t made by a human.',
       guildOnly: true
     });
   }
   async run(message) {
-    serverDB.load();
     var id = message.channel.guild.id;
-
     if (id === null) return;
     try {
+      // Reinitiate database so it properly loads
+      serverDB = new JsonDB(new Config(global.appRoot + "/db/serverDB",false,true,'/'));
+      await serverDB.load();
       var count = serverDB.getData(`/${id}/count`);
       message.channel.send(count)
     } catch (e) {

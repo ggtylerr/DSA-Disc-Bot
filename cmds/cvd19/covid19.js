@@ -35,7 +35,7 @@ module.exports = class COVID19Command extends Commando.Command {
     var s = IntUtils.stylize;
     // TODO: Cleanup code
     if (cmd === 'help') {
-      var embed = new Discord.RichEmbed()
+      var embed = new Discord.MessageEmbed()
         .setColor('#de2812')
         .setTitle('COVID-19 Commands')
         .setAuthor('Provided by DSA Bot',global.client.user.avatarURL)
@@ -46,7 +46,7 @@ module.exports = class COVID19Command extends Commando.Command {
         .addField('info','Displays resources and information regarding the virus.');
       message.channel.send(embed);
     } else if (cmd === 'info') {
-      var embed = new Discord.RichEmbed()
+      var embed = new Discord.MessageEmbed()
         .setColor('#de2812')
         .setTitle('COVID-19 Information')
         .setAuthor('Provided by DSA Bot',global.client.user.avatarURL)
@@ -65,7 +65,7 @@ module.exports = class COVID19Command extends Commando.Command {
           var embed;
           if (cmd === '') {
             var usa = countryData[countryData.findIndex(x => x.country === 'USA')];
-            embed = new Discord.RichEmbed()
+            embed = new Discord.MessageEmbed()
               .setColor('#de2812')
               .setTitle('COVID-19/Coronavirus Information')
               .setURL('https://www.cdc.gov/coronavirus/2019-ncov/index.html')
@@ -76,7 +76,7 @@ module.exports = class COVID19Command extends Commando.Command {
               .setTimestamp()
               .setFooter('For more information, please do covid19 info\nFor commands relating to the virus, do covid19 help\nUpdated on:');
           } else if (cmd === 'global') {
-            embed = new Discord.RichEmbed()
+            embed = new Discord.MessageEmbed()
               .setColor('#de2812')
               .setTitle('Global Statistics on COVID-19')
               .setURL('https://www.worldometers.info/coronavirus')
@@ -89,7 +89,7 @@ module.exports = class COVID19Command extends Commando.Command {
               message.channel.send('Unknown country / command.');
             else {
               var d8a = countryData[countryData.findIndex(x=>x.country.toLowerCase() === cmd.toLowerCase())];
-              embed = new Discord.RichEmbed()
+              embed = new Discord.MessageEmbed()
                 .setColor('#de2812')
                 .setTitle('COVID-19 ' + d8a.country + ' statistics')
                 .setThumbnail(d8a.countryInfo.flag)

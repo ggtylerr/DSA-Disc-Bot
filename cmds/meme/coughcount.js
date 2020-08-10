@@ -26,11 +26,12 @@ module.exports = class CoughCountCommand extends Commando.Command {
     });
   }
   async run(message) {
-    serverDB.load();
     var id = message.channel.guild.id;
-
     if (id === null) return;
     try {
+      // Reinitiate database so it properly loads
+      serverDB = new JsonDB(new Config(global.appRoot + "/db/serverDB",false,true,'/'));
+      await serverDB.load();
       message.channel.send(serverDB.getData(`/${id}/coughcount`));
     } catch (e) {
       message.channel.send('0');
