@@ -8,16 +8,42 @@
  * ~~~developed by ggtylerr~~~ 
  */
 
-// Uptime Robot
-// (Remove if you aren't using Uptime Robot and don't want to host a website)
-const express = require("express");
-const app = express();
+// ~~~~~~~~~~~~~
+// CONFIGURATION
+// ~~~~~~~~~~~~~
+// Default command prefix. Doesn't have to be one character.
+var DefaultPrefix = ';';
+// Unknown command response.
+// If set to true, the bot will send a message if it's an unknown command.
+// Not recommended if it's intended for a public server or you have a bot with a similar prefix.
+var UnknownCommand = false;
+// Debug log messages.
+// If set to true, debug messages will be logged.
+// Please note that this includes *every* debug log, including heartbeat messages.
+var DebugLogs = false;
+// Web server hosting.
+// If set to true, a web server will be set up for use of Uptime Robot.
+// Not recommended if you're not on repl.it.
+var HostWeb = true;
+// ~~~~~~~~~~~~~~~~~~~~~~
+//  END OF CONFIGURATION
+// ~~~~~~~~~~~~~~~~~~~~~~
+//    PLEASE DO NOT GO 
+// PAST THIS POINT IF YOU
+//    DO NOT KNOW WHAT
+//     YOU'RE DOING!!
+// ~~~~~~~~~~~~~~~~~~~~~~
 
-app.listen(() => console.log("Server started"));
+if (HostWeb) {
+  const express = require("express");
+  const app = express();
 
-app.use('/', (req, res) => {
-  res.send(new Date());
-});
+  app.listen(() => console.log("Server started"));
+
+  app.use('/', (req, res) => {
+    res.send(new Date());
+  });
+}
 
 // Packages
 var path = require('path');
@@ -32,17 +58,18 @@ const sqlite = require('sqlite');
 // Important Variables
 global.client = new Commando.Client({
   owner: process.env.id,
-  commandPrefix: ';', // Default prefix, configure if needed
-  unknownCommandResponse: false
+  commandPrefix: DefaultPrefix,
+  unknownCommandResponse: UnknownCommand
 });
 var serverDB = new JsonDB(new Config(global.appRoot + "/db/serverDB",true,true,'/'));
 serverDB.load();
 
 // Listen Events
+if (DebugLogs) global.client.on('debug',console.log);
+
 global.client
   .on('error',console.error)
   .on('warn',console.warn)
-  .on('debug',console.log)
   .on('ready', () => {
     global.client.user.setActivity(`for commands (@${global.client.user.tag} help)`, { type: 'WATCHING' })
       .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
