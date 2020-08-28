@@ -58,8 +58,7 @@ const sqlite = require('sqlite');
 // Important Variables
 global.client = new Commando.Client({
   owner: process.env.id,
-  commandPrefix: DefaultPrefix,
-  unknownCommandResponse: UnknownCommand
+  commandPrefix: DefaultPrefix
 });
 var serverDB = new JsonDB(new Config(global.appRoot + "/db/serverDB",true,true,'/'));
 serverDB.load();
@@ -124,7 +123,7 @@ global.client.registry
     ['nopre','No Prefix Commands']
   ])
   .registerDefaultGroups()
-  .registerDefaultCommands({help:false,eval:false})
+  .registerDefaultCommands({help:false,eval:false,unknownCommand:UnknownCommand})
   .registerCommandsIn(path.join(__dirname,'cmds'));
 // Login
 global.client.login(process.env.token);
