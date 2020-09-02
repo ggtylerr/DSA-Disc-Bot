@@ -38,7 +38,7 @@ module.exports = class HelpCommand extends Command {
 		const showAll = args.command && args.command.toLowerCase() === 'all';
     var embed = new Discord.MessageEmbed()
       .setColor('#3498DB')
-      .setAuthor(global.client.user.username,global.client.user.avatarURL())
+      .setAuthor(this.client.user.username,this.client.user.avatarURL())
 		if(args.command && !showAll) {
 			if(commands.length === 1) {
         embed

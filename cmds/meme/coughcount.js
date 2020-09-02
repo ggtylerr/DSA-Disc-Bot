@@ -11,10 +11,7 @@ const Commando = require('discord.js-commando');
 const JsonDB = require('node-json-db').JsonDB;
 const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
 
-var path = require('path');
-var root = path.resolve(__dirname).split("/cmds/")[0];
-
-var serverDB = new JsonDB(new Config(root + "/db/serverDB",false,true,'/'));
+var serverDB = new JsonDB(new Config(process.env.appRoot + "/db/serverDB",false,true,'/'));
 
 module.exports = class CoughCountCommand extends Commando.Command {
   constructor(client) {

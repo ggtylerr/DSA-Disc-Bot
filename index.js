@@ -47,7 +47,7 @@ if (HostWeb) {
 
 // Packages
 var path = require('path');
-global.appRoot = path.resolve(__dirname);
+process.env.appRoot = path.resolve(__dirname);
 
 const Discord = require('discord.js');
 const Commando = require('discord.js-commando');
@@ -60,17 +60,17 @@ global.client = new Commando.Client({
   owner: process.env.id,
   commandPrefix: DefaultPrefix
 });
-var serverDB = new JsonDB(new Config(global.appRoot + "/db/serverDB",true,true,'/'));
+var serverDB = new JsonDB(new Config(process.env.appRoot + "/db/serverDB",true,true,'/'));
 serverDB.load();
 
 // Listen Events
-if (DebugLogs) global.client.on('debug',console.log);
+if (DebugLogs) client.on('debug',console.log);
 
-global.client
+client
   .on('error',console.error)
   .on('warn',console.warn)
   .on('ready', () => {
-    global.client.user.setActivity(`for commands (@${global.client.user.tag} help)`, { type: 'WATCHING' })
+    client.user.setActivity(`for commands (@${client.user.tag} help)`, { type: 'WATCHING' })
       .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
       .catch(console.error);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
@@ -81,7 +81,7 @@ global.client
     console.log(' go to the support server!')
     console.log('    discord.gg/N5HnVrA')
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-    console.log(`Logged in as @${global.client.user.tag}!`);
+    console.log(`Logged in as @${client.user.tag}!`);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
   })
   .on('disconnect', () => console.log('Disconnected and will no longer attempt to reconnect.'))
@@ -92,6 +92,7 @@ global.client
     console.error(`Error occured in command ${cmd.groupID}:${cmd.memberName}`,err);
   })
   .on('message', message => {
+    serverDB.reload();
     // Return if bot or DMs
     if (message.author.bot || message.channel.guild === undefined || message.channel.guild === null) return;
     // Message count updating
@@ -107,11 +108,11 @@ global.client
   });
 
 // Set setting provider
-global.client.setProvider(
+client.setProvider(
 	sqlite.open(path.join(__dirname, 'db/commando.sqlite3')).then(db => new Commando.SQLiteProvider(db))
 ).catch(console.error);
 // Register Commands
-global.client.registry
+client.registry
   .registerDefaultTypes()
   .registerTypesIn(path.join(__dirname,'types'))
   .registerGroups([
@@ -126,4 +127,4 @@ global.client.registry
   .registerDefaultCommands({help:false,eval:false,unknownCommand:UnknownCommand})
   .registerCommandsIn(path.join(__dirname,'cmds'));
 // Login
-global.client.login(process.env.token);
+client.login(process.env.token);
