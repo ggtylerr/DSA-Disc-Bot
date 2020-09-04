@@ -1,6 +1,8 @@
 # DSA Bot Δ [dev]
 Please note this is an active development branch. Changes are often untested and bugs to be expected. Proceed at your own risk.
 
+[Roadmap](https://trello.com/b/1nwmnqVx/dsa-bot-roadmap)
+
 # Commands
 A command list can be DM'd to you by pinging it and adding 'help' or by saying '{prefix}help'. You can also do '{prefix}sayhelp' to send it to the current channel instead.
 
