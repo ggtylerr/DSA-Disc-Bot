@@ -7,6 +7,11 @@ query User($slug: String) {
     }
     birthday
     genderPronoun
+    location {
+      city
+      country
+      state
+    }
     authorizations{
       type
       url

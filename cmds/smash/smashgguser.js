@@ -55,10 +55,20 @@ module.exports = class SmashGGUserCommand extends Commando.Command {
     // Add description
     var desc = "";
     if (d.genderPronoun !== null) {
-      desc += `Pronoun: ${d.genderPronoun}.`;
+      desc += `Pronoun: ${d.genderPronoun}. `;
     }
     if (d.birthday !== null && d.birthday !== "") {
-      desc += `Birthday: ${d.birthday}.`;
+      desc += `Birthday: ${d.birthday}. `;
+    }
+    if (d.location.country !== null) {
+      desc += "Location: "
+      if (d.location.city !== null) {
+        desc += d.location.city + " ";
+      }
+      if (d.location.state !== null) {
+        desc += d.location.state + ", ";
+      }
+      desc += d.location.country + ". "
     }
     if (d.authorizations !== null) {
       desc += "\nConnections:\n";
