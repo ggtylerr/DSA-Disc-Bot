@@ -1,0 +1,38 @@
+query User($slug: String) {
+  user(slug: $slug){
+    name
+    player {
+      gamerTag
+      prefix
+    }
+    birthday
+    genderPronoun
+    authorizations{
+      type
+      url
+      externalUsername
+    }
+    bio
+    images {
+      url
+    }
+    tournaments (query:{page:1,perPage:4}) {
+      nodes {
+        name
+        slug
+      }
+    }
+    events (query:{page:1,perPage:4}) {
+      nodes {
+        name
+        slug
+      }
+    }
+    leagues (query:{page:1,perPage:4}) {
+      nodes {
+        name
+        slug
+      }
+    }
+  }
+}
