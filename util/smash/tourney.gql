@@ -1,0 +1,52 @@
+query Tourney($slug: String!) {
+  tournament(slug:$slug) {
+    addrState
+    id
+    city
+    countryCode
+    endAt
+    eventRegistrationClosesAt
+    events {
+      name
+      slug
+    }
+    hasOfflineEvents
+    hasOnlineEvents
+    isRegistrationOpen
+    links {
+      facebook
+      discord
+    }
+    name
+    numAttendees
+    owner {
+      name
+      player {
+        prefix
+        gamerTag
+      }
+    }
+    participants (query:{page:1,perPage:12}) {
+      nodes {
+        player {
+          prefix
+          gamerTag
+        }
+        user {
+          name
+        }
+      }
+    }
+    primaryContact
+    primaryContactType
+    registrationClosesAt
+    rules
+    startAt
+    state
+    timezone
+    updatedAt
+    url(relative:false)
+    venueAddress
+    venueName
+  }
+}

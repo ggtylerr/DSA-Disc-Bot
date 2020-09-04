@@ -8,7 +8,7 @@
 
 const Commando = require('discord.js-commando');
 
-module.exports = class FlipCommand extends Commando.Command {
+module.exports = class YornCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: 'y/n',

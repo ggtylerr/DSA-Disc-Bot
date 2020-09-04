@@ -11,7 +11,7 @@ const Commando = require('discord.js-commando');
 const JsonDB = require('node-json-db').JsonDB;
 const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
 
-var serverDB = new JsonDB(new Config(global.appRoot + "/db/serverDB",false,true,'/'));
+var serverDB = new JsonDB(new Config(process.env.appRoot + "/db/serverDB",false,true,'/'));
 
 module.exports = class CoughCountCommand extends Commando.Command {
   constructor(client) {
@@ -26,11 +26,11 @@ module.exports = class CoughCountCommand extends Commando.Command {
     });
   }
   async run(message) {
-    serverDB.load();
     var id = message.channel.guild.id;
-
     if (id === null) return;
     try {
+      // Reinitiate database so it properly loads
+      await serverDB.reload();
       message.channel.send(serverDB.getData(`/${id}/coughcount`));
     } catch (e) {
       message.channel.send('0');

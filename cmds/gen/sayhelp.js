@@ -36,9 +36,9 @@ module.exports = class SayHelpCommand extends Command {
 		const groups = this.client.registry.groups;
 		const commands = this.client.registry.findCommands(args.command, false, msg);
 		const showAll = args.command && args.command.toLowerCase() === 'all';
-    var embed = new Discord.RichEmbed()
+    var embed = new Discord.MessageEmbed()
       .setColor('#3498DB')
-      .setAuthor(global.client.user.username,global.client.user.avatarURL)
+      .setAuthor(this.client.user.username,this.client.user.avatarURL())
 		if(args.command && !showAll) {
 			if(commands.length === 1) {
         embed
@@ -69,6 +69,7 @@ module.exports = class SayHelpCommand extends Command {
         .map(grp =>
           embed.addField(grp.name,grp.commands.filter(cmd => !cmd.hidden && (showAll || cmd.isUsable(msg))).map(cmd => `**${cmd.name}:** ${cmd.description}${cmd.nsfw ? ' (NSFW)' : ''}`).join('\n'))
       );
+      embed.addField('Need help?','Join our support server: https://discord.gg/N5HnVrA')
       msg.channel.send(embed);
 		}
 	}

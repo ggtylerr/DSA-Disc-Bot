@@ -11,7 +11,7 @@ const Commando = require('discord.js-commando');
 const JsonDB = require('node-json-db').JsonDB;
 const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
 
-var serverDB = new JsonDB(new Config(global.appRoot + "/db/serverDB",true,true,'/'));
+var serverDB = new JsonDB(new Config(process.env.appRoot + "/db/serverDB",true,true,'/'));
 
 module.exports = class CoughCommand extends Commando.Command {
   constructor(client) {

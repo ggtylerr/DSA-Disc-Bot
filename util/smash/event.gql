@@ -1,0 +1,51 @@
+query Event($slug: String) {
+  event(slug: $slug){
+    id
+    name
+    tournament {
+      name
+      slug
+      timezone
+    }
+    videogame {
+      displayName
+      images {
+        url
+      }
+    }
+    standings(query:{page:1,perPage:8}){
+      nodes {
+        placement
+        player {
+          prefix
+          gamerTag
+          user {
+            name
+          }
+        }
+        entrant {
+          name
+          participants {
+            prefix
+            gamerTag
+            user {
+              name
+            }
+          }
+        }
+        stats {
+          score {
+            label
+            displayValue
+          }
+        }
+      }
+    }
+    rulesMarkdown
+    matchRulesMarkdown
+    state
+    createdAt
+    startAt
+    updatedAt
+  }
+}
