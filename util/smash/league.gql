@@ -1,0 +1,63 @@
+query League($slug: String) {
+  league(slug: $slug){
+    addrState
+    id
+    city
+    countryCode
+    endAt
+    eventRegistrationClosesAt
+    events (query:{perPage:4,page:1}) {
+      nodes {
+        name
+        slug
+      }
+    }
+    hasOfflineEvents
+    hasOnlineEvents
+    links {
+      facebook
+      discord
+    }
+    name
+    entrantCount
+    standings (query:{perPage:8,page:1}) {
+      nodes {
+        placement
+        player {
+          prefix
+          gamerTag
+          user {
+            name
+          }
+        }
+        entrant {
+          name
+          participants {
+            prefix
+            gamerTag
+            user {
+              name
+            }
+          }
+        }
+        stats {
+          score {
+            label
+            displayValue
+          }
+        }
+      }
+    }
+    primaryContact
+    primaryContactType
+    registrationClosesAt
+    rules
+    startAt
+    state
+    timezone
+    updatedAt
+    url(relative:false)
+    venueAddress
+    venueName
+  }
+}

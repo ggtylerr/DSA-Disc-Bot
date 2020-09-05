@@ -1,7 +1,7 @@
 /**
  * THIS CODE WAS MADE FOR THE DSA DISCORD BOT AND CAN BE REUSED FOR ANY PURPOSE WITHOUT CREDIT. FOR FULL LEGAL AND LICENSING DISCLAIMERS, PLEASE READ LEGAL.TXT.
  * 
- * Tourney info command on smash.gg. Utilizes smash.gg's GraphQL API and generated embeds to display information on a tournament hosted on smash.gg.
+ * League info command on smash.gg. Utilizes smash.gg's GraphQL API and generated embeds to display information on a league hosted on smash.gg.
  * 
  * ~~~developed by ggtylerr~~~
  */
@@ -12,19 +12,18 @@ const {MessageEmbed} = require('discord.js');
 const fs = require('fs');
 const moment = require('moment-timezone');
 
-module.exports = class SmashGGTourneyCommand extends Commando.Command {
+module.exports = class SmashGGLeagueCommand extends Commando.Command {
   constructor(client) {
     super(client, {
-      name: 'smashggtourney',
-      aliases: ['stourney'],
+      name: 'smashggleague',
+      aliases: ['sleague'],
       group: 'smash',
-      memberName: 'smashggtourney',
-      description: 'Get info from a tournament.',
-      details: 'Does not display information on events, phases, etc.',
+      memberName: 'smashggleague',
+      description: 'Get info from a league.',
       args: [
         {
           key: 'slug',
-          prompt: 'What tournament do you want?\n(Paste in the end of the URL like so: silver-state-smash-2-5)',
+          prompt: 'What league do you want?\n(Paste in the end of the URL like so: bud-light-beer-league-2020)',
           type: 'string'
         }
       ]
@@ -36,32 +35,25 @@ module.exports = class SmashGGTourneyCommand extends Commando.Command {
       headers: {
         authorization: `Bearer ${process.env.smashggapi}`
       }
-    })
+    });
 
     // Set query and vars
-    const query = fs.readFileSync('././util/smash/tourney.gql', 'utf8');
+    const query = fs.readFileSync('././util/smash/league.gql', 'utf8');
     const vars = {slug:slug};
 
     // Get response
     const data = await GQLClient.request(query, vars);
-    const d = data.tournament;
-    
+    const d = data.league;
+
     // Generate embed
     const embed = new MessageEmbed()
       .setColor('#CB333B')
-      .setAuthor(`Provided by ${this.client.user.username}`,this.client.user.avatarURL())
+      .setAuthor('Provided by ' + this.client.user.username,this.client.user.avatarURL())
       .setURL(d.url)
-      .setTitle(d.name)
-
-    // Add rules if it doesn't exceed limit
-    if (d.rules.length <= 1024) {
-      embed.addField("Rules",d.rules);
-    }
+      .setTitle(d.name);
 
     // Add description
-    var ownerName = genName(d.owner.player.prefix,d.owner.player.gamerTag,d.owner.name);
-    
-    var desc = `${d.name} is created/owned by ${ownerName} There is ${d.numAttendees} attending. This tournament `;
+    var desc = `Here's some stuff about ${d.name}: There is ${d.entrantCount} attending. This league `;
     desc += (d.state == 1) ? "is not active. " : (d.state == 2) ? "is currently active. " : "has been completed. ";
     if (d.isRegistrationOpen) {
       desc += "Registration is open";
@@ -78,11 +70,18 @@ module.exports = class SmashGGTourneyCommand extends Commando.Command {
     else desc += "Registration is closed.";
     embed.setDescription(desc);
 
+    // Add rules if it doesn't exceed limit
+    if (d.rules !== null) {
+      if (d.rules.length <= 1024) {
+        embed.addField("Rules",d.rules);
+      }
+    }
+
     // Add events
-    var events = "";
-    for (var e in d.events) {
-      var f = d.events[e];
-      events += `***${f.name}***\nView info about this event using this command \`sevent ${f.slug}\`\n\n`;
+    var events = "(Only showing the first 4)\n";
+    for (var e in d.events.nodes) {
+      var f = d.events.nodes[e];
+      events += `***${f.name}***\n\`sevent ${f.slug}\`\n`;
     }
     embed.addField("Events",events,true);
 
@@ -113,16 +112,44 @@ module.exports = class SmashGGTourneyCommand extends Commando.Command {
       embed.addField("Contact Info and Locations",cil,true);
     }
 
-    // Add participants
-    var ptcps = "*(only displaying the first 12)*\n";
-    for (var p in d.participants.nodes) {
-      var x = d.participants.nodes[p];
-      var pre = x.player.prefix;
-      var tag = x.player.gamerTag;
-      var nme = x.user.name;
-      ptcps += `${genName(pre,tag,nme)}\n`;
+    // Add standings
+    var stdgs = "";
+    if (d.standings.nodes !== null) {
+      for (var s in d.standings.nodes) {
+        var foo = d.standings.nodes[s];
+        stdgs += `[${foo.placement}] `
+        if (foo.player !== null) {
+          // Not listed as entrant
+          stdgs += genName(foo.player.prefix,foo.player.gamerTag,foo.player.user.name);
+        } else {
+          if (foo.entrant.participants.length == 1) {
+            // Only one player
+            var bar = foo.entrant.participants[0];
+            stdgs += genName(bar.prefix,bar.gamerTag,bar.user.name);
+          } else {
+            // Multiple players
+            var bar = "";
+            for (var x = 0; x < foo.entrant.participants.length; x++) {
+              bar += foo.entrant.participants[x].gamerTag;
+              if (x < foo.entrant.participants.length - 1) {
+                bar += ", "
+              }
+            }
+            stdgs += `${foo.entrant.name} *${bar}*`
+          }
+        }
+        // Score
+        if (foo.stats !== null) {
+          if (foo.stats.score !== null) {
+            stdgs += ` [${foo.stats.score.label}: ${foo.stats.score.displayValue}]`;
+          }
+        }
+        stdgs += "\n";
+      }
     }
-    embed.addField("Participants",ptcps,true)
+    if (stdgs !== "") {
+      embed.addField("Standings",stdgs);
+    }
 
     // Add timestamps
     var start = new moment.utc(d.startAt * 1000);
