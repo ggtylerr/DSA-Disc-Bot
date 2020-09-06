@@ -96,7 +96,11 @@ module.exports = class SmashGGEventCommand extends Commando.Command {
       }
       stdgs += "\n";
     }
-    embed.addField("Standings",stdgs);
+    if (stdgs !== "") {
+      embed.addField("Standings",stdgs);
+    } else {
+      embed.addField("Standings","Nobody is attending, or no stands are available.");
+    }
     
     // Add timestamps
     var create = new moment.utc(d.createdAt * 1000);

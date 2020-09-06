@@ -122,7 +122,11 @@ module.exports = class SmashGGTourneyCommand extends Commando.Command {
       var nme = x.user.name;
       ptcps += `${genName(pre,tag,nme)}\n`;
     }
-    embed.addField("Participants",ptcps,true)
+    if (ptcps == "*(only displaying the first 12)*\n") {
+      embed.addField("Participants",ptcps,true);
+    } else {
+      embed.addField("Participants","Nobody is participating. Be the first one to register!",true);
+    }
 
     // Add timestamps
     var start = new moment.utc(d.startAt * 1000);
