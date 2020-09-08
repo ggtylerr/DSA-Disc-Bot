@@ -17,17 +17,15 @@ There are plans to improve the installation process, but as of right now, no eff
 
 ### Getting the bot on repl.it
 1. [Fork this repl](https://repl.it/@TylerFlowers/DSA-Disc-Bot)
-2. Delete the db folder (unless you want to use the bot's database for whatever reason)
-3. In index.js, you can make any adjustments you want to make, such as the default prefix. Just follow the comments.
-4. Skip the next section and go straight to the rest of the installation process.
+2. In index.js, you can make any adjustments you want to make, such as the default prefix. Just follow the comments.
+3. Skip the next section and go straight to the rest of the installation process.
 
 ### Getting the bot on node.js
 1. [Download node.js](https://nodejs.org/en/)
 2. Download the repository. You can do this through here (GitHub) or through the repl (link above)
 3. Extract it.
-4. Delete the db folder (Unless you want to use the bot's database for whatever reason)
-5. In your command prompt / terminal, make sure the selected directory is the same folder as the extracted one and run `npm install`
-6. In index.js, you can make any adjustments you want to make, such as the default prefix. Just follow the comments.
+4. In your command prompt / terminal, make sure the selected directory is the same folder as the extracted one and run `npm install`
+5. In index.js, you can make any adjustments you want to make, such as the default prefix. Just follow the comments.
 
 ### The rest of the installation process
 #### Making the discord bot user and adding it
