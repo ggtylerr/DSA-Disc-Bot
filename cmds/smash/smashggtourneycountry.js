@@ -23,7 +23,7 @@ module.exports = class SmashGGTourneyCountryCommand extends Commando.Command {
       args: [
         {
           key: 'country',
-          prompt: 'What country do you want?\n(e.g. US, JP, UK)',
+          prompt: 'What country do you want?\n(e.g. US, JP, GB)',
           type: 'string'
         }
       ]
