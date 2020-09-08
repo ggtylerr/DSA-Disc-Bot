@@ -1,0 +1,27 @@
+query TourneyCountry($game:ID) {
+		tournaments(query:{
+      perPage: 50
+      filter: {
+        videogameIds: [
+          $game
+        ]
+      }
+    }){
+			nodes {
+        name
+        slug
+        url(relative:false)
+        images {
+          url
+        }
+        numAttendees
+        events (limit:2){
+          name
+          slug
+          videogame {
+            displayName
+          }
+        }
+      }
+		}
+	}
