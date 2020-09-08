@@ -10,7 +10,6 @@ const Commando = require('discord.js-commando');
 const {GraphQLClient} = require('graphql-request');
 const {MessageEmbed} = require('discord.js');
 const fs = require('fs');
-const moment = require('moment-timezone');
 
 module.exports = class SmashGGUserCommand extends Commando.Command {
   constructor(client) {
