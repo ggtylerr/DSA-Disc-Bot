@@ -22,7 +22,10 @@ var UnknownCommand = false;
 // Debug log messages.
 // If set to true, debug messages will be logged.
 // Please note that this includes *every* debug log, including heartbeat messages.
+<<<<<<< HEAD
 // This might also print your token accidentally.
+=======
+>>>>>>> master
 var DebugLogs = false;
 // Web server hosting.
 // If set to true, a web server will be set up for use of Uptime Robot.
@@ -36,6 +39,7 @@ var HostWeb = true;
 //    DO NOT KNOW WHAT
 //     YOU'RE DOING!!
 // ~~~~~~~~~~~~~~~~~~~~~~
+<<<<<<< HEAD
 
 // Uptime Robot
 if (HostWeb) {
@@ -46,6 +50,17 @@ if (HostWeb) {
 
   app.use('/', (req, res) => {
     res.send("Hey there! This is a Discord bot, not a website! If you can't seem to access it, send a message at our <a href=\"https://discord.gg/N5HnVrA\">support server.</a>");
+=======
+
+if (HostWeb) {
+  const express = require("express");
+  const app = express();
+
+  app.listen(() => console.log("Server started"));
+
+  app.use('/', (req, res) => {
+    res.send(new Date());
+>>>>>>> master
   });
 }
 
@@ -62,8 +77,12 @@ const sqlite = require('sqlite');
 // Important Variables
 global.client = new Commando.Client({
   owner: process.env.id,
+<<<<<<< HEAD
   commandPrefix: DefaultPrefix,
   unknownCommandResponse: UnknownCommand
+=======
+  commandPrefix: DefaultPrefix
+>>>>>>> master
 });
 var serverDB = new JsonDB(new Config(process.env.appRoot + "/db/serverDB",true,true,'/'));
 serverDB.load();
@@ -78,6 +97,7 @@ client
     client.user.setActivity(`for commands (@${client.user.tag} help)`, { type: 'WATCHING' })
       .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
       .catch(console.error);
+<<<<<<< HEAD
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     console.log('          DSABOT Δ');
     console.log('            v0.8');
@@ -88,6 +108,18 @@ client
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     console.log(`Logged in as @${client.user.tag}!`);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+=======
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    console.log('          DSABOT')
+    console.log('           v0.7')
+    console.log('~~~developed by ggtylerr~~~')
+    console.log('If you have issues, please ')
+    console.log(' go to the support server!')
+    console.log('    discord.gg/N5HnVrA')
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    console.log(`Logged in as @${client.user.tag}!`);
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+>>>>>>> master
   })
   .on('disconnect', () => console.log('Disconnected and will no longer attempt to reconnect.'))
   .on('reconnecting', () => console.log('Attempting to reconnect...'))
@@ -114,7 +146,11 @@ client
 
 // Set setting provider
 client.setProvider(
+<<<<<<< HEAD
   sqlite.open(path.join(__dirname,'db/commando.sqlite3')).then(db => new Commando.SQLiteProvider(db))
+=======
+	sqlite.open(path.join(__dirname, 'db/commando.sqlite3')).then(db => new Commando.SQLiteProvider(db))
+>>>>>>> master
 ).catch(console.error);
 // Register Commands
 client.registry
@@ -122,15 +158,19 @@ client.registry
   .registerTypesIn(path.join(__dirname,'types'))
   .registerGroups([
     ['gen','General Commands'],
+<<<<<<< HEAD
     ['chlge','Challonge Commands'],
     ['smash','smash.gg Commands'],
+=======
+    ['esprt','eSports Commands'],
+>>>>>>> master
     ['meme','Meme Commands'],
     ['cvd19','COVID-19 Commands'],
     ['admin','Admin Commands'],
     ['nopre','No Prefix Commands']
   ])
   .registerDefaultGroups()
-  .registerDefaultCommands({help:false,eval:false})
+  .registerDefaultCommands({help:false,eval:false,unknownCommand:UnknownCommand})
   .registerCommandsIn(path.join(__dirname,'cmds'));
 // Login
 client.login(process.env.token);

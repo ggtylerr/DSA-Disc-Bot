@@ -13,7 +13,26 @@ This bot was primarily made for running on a repl.it node.js server, accompanied
 
 Please note that, at this time, the main focus is on the actual bot itself. This makes the process of forking it and running a custom version pretty tedious. At this time, if you want to run your own version, you're best off forking the repl and setting it up on repl.it.
 
+<<<<<<< HEAD
 There are plans to improve the installation process, but as of right now, no efforts are being made.
+=======
+Configuring and running the bot
+1. On repl.it, make a new file named ".env"
+2. In the Discord Developer Portal, go to the bot settings and copy the token.
+3. In the .env file, type in "token=" and paste in your bot token.
+4. In Discord, copy the bot's ID by right clicking on it and selecting 'Copy ID'. If you don't see that option, go to the Appearance settings and enable 'Developer Mode'
+5. Back in the file, make a new line, type in "id=" and paste in your ID.
+6. [Get an API Key from Challonge](https://challonge.com/settings/developer) and copy it. This will be used for commands that don't need a key, like challongematches.
+7. In .env, make a new line, type in "challongeapi=" and paste in your API key.
+8. Your .env file should look like this now:
+```
+token="bottoken"
+id="botid"
+challongeapi="challongeapikey"
+```
+9. Run the repl.
+10. You're done! (At least, if you don't want UptimeRobot)
+>>>>>>> master
 
 ### Getting the bot on repl.it
 1. [Fork this repl](https://repl.it/@TylerFlowers/DSA-Disc-Bot)
@@ -37,6 +56,7 @@ There are plans to improve the installation process, but as of right now, no eff
 1. On repl.it/your bot folder, make a new file named ".env"
 2. In the Discord Developer Portal, go to the bot settings and copy the token.
 3. In the .env file, type in "token=" and paste in your bot token.
+<<<<<<< HEAD
 4. In Discord, copy your ID (or whoever you want to specify as the owner) by right clicking on it and selecting 'Copy ID'. If you don't see that option, go to the Appearance settings and enable 'Developer Mode'
 5. Back in the file, make a new line, type in "id=" and paste in the ID.
 6. Your .env file should now look like this:
@@ -44,6 +64,20 @@ There are plans to improve the installation process, but as of right now, no eff
 token="bottoken"
 id="ownerid"
 ```
+=======
+4. In Discord, copy the bot's ID by right clicking on it and selecting 'Copy ID'. If you don't see that option, go to the Appearance settings and enable 'Developer Mode'
+5. Back in the file, make a new line, type in "id=" and paste in your ID.
+6. [Get an API Key from Challonge](https://challonge.com/settings/developer) and copy it. This will be used for commands that don't need a key, like challongematches.
+7. In .env, make a new line, type in "challongeapi=" and paste in your API key.
+8. Your .env file should look like this now:
+```
+token="bot-token"
+id="bot-id"
+challongeapi="challonge-api-key"
+```
+9. Run the application using `node index.js` in your command prompt/terminal.
+10. You're done! (At least, if you don't want UptimeRobot)
+>>>>>>> master
 
 #### Adding Challonge and smash.gg API keys
 *Challonge and smash.gg require API keys for commands that don't require them or don't do actions requiring an account (i.e. challongematches or smashggtourney)*

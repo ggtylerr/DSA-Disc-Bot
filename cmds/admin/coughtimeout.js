@@ -11,7 +11,11 @@ const Commando = require('discord.js-commando');
 const JsonDB = require('node-json-db').JsonDB;
 const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
 
+<<<<<<< HEAD
 var serverDB = new JsonDB(new Config(process.env.appRoot + "/db/serverDB",false,true,'/'));
+=======
+var serverDB = new JsonDB(new Config(this.appRoot + "/db/serverDB",false,true,'/'));
+>>>>>>> master
 
 module.exports = class CoughTimeoutCommand extends Commando.Command {
   constructor(client) {

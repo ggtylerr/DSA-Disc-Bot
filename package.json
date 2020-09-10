@@ -9,6 +9,7 @@
     "discord.js": "^12.2.0",
     "discord.js-commando": "github:discordjs/Commando",
     "express": "^4.17.1",
+<<<<<<< HEAD
     "graphql": "^15.3.0",
     "graphql-request": "^3.0.0",
     "moment": "^2.27.0",
@@ -19,6 +20,11 @@
     "smashgg.js": "^4.1.17",
     "sqlite": "^3.0.0",
     "xmlhttprequest": "^1.8.0"
+=======
+    "node-json-db": "^1.0.3",
+    "novelcovid": "^2.2.0",
+    "sqlite": "^3.0.0"
+>>>>>>> master
   },
   "devDependencies": {},
   "scripts": {
