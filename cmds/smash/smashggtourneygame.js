@@ -21,6 +21,11 @@ module.exports = class SmashGGTourneyGameCommand extends Commando.Command {
       memberName: 'smashggtourneygame',
       description: 'Find tourneys based on their game.',
       details: 'Due to limitations in the smash.gg API, you need to provide an ID instead of the game name. A list can be found here: https://docs.google.com/spreadsheets/d/1l-mcho90yDq4TWD-Y9A22oqFXGo8-gBDJP0eTmRpTaQ/edit#gid=1924677423',
+      examples: [
+        "smashggtourneygame 1386",
+        "smashggtourneygame 10",
+        "smashggtourneygame 34223"
+      ],
       args: [
         {
           key: 'game',

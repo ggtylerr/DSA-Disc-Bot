@@ -9,7 +9,7 @@
 const Commando = require('discord.js-commando');
 const Challonge = require('challonge');
 const Pagination = require('discord-paginationembed');
-const {RichEmbed} = require('discord.js');
+const {MessageEmbed} = require('discord.js');
 const {getTourneys} = require('../../util/challonge');
 
 module.exports = class ChallongeTourneysCommand extends Commando.Command {
@@ -57,7 +57,7 @@ module.exports = class ChallongeTourneysCommand extends Commando.Command {
       // Grab tourney data
       var tourney = tourneyData[i].tournament;
       // Make embed
-      var curr = new RichEmbed()
+      var curr = new MessageEmbed()
         .setTitle(`Tourney #${i+1}: ${tourney.name}`)
         .setDescription(tourney.description || "No description")
         .setThumbnail(tourney.liveChallongeUrl)

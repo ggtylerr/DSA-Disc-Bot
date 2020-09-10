@@ -19,7 +19,12 @@ module.exports = class SmashGGTourneyCountryCommand extends Commando.Command {
       aliases: ['stourneycountry','stcountry','stc'],
       group: 'smash',
       memberName: 'smashggtourneycountry',
-      description: 'Find tourneys based on their country.',
+      description: 'Find tournaments based on their country.',
+      examples: [
+        "smashggtourneycountry US",
+        "smashggtourneycountry JP",
+        "smashggtourneycountry GB"
+      ],
       args: [
         {
           key: 'country',

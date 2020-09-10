@@ -21,6 +21,9 @@ module.exports = class SmashGGEventCommand extends Commando.Command {
       memberName: 'smashggevent',
       description: 'Get info from an event.',
       details: 'Does not display info on phases due to restrictions on smash.gg\'s API.',
+      examples: [
+        'smashggevent tournament/silver-state-smash-2-5/event/ultimate-singles'
+      ],
       args: [
         {
           key: 'slug',

@@ -19,6 +19,9 @@ module.exports = class SmashGGUserCommand extends Commando.Command {
       group: 'smash',
       memberName: 'smashgguser',
       description: 'Get a user\'s info',
+      examples: [
+        "smashgguser user/a4829083"
+      ],
       args: [
         {
           key: 'slug',

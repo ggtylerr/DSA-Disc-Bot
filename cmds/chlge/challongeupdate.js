@@ -19,8 +19,8 @@ module.exports = class ChallongeUpdateCommand extends Commando.Command {
       description: 'Updates a tourney on Challonge.',
       details: 'Options are in JSON format. Available options can be found here: https://api.challonge.com/v1/documents/tournaments/update\nRequires an API key and deletes your message after updating it to protect it.\nYou can get an API key here: https://challonge.com/settings/developer\nPlease note that this requires a verified email.',
       examples: [
-        'challongecreate abcdef12345 696969 {name:"Nice"}',
-        'challongecreate superkey lol {name:"XD","tournament_type":"double elimination"}'
+        'challongeupdate abcdef12345 696969 {name:"Nice"}',
+        'challongeupdate superkey lol {name:"XD","tournament_type":"double elimination"}'
       ],
       args: [
         {

@@ -20,6 +20,11 @@ module.exports = class SmashGGTourneyStateCommand extends Commando.Command {
       group: 'smash',
       memberName: 'smashggtourneystate',
       description: 'Find tourneys based on their state.',
+      examples: [
+        "smashggtourneystate CA",
+        "smashggtourneystate NV",
+        "smashggtourneystate NY"
+      ],
       args: [
         {
           key: 'state',
