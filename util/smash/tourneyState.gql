@@ -1,0 +1,25 @@
+query TourneyState($state:String) {
+  tournaments(query:{
+    perPage: 50
+    filter: {
+      addrState: $state
+    }
+  }){
+    nodes {
+      name
+      slug
+      url(relative:false)
+      images {
+        url
+      }
+      numAttendees
+      events (limit:2){
+        name
+        slug
+        videogame {
+          displayName
+        }
+      }
+    }
+  }
+}
