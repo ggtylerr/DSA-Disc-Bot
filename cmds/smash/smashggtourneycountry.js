@@ -36,6 +36,9 @@ module.exports = class SmashGGTourneyCountryCommand extends Commando.Command {
   }
   async run(message, {country}) {
     // Init client
+    const { Headers } = require('cross-fetch');
+    global.Headers = global.Headers || Headers;
+    
     const GQLClient = new GraphQLClient("https://api.smash.gg/gql/alpha", {
       headers: {
         authorization: `Bearer ${process.env.smashggapi}`
