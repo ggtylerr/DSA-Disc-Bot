@@ -122,6 +122,7 @@ client.registry
     ['gen','General Commands'],
     ['chlge','Challonge Commands'],
     ['smash','smash.gg Commands'],
+    ['sggqu','smash.gg queue Commands'],
     ['meme','Meme Commands'],
     ['cvd19','COVID-19 Commands'],
     ['admin','Admin Commands'],

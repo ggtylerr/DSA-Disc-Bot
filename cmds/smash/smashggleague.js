@@ -16,7 +16,7 @@ module.exports = class SmashGGLeagueCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: 'smashggleague',
-      aliases: ['sleague'],
+      aliases: ['sleague','sl'],
       group: 'smash',
       memberName: 'smashggleague',
       description: 'Get info from a league.',

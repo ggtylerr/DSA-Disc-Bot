@@ -16,7 +16,7 @@ module.exports = class SmashGGTourneyCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: 'smashggtourney',
-      aliases: ['stourney'],
+      aliases: ['stourney','st'],
       group: 'smash',
       memberName: 'smashggtourney',
       description: 'Get info from a tournament.',
@@ -24,7 +24,7 @@ module.exports = class SmashGGTourneyCommand extends Commando.Command {
       args: [
         {
           key: 'slug',
-          prompt: 'What tournament do you want?\n(Paste in the end of the URL like so: silver-state-smash-2-5)',
+          prompt: 'What tournament do you want?\n(Paste in the end of the URL like so: silver-state-smash-3)',
           type: 'string'
         }
       ]

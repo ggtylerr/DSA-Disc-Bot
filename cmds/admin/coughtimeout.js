@@ -45,6 +45,7 @@ module.exports = class CoughTimeoutCommand extends Commando.Command {
       serverDB.push(`/${id}/coughtimeout/set`,parseInt(args[0]))
       serverDB.push(`/${id}/coughtimeout/time`,0);
     }
+    serverDB.save();
     message.channel.send('Timeout updated!');
   }
 }

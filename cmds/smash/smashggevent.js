@@ -16,18 +16,18 @@ module.exports = class SmashGGEventCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: 'smashggevent',
-      aliases: ['sevent'],
+      aliases: ['sevent','se'],
       group: 'smash',
       memberName: 'smashggevent',
       description: 'Get info from an event.',
       details: 'Does not display info on phases due to restrictions on smash.gg\'s API.',
       examples: [
-        'smashggevent tournament/silver-state-smash-2-5/event/ultimate-singles'
+        'smashggevent tournament/silver-state-smash-3/event/ultimate-singles'
       ],
       args: [
         {
           key: 'slug',
-          prompt: 'What event do you want?\n(Paste in the end of the URL like so: tournament/silver-state-smash-2-5/event/ultimate-singles)',
+          prompt: 'What event do you want?\n(Paste in the end of the URL like so: tournament/silver-state-smash-3/event/ultimate-singles)',
           type: 'string'
         }
       ]

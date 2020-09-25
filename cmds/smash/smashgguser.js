@@ -15,7 +15,7 @@ module.exports = class SmashGGUserCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: 'smashgguser',
-      aliases: ['suser'],
+      aliases: ['suser','su'],
       group: 'smash',
       memberName: 'smashgguser',
       description: 'Get a user\'s info',
