@@ -10,6 +10,7 @@ const Commando = require('discord.js-commando');
 const {GraphQLClient} = require('graphql-request');
 const fs = require('fs');
 const {league} = require('../../util/smash/embedgen');
+const {convert,urlTest} = require('../../util/smash/slugutils');
 
 module.exports = class SmashGGLeagueCommand extends Commando.Command {
   constructor(client) {
@@ -19,10 +20,14 @@ module.exports = class SmashGGLeagueCommand extends Commando.Command {
       group: 'smash',
       memberName: 'smashggleague',
       description: 'Get info from a league.',
+      examples: [
+        'smashggleague bud-light-league-2020',
+        'sl http://smash.gg/league/bud-light-beer-league-2020'
+      ],
       args: [
         {
           key: 'slug',
-          prompt: 'What league do you want?\n(Paste in the end of the URL like so: bud-light-beer-league-2020)',
+          prompt: 'What league do you want?',
           type: 'string'
         }
       ]
@@ -38,6 +43,9 @@ module.exports = class SmashGGLeagueCommand extends Commando.Command {
         authorization: `Bearer ${process.env.smashggapi}`
       }
     });
+
+    // If slug is URL, convert it.
+    if (urlTest(slug)) slug = convert(slug);
 
     // Set query and vars
     const query = fs.readFileSync('././util/smash/schema/league.gql', 'utf8');

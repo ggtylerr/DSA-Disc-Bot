@@ -10,6 +10,7 @@ const Commando = require('discord.js-commando');
 const {GraphQLClient} = require('graphql-request');
 const fs = require('fs');
 const {event} = require('../../util/smash/embedgen');
+const {convert,urlTest} = require('../../util/smash/slugutils');
 
 module.exports = class SmashGGEventCommand extends Commando.Command {
   constructor(client) {
@@ -21,12 +22,13 @@ module.exports = class SmashGGEventCommand extends Commando.Command {
       description: 'Get info from an event.',
       details: 'Does not display info on phases due to restrictions on smash.gg\'s API.',
       examples: [
-        'smashggevent tournament/silver-state-smash-3/event/ultimate-singles'
+        'smashggevent tournament/silver-state-smash-3/event/ultimate-singles',
+        'se https://smash.gg/tournament/silver-state-smash-3/event/smash-ultimate-singles'
       ],
       args: [
         {
           key: 'slug',
-          prompt: 'What event do you want?\n(Paste in the end of the URL like so: tournament/silver-state-smash-3/event/ultimate-singles)',
+          prompt: 'What event do you want?',
           type: 'string'
         }
       ]
@@ -42,6 +44,9 @@ module.exports = class SmashGGEventCommand extends Commando.Command {
         authorization: `Bearer ${process.env.smashggapi}`
       }
     });
+
+    // If slug is URL, convert it.
+    if (urlTest(slug)) slug = convert(slug);
 
     // Set query and vars
     const query = fs.readFileSync('././util/smash/schema/event.gql', 'utf8');
