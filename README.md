@@ -1,6 +1,8 @@
 # DSA Discord Bot
 A Discord bot originally made for the DSA Esports server, which is now being made as a general-purpose / esports discord bot.
 
+**This branch is specifically for active development. Expect bugs and unfinished work.**
+
 Need help? [Check out the support server.](https://discord.gg/N5HnVrA)
 
 [Roadmap](https://trello.com/b/1nwmnqVx/dsa-bot-roadmap)
