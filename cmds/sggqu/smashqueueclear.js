@@ -11,6 +11,7 @@ const Commando = require('discord.js-commando');
 const JsonDB = require('node-json-db').JsonDB;
 const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
 
+var serverDB = new JsonDB(new Config(process.env.appRoot + "/db/serverDB",false,true,'/'));
 var channelDB = new JsonDB(new Config(process.env.appRoot + "/db/channelDB",false,true,'/'));
 
 module.exports = class SmashGGQueueCommand extends Commando.Command {
@@ -25,7 +26,19 @@ module.exports = class SmashGGQueueCommand extends Commando.Command {
   }
   async run(message, {slug}) {
     // Load databases
+    await serverDB.reload();
     await channelDB.reload();
+    // Check if the command should only be run by admins
+    var id = message.channel.guild.id;
+    var dbd8a = false;
+    try {
+      dbd8a = serverDB.getData(`/${id}/smashqueueadmin`);
+    } catch (e) {
+      // Not set as admin only, ignore.
+    }
+    if (dbd8a && !message.member.hasPermission('ADMINISTRATOR')) {
+      return message.reply('This command can only be used by people have who admin perms!');
+    }
     // Delete queue
     var id = message.channel.id;
     await channelDB.delete(`/${id}/sq`);
