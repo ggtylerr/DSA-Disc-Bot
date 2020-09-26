@@ -63,16 +63,22 @@ module.exports = class SmashGGQueueCommand extends Commando.Command {
     // Test if it's a tournament
     var query = "query x($s:String){tournament(slug:$s){name}}";
     var vars = {s:slug};
-    var data = await GQLClient.request(query, vars);
     var type = "t";
+    var data = await GQLClient.request(query, vars);
     if (data.tournament === null) {
       // Test if it's a league
-      query = "query x($s:String){league(slug:$s){name}}"
-      data = await GQLClient.request(query, vars);
+      query = "query x($s:String){league(slug:$s){name}}";
       type = "l";
+      data = await GQLClient.request(query, vars);
       if (data.league === null) {
-        // Slug failed both tests
-        return message.reply('This tournament/league/url doesn\'t work.');
+        // Test if it's an event
+        query = "query x($s:String){event(slug:$s){name}}";
+        type = "e";
+        data = await GQLClient.request(query,vars);
+        if (data.event === null) {
+          // Slug failed all tests
+          return message.reply('This url doesn\'t work.');
+        }
       }
     }
     // Push to channel database
@@ -80,8 +86,18 @@ module.exports = class SmashGGQueueCommand extends Commando.Command {
     channelDB.push(`/${cid}/sq/link`,slug);
     channelDB.push(`/${cid}/sq/type`,type);
     channelDB.save();
-    var displayType = "tourney";
-    if (type == "l") displayType = "league";
-    message.channel.send(`Queue updated! New queued ${displayType}: ${data.tournament.name}`);
+    if (type == "t") {
+      var displayType = "tourney";
+      var name = data.tournament.name;
+    }
+    if (type == "l") {
+      displayType = "league";
+      name = data.league.name;
+    }
+    if (type == "e") {
+      displayType = "event";
+      name = data.event.name;
+    }
+    message.channel.send(`Queue updated! New queued ${displayType}: ${name}`);
   }
 }
