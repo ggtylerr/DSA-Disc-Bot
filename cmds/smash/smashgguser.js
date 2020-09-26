@@ -43,7 +43,7 @@ module.exports = class SmashGGUserCommand extends Commando.Command {
     });
 
     // Set query and vars
-    const query = fs.readFileSync('././util/smash/user.gql', 'utf8');
+    const query = fs.readFileSync('././util/smash/schema/user.gql', 'utf8');
     const vars = {slug:slug};
 
     // Get response

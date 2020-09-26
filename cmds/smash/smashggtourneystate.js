@@ -46,7 +46,7 @@ module.exports = class SmashGGTourneyStateCommand extends Commando.Command {
     });
 
     // Set query and vars
-    const query = fs.readFileSync('././util/smash/tourneyState.gql', 'utf8');
+    const query = fs.readFileSync('././util/smash/schema/tourneyState.gql', 'utf8');
     const vars = {state:state};
 
     // Get response
