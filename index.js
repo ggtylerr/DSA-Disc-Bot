@@ -77,8 +77,8 @@ client
       .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
       .catch(console.error);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-    console.log('           DSABOT');
-    console.log('            v0.8');
+    console.log('          DSABOT Δ');
+    console.log('           v0.8.1');
     console.log('~~~~developed by ggtylerr~~~~');
     console.log(' If you have issues, please ');
     console.log('  go to the support server!');
