@@ -1,7 +1,7 @@
 /**
  * THIS CODE WAS MADE FOR THE DSA DISCORD BOT AND CAN BE REUSED FOR ANY PURPOSE WITHOUT CREDIT. FOR FULL LEGAL AND LICENSING DISCLAIMERS, PLEASE READ LEGAL.TXT.
  * 
- * Cough timeout command. Utilizes quick.db to have server-specific cough timeouts.
+ * Cough timeout command. Utilizes node-json-db to have server-specific cough timeouts.
  * 
  * ~~~developed by ggtylerr~~~
  */
@@ -34,17 +34,20 @@ module.exports = class CoughTimeoutCommand extends Commando.Command {
     });
   }
   async run(message, args) {
+    // Load database
     serverDB.load();
-
     var id = message.channel.guild.id;
-
+    // Push changes
     if (parseInt[args[0]] < 0) {
+      // Remove timeout if negative
       serverDB.delete(`/${id}/coughtimeout`);
     } else {
+      // Set timeouts
       serverDB.push(`/${id}/coughtimeout/curr`,0);
       serverDB.push(`/${id}/coughtimeout/set`,parseInt(args[0]))
       serverDB.push(`/${id}/coughtimeout/time`,0);
     }
+    // Save and send confirmation message
     serverDB.save();
     message.channel.send('Timeout updated!');
   }
