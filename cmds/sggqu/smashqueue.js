@@ -11,6 +11,7 @@ const Commando = require('discord.js-commando');
 const JsonDB = require('node-json-db').JsonDB;
 const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
 const {GraphQLClient} = require('graphql-request');
+const {convert,urlTest} = require('../../util/smash/slugutils');
 
 var serverDB = new JsonDB(new Config(process.env.appRoot + "/db/serverDB",false,true,'/'));
 var channelDB = new JsonDB(new Config(process.env.appRoot + "/db/channelDB",false,true,'/'));
@@ -49,7 +50,8 @@ module.exports = class SmashGGQueueCommand extends Commando.Command {
     if (dbd8a && !message.member.hasPermission('ADMINISTRATOR')) {
       return message.reply('This command can only be used by people have who admin perms!');
     }
-    // TODO: Add URL to slug conversion
+    // If slug is URL, convert it.
+    if (urlTest(slug)) slug = convert(slug);
     // Make sure links work
     const { Headers } = require('cross-fetch');
     global.Headers = global.Headers || Headers;
@@ -59,10 +61,10 @@ module.exports = class SmashGGQueueCommand extends Commando.Command {
       }
     });
     // Test if it's a tournament
-    const query = "query x($s:String){tournament(slug:$s){name}}";
-    const vars = {s:slug};
-    const data = await GQLClient.request(query, vars);
-    const type = "t";
+    var query = "query x($s:String){tournament(slug:$s){name}}";
+    var vars = {s:slug};
+    var data = await GQLClient.request(query, vars);
+    var type = "t";
     if (data.tournament === null) {
       // Test if it's a league
       query = "query x($s:String){league(slug:$s){name}}"
