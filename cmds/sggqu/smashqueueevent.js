@@ -12,6 +12,7 @@ const fs = require('fs');
 const {event} = require('../../util/smash/embedgen');
 const JsonDB = require('node-json-db').JsonDB;
 const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
+const QT = require('../../util/smash/queuetypes');
 
 var channelDB = new JsonDB(new Config(process.env.appRoot + "/db/channelDB",false,true,'/'));
 
@@ -20,7 +21,7 @@ module.exports = class SmashGGQueueEventCommand extends Commando.Command {
     super(client, {
       name: 'smashggqueueevent',
       aliases: ['squeueevent','sqe'],
-      group: 'smash',
+      group: 'sggqu',
       memberName: 'smashggqueueevent',
       description: 'Get info from a queued event.',
       details: 'Does not display info on phases due to restrictions on smash.gg\'s API.'
@@ -28,7 +29,7 @@ module.exports = class SmashGGQueueEventCommand extends Commando.Command {
   }
   async run(message) {
     // Load databases
-    channelDB.load();
+    await channelDB.reload();
     // Get queue data
     var id = message.channel.id;
     var q = null;
@@ -38,7 +39,7 @@ module.exports = class SmashGGQueueEventCommand extends Commando.Command {
       return message.channel.send("There is nothing in the queue.");
     }
     // Cancel if the queued item isn't an event
-    if (q.type !== "e") {
+    if (q.type !== QT.EVENT) {
       return message.channel.send("The current queued item is not an event!");
     }
     // Init client

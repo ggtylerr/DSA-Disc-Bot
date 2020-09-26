@@ -12,6 +12,7 @@ const JsonDB = require('node-json-db').JsonDB;
 const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
 const {GraphQLClient} = require('graphql-request');
 const {convert,urlTest} = require('../../util/smash/slugutils');
+const QT = require('../../util/smash/queuetypes');
 
 var serverDB = new JsonDB(new Config(process.env.appRoot + "/db/serverDB",false,true,'/'));
 var channelDB = new JsonDB(new Config(process.env.appRoot + "/db/channelDB",false,true,'/'));
@@ -37,8 +38,8 @@ module.exports = class SmashGGQueueCommand extends Commando.Command {
   }
   async run(message, {slug}) {
     // Load databases
-    serverDB.load();
-    channelDB.load();
+    await serverDB.reload();
+    await channelDB.reload();
     // Check if the command should only be run by admins
     var id = message.channel.guild.id;
     var dbd8a = false;
@@ -74,7 +75,11 @@ module.exports = class SmashGGQueueCommand extends Commando.Command {
         // Test if it's an event
         query = "query x($s:String){event(slug:$s){name}}";
         type = "e";
-        data = await GQLClient.request(query,vars);
+        try {
+          data = await GQLClient.request(query,vars);
+        } catch (e) {
+          return message.reply('This url doesn\'t work.')
+        }
         if (data.event === null) {
           // Slug failed all tests
           return message.reply('This url doesn\'t work.');
@@ -85,19 +90,11 @@ module.exports = class SmashGGQueueCommand extends Commando.Command {
     var cid = message.channel.id;
     channelDB.push(`/${cid}/sq/link`,slug);
     channelDB.push(`/${cid}/sq/type`,type);
+    if (type == "t") var name = data.tournament.name;
+    if (type == "l") name = data.league.name;
+    if (type == "e") name = data.event.name;
+    channelDB.push(`/${cid}/sq/name`,name);
     channelDB.save();
-    if (type == "t") {
-      var displayType = "tourney";
-      var name = data.tournament.name;
-    }
-    if (type == "l") {
-      displayType = "league";
-      name = data.league.name;
-    }
-    if (type == "e") {
-      displayType = "event";
-      name = data.event.name;
-    }
-    message.channel.send(`Queue updated! New queued ${displayType}: ${name}`);
+    message.channel.send(`Queue updated! New queued ${QT[type]}: ${name}`);
   }
 }

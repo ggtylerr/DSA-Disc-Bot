@@ -12,6 +12,7 @@ const fs = require('fs');
 const {league} = require('../../util/smash/embedgen');
 const JsonDB = require('node-json-db').JsonDB;
 const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
+const QT = require('../../util/smash/queuetypes');
 
 var channelDB = new JsonDB(new Config(process.env.appRoot + "/db/channelDB",false,true,'/'));
 
@@ -20,14 +21,14 @@ module.exports = class SmashGGQueueLeagueCommand extends Commando.Command {
     super(client, {
       name: 'smashggqueueleague',
       aliases: ['squeueleague','sql'],
-      group: 'smash',
+      group: 'sggqu',
       memberName: 'smashggqueueleague',
       description: 'Get info from a queued league.'
     });
   }
   async run(message) {
     // Load databases
-    channelDB.load();
+    await channelDB.reload();
     // Get queue data
     var id = message.channel.id;
     var q = null;
@@ -37,7 +38,7 @@ module.exports = class SmashGGQueueLeagueCommand extends Commando.Command {
       return message.channel.send("There is nothing in the queue.");
     }
     // Cancel if the queued item isn't an event
-    if (q.type !== "l") {
+    if (q.type !== QT.LEAGUE) {
       return message.channel.send("The current queued item is not a league!");
     }
     // Init client

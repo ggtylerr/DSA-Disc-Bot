@@ -24,7 +24,7 @@ module.exports = class SmashGGTourneyCommand extends Commando.Command {
       examples: [
         'smashggtourney silver-state-smash-3',
         'st http://smash.gg/tournament/silver-state-smash-3'
-      ]
+      ],
       args: [
         {
           key: 'slug',
