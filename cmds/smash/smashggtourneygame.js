@@ -47,7 +47,7 @@ module.exports = class SmashGGTourneyGameCommand extends Commando.Command {
     });
 
     // Set query and vars
-    const query = fs.readFileSync('././util/smash/tourneyGame.gql', 'utf8');
+    const query = fs.readFileSync('././util/smash/schema/tourneyGame.gql', 'utf8');
     const vars = {game:game};
 
     // Get response

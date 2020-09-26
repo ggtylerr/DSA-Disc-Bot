@@ -10,22 +10,24 @@ const Commando = require('discord.js-commando');
 const {GraphQLClient} = require('graphql-request');
 const {MessageEmbed} = require('discord.js');
 const fs = require('fs');
+const {convert,urlTest} = require('../../util/smash/slugutils');
 
 module.exports = class SmashGGUserCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: 'smashgguser',
-      aliases: ['suser'],
+      aliases: ['suser','su'],
       group: 'smash',
       memberName: 'smashgguser',
       description: 'Get a user\'s info',
       examples: [
-        "smashgguser user/a4829083"
+        "smashgguser user/a4829083",
+        'su https://smash.gg/user/a4829083'
       ],
       args: [
         {
           key: 'slug',
-          prompt: 'What user do you want?\n(Paste in the end of the URL like so: user/a4829083)',
+          prompt: 'What user do you want?',
           type: 'string'
         }
       ]
@@ -42,8 +44,11 @@ module.exports = class SmashGGUserCommand extends Commando.Command {
       }
     });
 
+    // If slug is URL, convert it.
+    if (urlTest(slug)) slug = convert(slug);
+
     // Set query and vars
-    const query = fs.readFileSync('././util/smash/user.gql', 'utf8');
+    const query = fs.readFileSync('././util/smash/schema/user.gql', 'utf8');
     const vars = {slug:slug};
 
     // Get response
