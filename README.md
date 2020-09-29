@@ -41,7 +41,6 @@ There are plans to improve the installation process, but as of right now, no eff
 1. On repl.it/your bot folder, make a new file named ".env"
 2. In the Discord Developer Portal, go to the bot settings and copy the token.
 3. In the .env file, type in "token=" and paste in your bot token.
-<<<<<<< HEAD
 4. In Discord, copy your ID (or whoever you want to specify as the owner) by right clicking on it and selecting 'Copy ID'. If you don't see that option, go to the Appearance settings and enable 'Developer Mode'
 5. Back in the file, make a new line, type in "id=" and paste in the ID.
 6. Your .env file should now look like this:
