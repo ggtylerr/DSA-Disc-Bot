@@ -78,7 +78,7 @@ client
       .catch(console.error);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     console.log('          DSABOT Δ');
-    console.log('           v0.8.1');
+    console.log('           v0.8.2');
     console.log('~~~~developed by ggtylerr~~~~');
     console.log(' If you have issues, please ');
     console.log('  go to the support server!');
