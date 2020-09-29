@@ -17,10 +17,10 @@ var channelDB = new JsonDB(new Config(process.env.appRoot + "/db/channelDB",fals
 module.exports = class SmashGGQueueCommand extends Commando.Command {
   constructor(client) {
     super(client, {
-      name: 'smashqueueview',
+      name: 'smashggqueueview',
       aliases: ['squeueview','sqv'],
       group: 'sggqu',
-      memberName: 'smashqueueview',
+      memberName: 'smashggqueueview',
       description: 'Shows the current queued item.'
     });
   }

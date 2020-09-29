@@ -1,0 +1,16 @@
+query TourneyParticipants($slug: String){
+  tournament(slug:$slug){
+    name
+    participants (query:{page:1,perPage:150}) {
+      nodes {
+        player {
+          prefix
+          gamerTag
+        }
+        user {
+          name
+        }
+      }
+    }
+  }
+}

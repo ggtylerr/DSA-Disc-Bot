@@ -20,13 +20,13 @@ var channelDB = new JsonDB(new Config(process.env.appRoot + "/db/channelDB",fals
 module.exports = class SmashGGQueueCommand extends Commando.Command {
   constructor(client) {
     super(client, {
-      name: 'smashqueue',
+      name: 'smashggqueue',
       aliases: ['squeue','sq'],
       group: 'sggqu',
-      memberName: 'smashqueue',
+      memberName: 'smashggqueue',
       description: 'Queues up a tournament or league to be ready for commands.',
-      details: 'Can be set to admin only using the command `smashqueueadmin`',
-      examples: ['smashqueue silver-state-smash-3'],
+      details: 'Can be set to admin only using the command `smashggqueueadmin`',
+      examples: ['smashggqueue silver-state-smash-3'],
       args: [
         {
           key: 'slug',

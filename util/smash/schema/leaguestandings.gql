@@ -1,0 +1,33 @@
+query LeagueStandings($slug: String){
+  league(slug:$slug){
+    name
+    standings(query:{page:1,perPage:140}){
+      nodes {
+        placement
+        player {
+          prefix
+          gamerTag
+          user {
+            name
+          }
+        }
+        entrant {
+          name
+          participants {
+            prefix
+            gamerTag
+            user {
+              name
+            }
+          }
+        }
+        stats {
+          score {
+            label
+            displayValue
+          }
+        }
+      }
+    }
+  }
+}

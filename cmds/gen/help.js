@@ -18,16 +18,22 @@ module.exports = class HelpCommand extends Command {
 			group: 'gen',
 			memberName: 'help',
 			aliases: ['commands'],
-			description: 'Displays a list of available commands, or detailed information for a specified command.',
+			description: 'Displays a list of available groups, all commands in a group, or detailed information for a specified command.',
 			details: 'The command may be part of a command name or a whole command name. If it isn\'t specified, all available commands will be listed.',
-			examples: ['help', 'help prefix'],
+			examples: ['help', 'help prefix', 'help group General Commands'],
 			args: [
 				{
 					key: 'command',
 					prompt: 'Which command would you like to view the help for?',
 					type: 'string',
 					default: ''
-				}
+				},
+        {
+          key: 'group',
+          prompt: 'What group would you like to view the commands for?',
+          type: 'string',
+          default: ''
+        }
 			]
 		});
 	}
@@ -36,10 +42,14 @@ module.exports = class HelpCommand extends Command {
 		const groups = this.client.registry.groups;
 		const commands = this.client.registry.findCommands(args.command, false, msg);
 		const showAll = args.command && args.command.toLowerCase() === 'all';
+    const showAllGroups = args.group && args.group.toLowerCase() === 'all';
+    const showUsable = args.command && args.command.toLowerCase() === 'usable';
+    const lGroups = this.client.registry.findGroups(args.group, false, msg);
+    const showGroup = args.command && args.command.toLowerCase() === 'group';
     var embed = new Discord.MessageEmbed()
       .setColor('#3498DB')
       .setAuthor(this.client.user.username,this.client.user.avatarURL())
-		if(args.command && !showAll) {
+		if(args.command && !showAll && !showUsable && !showGroup) {
 			if(commands.length === 1) {
         embed
           .setTitle(`Command ${commands[0].name}`)
@@ -66,10 +76,10 @@ module.exports = class HelpCommand extends Command {
 					)} to view the list of all commands.`
 				);
 			}
-		} else {
+		} else if (showAll || showUsable) {
 			try {
         embed
-          .setDescription(`To run a command in ${msg.guild ? msg.guild.name : 'any server'}, use ${Command.usage('command', msg.guild ? msg.guild.commandPrefix : null, this.client.user)}. For example, ${Command.usage('prefix', msg.guild ? msg.guild.commandPrefix : null, this.client.user)}.\nTo run a command in this DM, simply use ${Command.usage('command', null, null)} with no prefix.\nUse ${this.usage('<command>', null, null)} to view detailed information about a specific command.\nUse ${this.usage('all', null, null)} to view a list of *all* commands, not just available ones.`)
+          .setDescription(`To run a command in ${msg.guild ? msg.guild.name : 'any server'}, use ${Command.usage('command', msg.guild ? msg.guild.commandPrefix : null, this.client.user)}. For example, ${Command.usage('prefix', msg.guild ? msg.guild.commandPrefix : null, this.client.user)}.\nTo run a command in DMs, simply use ${Command.usage('command', null, null)} with no prefix.\nUse ${this.usage('<command>', null, null)} to view detailed information about a specific command.\nUse ${this.usage('usable', null, null)} to view a list of *usable* commands and use ${this.usage('all', null, null)} to view a list of *all* commands.\nUse ${this.usage('group <group>', null, null)} to view all commands in a group.\nUse ${this.usage('group all', null, null)} to view *all* groups.`)
           .setTitle(showAll ? 'All commands' : `Available commands in ${msg.guild || 'this DM'}`)
         groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && (showAll || cmd.isUsable(msg))))
           .map(grp =>
@@ -81,6 +91,43 @@ module.exports = class HelpCommand extends Command {
 			} catch(err) {
 				messages.push(await msg.reply('Unable to send you the help DM. You probably have DMs disabled.'));
 			}
-		}
+		} else if (showGroup && args.group && !showAllGroups) {
+      if (lGroups.length === 1) {
+        embed
+          .setTitle(lGroups[0].name)
+          .addField("Commands",lGroups[0].commands.filter(cmd => !cmd.hidden).map(cmd => `**${cmd.name}:** ${cmd.description}${cmd.nsfw ? ' (NSFW)' : ''}${cmd.isUsable(msg) ? '' : ' (Disabled on server/DM)'}`).join('\n'));
+        try {
+					msg.author.send(embed);
+					if(msg.channel.type !== 'dm') msg.reply('Sent you a DM with information.');
+				} catch(err) {
+					msg.reply('Unable to send you the help DM. You probably have DMs disabled.');
+				}
+      } else if (lGroups.length > 15) {
+        return msg.reply('Multiple groups found. Please be more specific.');
+      } else if (lGroups.length > 1) {
+        return msg.reply(disambiguation(lGroups, 'groups'));
+      } else {
+        return msg.reply(
+          `Unable to identify group. Use ${msg.usage(
+            null, msg.channel.type === 'dm' ? null : undefined, msg.channel.type === 'dm' ? null : undefined
+          )} to view the list of all groups.`
+        )
+      }
+    } else {
+      try {
+        embed
+          .setDescription(`To run a command in ${msg.guild ? msg.guild.name : 'any server'}, use ${Command.usage('command', msg.guild ? msg.guild.commandPrefix : null, this.client.user)}. For example, ${Command.usage('prefix', msg.guild ? msg.guild.commandPrefix : null, this.client.user)}.\nTo run a command in DMs, simply use ${Command.usage('command', null, null)} with no prefix.\nUse ${this.usage('<command>', null, null)} to view detailed information about a specific command.\nUse ${this.usage('usable', null, null)} to view a list of *usable* commands and use ${this.usage('all', null, null)} to view a list of *all* commands.\nUse ${this.usage('group <group>', null, null)} to view all commands in a group.\nUse ${this.usage('group all', null, null)} to view *all* groups.`)
+          .setTitle(showAllGroups ? 'All commands' : `Available commands in ${msg.guild || 'this DM'}`)
+        groups.filter(grp => grp.commands.some(cmd => !cmd.hidden && (showAllGroups || cmd.isUsable(msg))))
+          .map(grp =>
+            embed.addField(grp.name,`\`${this.usage(`group ${grp.name}`, null, null)}\``,true)
+        );
+        embed.addField('Need help?','Join our support server: https://discord.gg/N5HnVrA');
+        msg.author.send(embed);
+				if(msg.channel.type !== 'dm') msg.reply('Sent you a DM with information.');
+			} catch(err) {
+				messages.push(await msg.reply('Unable to send you the help DM. You probably have DMs disabled.'));
+			}
+    }
 	}
 };

@@ -8,6 +8,7 @@
 
 const {MessageEmbed} = require('discord.js');
 const moment = require('moment-timezone');
+const Pagination = require('discord-paginationembed');
 
 exports.event = function (d,slug,u) {
   const embed = new MessageEmbed()
@@ -283,7 +284,7 @@ exports.tourney = function(d,slug,u) {
     var nme = x.user.name;
     ptcps += `${genName(pre,tag,nme)}\n`;
   }
-  if (ptcps == "*(only displaying the first 12)*\n") {
+  if (ptcps !== "*(only displaying the first 12)*\n") {
     embed.addField("Participants",ptcps,true);
   } else {
     embed.addField("Participants","Nobody is participating. Be the first one to register!",true);
@@ -304,6 +305,118 @@ exports.tourney = function(d,slug,u) {
   embed.setFooter(`Started at ${start}\nEnds (or ended) at ${end}\nLast updated on ${update}`);
 
   return embed;
+}
+
+exports.standings = async function(d,slug,u,m){
+  const embeds = [];
+  try {
+    var test = d.standings.nodes.length;
+  } catch (e) {
+    return m.say('That event/league doesn\'t have standings public or available.')
+  }
+  const updateMsg = await m.say(`Getting 1/${d.standings.nodes.length} standings...`);
+
+  for (var i = 0; i < d.standings.nodes.length; i += 25) {
+    const curr = new MessageEmbed()
+      .setAuthor(`Provided by ${u.username}`,u.avatarURL())
+      .setURL("https://smash.gg/" + slug)
+      .setTitle(d.name)
+
+    var stdgs = "";
+    for (var j = i; j <= i + 24 && j < d.standings.nodes.length; j++) {
+      var foo = d.standings.nodes[j];
+      stdgs += `[${foo.placement}] `
+      if (foo.player !== null) {
+        // Not listed as entrant
+        if (foo.player.user !== null) {
+          stdgs += genName(foo.player.prefix,foo.player.gamerTag,foo.player.user.name);
+        } else {
+          stdgs += genName(foo.player.prefix,foo.player.gamerTag,null);
+        }
+      } else {
+        if (foo.entrant.participants.length == 1) {
+          // Only one player
+          var bar = foo.entrant.participants[0];
+          stdgs += genName(bar.prefix,bar.gamerTag,bar.user.name);
+        } else {
+          // Multiple players
+          var bar = "";
+          for (var x = 0; x < foo.entrant.participants.length; x++) {
+            bar += foo.entrant.participants[x].gamerTag;
+            if (x < foo.entrant.participants.length - 1) {
+              bar += ", "
+            }
+          }
+          stdgs += `${foo.entrant.name} *${bar}*`
+        }
+      }
+      // Score
+      if (foo.stats !== null) {
+        if (foo.stats.score !== null) {
+          stdgs += ` [${foo.stats.score.label}: ${foo.stats.score.displayValue}]`;
+        }
+      }
+      stdgs += "\n";
+    }
+    if (stdgs !== "") {
+      curr.addField("Standings",stdgs);
+    } else {
+      curr.addField("Standings","Nobody is attending, or no stands are available.");
+    }
+    curr.setFooter(`Page ${Math.floor(i/25)+1}/${Math.ceil(d.standings.nodes.length/25)}`)
+    // Push and update
+    embeds.push(curr);
+    if (i % 50 === 0 && i !== 0) await updateMsg.edit(`Getting ${i}/${d.standings.nodes.length} standings...`);
+  }
+  // Remove update message
+  updateMsg.delete();
+  // Build pagination embed
+  new Pagination.Embeds()
+      .setArray(embeds)
+      .setChannel(m.channel)
+      .setColor(0xCB333B)
+      .build();
+}
+
+exports.participants = async function(d,slug,u,m){
+  const embeds = [];
+  try {
+    var test = d.participants.nodes.length;
+  } catch (e) {
+    return m.say('That tourney doesn\'t have participants public or available.')
+  }
+  const updateMsg = await m.say(`Getting 1/${d.participants.nodes.length} participants...`);
+  for (var i = 0; i < d.participants.nodes.length; i += 25) {
+    const curr = new MessageEmbed()
+      .setAuthor(`Provided by ${u.username}`,u.avatarURL())
+      .setURL("https://smash.gg/" + slug)
+      .setTitle(d.name)
+    ptcps = "";
+    for (var j = i; j <= i + 24 && j < d.participants.nodes.length; j++) {
+      var x = d.participants.nodes[j];
+      var pre = x.player.prefix;
+      var tag = x.player.gamerTag;
+      var nme = x.user.name;
+      ptcps += `${genName(pre,tag,nme)}\n`;
+    }
+    if (ptcps !== "") {
+      curr.addField("Participants",ptcps);
+    } else {
+      curr.addField("Participants","Nobody is participating. Be the first one to register!");
+    }
+    curr.setFooter(`Page ${Math.floor(i/25)+1}/${Math.ceil(d.participants.nodes.length/25)}`)
+    // Push and update
+    embeds.push(curr);
+    if (i % 50 === 0 && i !== 0) await updateMsg.edit(`Getting ${i}/${d.participants.nodes.length} participants...`);
+  }
+  // Remove update message
+  updateMsg.delete();
+  // Build pagination embed
+  new Pagination.Embeds()
+      .setArray(embeds)
+      .setChannel(m.channel)
+      .setColor(0xCB333B)
+      .build();
 }
 
 function genName(p,t,n) {

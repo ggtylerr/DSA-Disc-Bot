@@ -16,10 +16,10 @@ var serverDB = new JsonDB(new Config(process.env.appRoot + "/db/serverDB",false,
 module.exports = class SmashGGQueueAdminCommand extends Commando.Command {
   constructor(client) {
     super(client, {
-      name: 'smashqueueadmin',
+      name: 'smashggqueueadmin',
       aliases: ['squeueadmin','sqa'],
-      group: 'sggqu',
-      memberName: 'smashqueueadmin',
+      group: 'admin',
+      memberName: 'smashggqueueadmin',
       description: 'Queues up a tournament or league to be ready for commands.',
       userPermissions: ['ADMINISTRATOR'],
       guildOnly: true,
