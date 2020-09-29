@@ -378,6 +378,47 @@ exports.standings = async function(d,slug,u,m){
       .build();
 }
 
+exports.participants = async function(d,slug,u,m){
+  const embeds = [];
+  try {
+    var test = d.participants.nodes.length;
+  } catch (e) {
+    return m.say('That tourney doesn\'t have participants public or available.')
+  }
+  const updateMsg = await m.say(`Getting 1/${d.participants.nodes.length} participants...`);
+  for (var i = 0; i < d.participants.nodes.length; i += 25) {
+    const curr = new MessageEmbed()
+      .setAuthor(`Provided by ${u.username}`,u.avatarURL())
+      .setURL("https://smash.gg/" + slug)
+      .setTitle(d.name)
+    ptcps = "";
+    for (var j = i; j <= i + 24 && j < d.participants.nodes.length; j++) {
+      var x = d.participants.nodes[j];
+      var pre = x.player.prefix;
+      var tag = x.player.gamerTag;
+      var nme = x.user.name;
+      ptcps += `${genName(pre,tag,nme)}\n`;
+    }
+    if (ptcps !== "") {
+      curr.addField("Participants",ptcps);
+    } else {
+      curr.addField("Participants","Nobody is participating. Be the first one to register!");
+    }
+    curr.setFooter(`Page ${Math.floor(i/25)+1}/${Math.ceil(d.participants.nodes.length/25)}`)
+    // Push and update
+    embeds.push(curr);
+    if (i % 50 === 0 && i !== 0) await updateMsg.edit(`Getting ${i}/${d.participants.nodes.length} participants...`);
+  }
+  // Remove update message
+  updateMsg.delete();
+  // Build pagination embed
+  new Pagination.Embeds()
+      .setArray(embeds)
+      .setChannel(m.channel)
+      .setColor(0xCB333B)
+      .build();
+}
+
 function genName(p,t,n) {
   if (p === null || p === "") {
     if (n === null)

@@ -1,7 +1,7 @@
 /**
  * THIS CODE WAS MADE FOR THE DSA DISCORD BOT AND CAN BE REUSED FOR ANY PURPOSE WITHOUT CREDIT. FOR FULL LEGAL AND LICENSING DISCLAIMERS, PLEASE READ LEGAL.TXT.
  * 
- * Queued standings command. Gets information on a queued event/league's standings from smash.gg.
+ * Queued participants command. Gets information on a queued tourney's participants from smash.gg.
  * 
  * ~~~developed by ggtylerr~~~
  */
@@ -9,22 +9,22 @@
 const Commando = require('discord.js-commando');
 const {GraphQLClient} = require('graphql-request');
 const fs = require('fs');
-const {standings} = require('../../util/smash/embedgen');
+const {participants} = require('../../util/smash/embedgen');
 const JsonDB = require('node-json-db').JsonDB;
 const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
 const QT = require('../../util/smash/queuetypes');
 
 var channelDB = new JsonDB(new Config(process.env.appRoot + "/db/channelDB",false,true,'/'));
 
-module.exports = class SmashGGQueueStandingsCommand extends Commando.Command {
+module.exports = class SmashGGQueueParticipantsCommand extends Commando.Command {
   constructor(client) {
     super(client, {
-      name: 'smashggqueuestandings',
-      aliases: ['squeuestandings','sqs'],
+      name: 'smashggqueueparticipants',
+      aliases: ['squeueparticipants','sqp'],
       group: 'sggqu',
-      memberName: 'smashggqueuestandings',
-      description: 'Get standings from a queued event or league.',
-      details: 'Tourneys not supported due to limitations on smash.gg\'s API. To view all participants in a tourney, do `smashggqueueparticipants`'
+      memberName: 'smashggqueueparticipants',
+      description: 'Get participants from a tourney.',
+      details: 'Events/leagues not supported due to limitations on smash.gg\'s API. To view those standings, do `smashggqueuestandings`.'
     });
   }
   async run(message) {
@@ -38,9 +38,9 @@ module.exports = class SmashGGQueueStandingsCommand extends Commando.Command {
     } catch (e) {
       return message.channel.send("There is nothing in the queue.");
     }
-    // Cancel if the queued item isn't an event or league
-    if (q.type !== QT.LEAGUE && q.type !== QT.EVENT) {
-      return message.channel.send("The current queued item is not an event or league!");
+    // Cancel if the queued item isn't a tourney
+    if (q.type !== QT.TOURNEY) {
+      return message.channel.send("The current queued item is not a tourney!");
     }
     // Init client
     const { Headers } = require('cross-fetch');
@@ -52,14 +52,14 @@ module.exports = class SmashGGQueueStandingsCommand extends Commando.Command {
       }
     })
     // Set query and vars
-    const query = fs.readFileSync(`././util/smash/schema/${QT[q.type].toLowerCase()}standings.gql`, 'utf8');
+    const query = fs.readFileSync(`././util/smash/schema/tourneyParticipants.gql`, 'utf8');
     const vars = {slug:q.link};
 
     // Get response
     const data = await GQLClient.request(query, vars);
-    const d = data[QT[q.type].toLowerCase()];
+    const d = data.tournament;
     
     // Generate and send embed
-    standings(d,q.link,this.client.user,message);
+    participants(d,q.link,this.client.user,message);
   }
 }

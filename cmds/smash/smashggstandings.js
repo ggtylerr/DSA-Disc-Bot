@@ -20,12 +20,12 @@ module.exports = class SmashGGStandingsCommand extends Commando.Command {
       group: 'smash',
       memberName: 'smashggstandings',
       description: 'Get standings from an event or league.',
-      details: 'Tourneys not supported due to limitations on smash.gg\'s API. To view all participants in a tourney, do (command not yet implemented)',
+      details: 'Tourneys not supported due to limitations on smash.gg\'s API. To view all participants in a tourney, do `smashggparticipants`.',
       examples: [
         'smashggstandings tournament/silver-state-smash-3/event/smash-ultimate-singles',
         'ss http://smash.gg/tournament/silver-state-smash-3/event/smash-ultimate-singles',
-        'smashggstandings bud-light-beer-league-2020',
-        'ss http://smash.gg/league/bud-light-beer-league-2020'
+        'smashggstandings smashuk-and-ireland-ultimate-circuit-2020',
+        'ss http://smash.gg/league/smashuk-and-ireland-ultimate-circuit-2020'
       ],
       args: [
         {
