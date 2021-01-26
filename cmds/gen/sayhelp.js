@@ -106,7 +106,7 @@ module.exports = class SayHelpCommand extends Command {
         .map(grp =>
           embed.addField(grp.name,`\`${this.usage(`group ${grp.name}`, null, null)}\``,true)
       );
-      embed.addField('Need help?','Join our support server: https://discord.gg/N5HnVrA');
+      embed.addField('Need help?','Join our support server: https://discord.gg/Nfkdm6vnbD');
       msg.channel.send(embed);
     }
 	}

@@ -19,6 +19,6 @@ module.exports = class SupportCommand extends Commando.Command {
     });
   }
   async run(message) {
-    message.channel.send("Need help? Check out the support server: https://discord.gg/N5HnVrA");
+    message.channel.send("Need help? Check out the support server: https://discord.gg/Nfkdm6vnbD");
   }
 }
