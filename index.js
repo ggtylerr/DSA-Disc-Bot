@@ -43,7 +43,7 @@ if (HostWeb) {
   app.listen(() => console.log("Server started"));
 
   app.use('/', (req, res) => {
-    res.send("Hey there! This is a Discord bot, not a website! If you can't seem to access it, send a message at our <a href=\"https://discord.gg/N5HnVrA\">support server.</a>");
+    res.send("Hey there! This is a Discord bot, not a website! If you can't seem to access it, send a message at our <a href=\"https://discord.gg/Nfkdm6vnbD\">support server.</a>");
   });
 }
 
@@ -82,7 +82,7 @@ client
     console.log('~~~developed by ggtylerr~~~');
     console.log('If you have issues, please');
     console.log(' go to the support server!');
-    console.log('    discord.gg/N5HnVrA');
+    console.log('    https://discord.gg/Nfkdm6vnbD');
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     console.log(`Logged in as @${client.user.tag}!`);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~');
