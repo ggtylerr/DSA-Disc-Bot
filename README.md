@@ -69,6 +69,9 @@ smashggapi="smashggtoken"
 2. If you're on node.js, run `node index.js` in your command prompt/terminal (make sure the current directory is the same one as the bot's directory)
 3. You're done! (At least, if you don't want UptimeRobot)
 
+#### Regarding UptimeRobot
+UptimeRobot is a "pinging service", meaning it pings a service (like a website, or a discord bot) every 5 minutes. This was implemented as this bot was hosted on repl.it, which previously was a requirement. As of 2/2/2021, however, this is no longer the case if you pay their subscription. You also don't need this service if you're running it on any other platform. If you want to use this service, read "Configuring UptimeRobot". If you don't, you can simply ignore it. You can also set `HostWeb` to `false` in line 28 in `index.js` if you want to save resources.
+
 #### Configuring UptimeRobot
 1. On the upper right corner, a website will show up with the current date and time. Copy its URL.
 2. [On UptimeRobot,](https://uptimerobot.com/dashboard) add a new monitor.
