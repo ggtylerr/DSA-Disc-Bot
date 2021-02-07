@@ -14,11 +14,12 @@ module.exports = class InviteCommand extends Commando.Command {
     super(client, {
       name: 'dmrole',
       aliases: ['dmroles','msgrole','msgroles'],
-      group: 'gen',
+      group: 'admin',
       memberName: 'dmrole',
       description: 'DMs a message to anyone with that role in a server.',
       details: 'You need the "Mention Everyone" permission in order to run this command.',
       userPermissions: ['MENTION_EVERYONE'],
+      guildOnly: true,
       args: [
         {
           key: 'role',
