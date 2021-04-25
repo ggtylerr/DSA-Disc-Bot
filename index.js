@@ -8,35 +8,10 @@
  * ~~~developed by ggtylerr~~~ 
  */
 
-// ~~~~~~~~~~~~~
-// CONFIGURATION
-// ~~~~~~~~~~~~~
-// Default command prefix. Doesn't have to be one character.
-var DefaultPrefix = ';';
-// Unknown command response.
-// If set to true, the bot will send a message if it's an unknown command.
-// Not recommended if it's intended for a public server or you have a bot with a similar prefix.
-var UnknownCommand = false;
-// Debug log messages.
-// If set to true, debug messages will be logged.
-// Please note that this includes *every* debug log, including heartbeat messages.
-// This might also print your token accidentally.
-var DebugLogs = false;
-// Web server hosting.
-// If set to true, a web server will be set up for use of Uptime Robot.
-// Not recommended if you're not on repl.it.
-var HostWeb = true;
-// ~~~~~~~~~~~~~~~~~~~~~~
-//  END OF CONFIGURATION
-// ~~~~~~~~~~~~~~~~~~~~~~
-//    PLEASE DO NOT GO 
-// PAST THIS POINT IF YOU
-//    DO NOT KNOW WHAT
-//     YOU'RE DOING!!
-// ~~~~~~~~~~~~~~~~~~~~~~
+const Config = require('./config');
 
 // Uptime Robot
-if (HostWeb) {
+if (Config.HostWeb) {
   const express = require("express");
   const app = express();
 
@@ -54,20 +29,20 @@ process.env.appRoot = path.resolve(__dirname);
 const Discord = require('discord.js');
 const Commando = require('discord.js-commando');
 const JsonDB = require('node-json-db').JsonDB;
-const Config = require('node-json-db/dist/lib/JsonDBConfig').Config;
+const DBConfig = require('node-json-db/dist/lib/JsonDBConfig').Config;
 const sqlite = require('sqlite');
 
 // Important Variables
-global.client = new Commando.Client({
+client = new Commando.Client({
   owner: process.env.id,
-  commandPrefix: DefaultPrefix,
-  unknownCommandResponse: UnknownCommand
+  commandPrefix: Config.DefaultPrefix,
+  unknownCommandResponse: Config.UnknownCommand
 });
-var serverDB = new JsonDB(new Config(process.env.appRoot + "/db/serverDB",true,true,'/'));
+var serverDB = new JsonDB(new DBConfig(process.env.appRoot + "/db/serverDB",true,true,'/'));
 serverDB.load();
 
 // Listen Events
-if (DebugLogs) client.on('debug',console.log);
+if (Config.DebugLogs) client.on('debug',console.log);
 
 client
   .on('error',console.error)
@@ -78,7 +53,7 @@ client
       .catch(console.error);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     console.log('          DSABOT');
-    console.log('          v0.8.4');
+    console.log('         v0.9-dv1');
     console.log('~~~developed by ggtylerr~~~');
     console.log('If you have issues, please');
     console.log(' go to the support server!');
@@ -124,12 +99,13 @@ client.registry
     ['smash','smash.gg Commands'],
     ['sggqu','smash.gg queue Commands'],
     ['meme','Meme Commands'],
+    ['nopre','No Prefix Commands'],
+    ['music','Music Commands'],
     ['cvd19','COVID-19 Commands'],
-    ['admin','Admin Commands'],
-    ['nopre','No Prefix Commands']
+    ['admin','Admin Commands']
   ])
   .registerDefaultGroups()
-  .registerDefaultCommands({help:false,eval:false,unknownCommand:UnknownCommand})
+  .registerDefaultCommands({help:false,eval:false,unknownCommand:Config.UnknownCommand})
   .registerCommandsIn(path.join(__dirname,'cmds'));
 // Login
 client.login(process.env.token);
