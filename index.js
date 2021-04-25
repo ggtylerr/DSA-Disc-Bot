@@ -8,6 +8,12 @@
  * ~~~developed by ggtylerr~~~ 
  */
 
+/**
+ * Wondering where configuration went? 
+ * It's now in a more proper place - config.js. 
+ * Located in the same folder as this file.
+ */
+
 const Config = require('./config');
 
 // Uptime Robot
@@ -53,7 +59,7 @@ client
       .catch(console.error);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     console.log('          DSABOT');
-    console.log('         v0.9-dv1');
+    console.log('         v0.9-dv2');
     console.log('~~~developed by ggtylerr~~~');
     console.log('If you have issues, please');
     console.log(' go to the support server!');

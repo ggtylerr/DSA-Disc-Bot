@@ -19,7 +19,7 @@ There are plans to improve the installation process, but as of right now, no eff
 
 ### Getting the bot on repl.it
 1. [Fork this repl](https://repl.it/@TylerFlowers/DSA-Disc-Bot)
-2. In index.js, you can make any adjustments you want to make, such as the default prefix. Just follow the comments.
+2. In config.js, you can make any adjustments you want to make, such as the default prefix. Just follow the notes.
 3. Skip the next section and go straight to the rest of the installation process.
 
 ### Getting the bot on node.js
@@ -27,7 +27,7 @@ There are plans to improve the installation process, but as of right now, no eff
 2. Download the repository. You can do this through here (GitHub) or through the repl (link above)
 3. Extract it.
 4. In your command prompt / terminal, make sure the selected directory is the same folder as the extracted one and run `npm install`
-5. In index.js, you can make any adjustments you want to make, such as the default prefix. Just follow the comments.
+5. In config.js, you can make any adjustments you want to make, such as the default prefix. Just follow the notes.
 
 ### The rest of the installation process
 #### Making the discord bot user and adding it
@@ -62,6 +62,26 @@ token="bottoken"
 id="botid"
 challongeapi="challongeapikey"
 smashggapi="smashggtoken"
+```
+
+#### Adding YouTube API keys
+*YouTube require API keys for any command that needs data from YouTube, (i.e. play)*
+**_You may skip this section if you aren't using this bot for music purposes, but some commands will not function if you do._**
+1. Head to the [Google Cloud Platform](https://console.cloud.google.com/apis/dashboard) and create a new project.
+  * If you haven't used this platform before, accept to the terms and conditions and create a new project by pressing "CREATE PROJECT".
+  * If you have and have already made a project, press the dropdown menu next to the Google Cloud Platform logo, then press "NEW PROJECT" in the top right corner.
+2. Name this project whatever you want.
+3. Using the search bar, go to YouTube Data API v3 and enable it.
+4. Press the "CREATE CREDENTIALS" button on the right, select "YouTube Data API v3" and Public Data.
+5. Copy the API key given to you, go to .env, type in "ytapi=", and paste in your key.
+  * If you lose this key, you can go to "APIs and Services", "Credentials", "API Keys", and copy the key.
+6. The .env file should now look like this *(If you've been following along with all prior steps)*:
+```
+token="bottoken"
+id="botid"
+challongeapi="challongeapikey"
+smashggapi="smashggtoken"
+ytapi="ytapikey"
 ```
 
 #### Running it, finally
