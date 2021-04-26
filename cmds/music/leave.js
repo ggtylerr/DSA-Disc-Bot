@@ -24,10 +24,10 @@ module.exports = class PlayCommand extends Commando.Command {
       description: 'Leaves the current VC and clears the queue'
     });
   }
-  async run(message, {query}) {
+  async run(message) {
     // Get VC and check if the bot is actually on one
     var vc = message.guild.me.voice.channel;
-    if (!vc) message.reply("I can't leave a VC that I'm not in...");
+    if (!vc) return message.reply("I can't leave a VC that I'm not in...");
     // Leave VC
     else {
       vc.leave();

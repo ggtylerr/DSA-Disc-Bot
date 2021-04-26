@@ -28,6 +28,7 @@ module.exports = class PlayCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: 'play',
+      aliases: ['p'],
       group: 'music',
       memberName: 'play',
       description: 'Play anything available on YouTube',
@@ -54,14 +55,13 @@ module.exports = class PlayCommand extends Commando.Command {
     }
     try {
       await musicDB.reload();
-      var a = musicDB.getData(`/${vcid}`);
-      db = a;
+      db = musicDB.getData(`/${vcid}`);
     } catch (e) {
       if (e.constructor.name == "DataError") {
         musicDB.push(`/${vcid}`,db);
       } else {
         console.error(e);
-        message.channel.send(`Error occurred while getting DB! You shouldn't have to see this. Please contact the devs or bot owner about this, along with this log:\n\`\`\`${e}\`\`\``);
+        return message.channel.send(`Error occurred while getting DB! You shouldn't have to see this. Please contact the devs or bot owner about this, along with this log:\n\`\`\`${e}\`\`\``);
       }
     }
     // Check for queue limit
@@ -69,7 +69,6 @@ module.exports = class PlayCommand extends Commando.Command {
       return message.channel.send('Queue limit reached! Either wait a bit or remove some songs.');
     // Get video from query
     var vid;
-    var song;
     // URLs
     if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)) {
       const url = query;
@@ -92,22 +91,24 @@ module.exports = class PlayCommand extends Commando.Command {
         var loadMsg = await message.channel.send("Loading... *(Searching for videos)*");
         // Search for videos
         const videos = await yt.searchVideos(query, 50);
+        if (videos.length == 0)
+          return loadMsg.edit("No results.");
         const vidDetails = {};
         const nums = ['one','two','three','four','five'];
         loadMsg.edit("Loading... *(Grabbing details...)*");
         for (let i = 0; i < videos.length; i++) {
-          const vid = await yt.getVideoByID(videos[i].id, {part: 'statistics'});
+          const video = await yt.getVideoByID(videos[i].id, {part: 'statistics'});
           const channel = await yt.getChannelByID(videos[i].channel.id, {part: 'statistics'});
           vidDetails[i] = {};
           vidDetails[i].title = `:${nums[i%5]}: ${videos[i].title}`;
           vidDetails[i].desc = `By [${videos[i].channel.title}](https://www.youtube.com/channel/${videos[i].channel.id}) - ${channel.subscriberCount} subs
-          :thumbsup: ${vid.raw.statistics.likeCount} • :thumbsdown: ${vid.raw.statistics.dislikeCount} • ${vid.raw.statistics.viewCount} views • [${Moment(videos[i].publishedAt).format("MMM Do, YYYY, h:mm:ss a [UTC]")}](https://www.timeanddate.com/worldclock/converter.html?iso=${Moment(videos[i].publishedAt).format("YYYYMMDD[T]HHmmss")}&p1=1440&p2=tz_pt&p3=tz_et&p4=tz_eet&p5=tz_jst)
+          :thumbsup: ${video.raw.statistics.likeCount} • :thumbsdown: ${video.raw.statistics.dislikeCount} • ${video.raw.statistics.viewCount} views • [${Moment(videos[i].publishedAt).format("MMM Do, YYYY, h:mm:ss a [UTC]")}](https://www.timeanddate.com/worldclock/converter.html?iso=${Moment(videos[i].publishedAt).format("YYYYMMDD[T]HHmmss")}&p1=1440&p2=tz_pt&p3=tz_et&p4=tz_eet&p5=tz_jst)
           ${videos[i].description}`;
         }
         // Make embeds
         loadMsg.edit("Loading... *(Making results)*");
         const embeds = [];
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < Math.ceil(videos.length/5); i++) {
           var a = [
             i*5,
             (i*5)+1,
@@ -115,14 +116,12 @@ module.exports = class PlayCommand extends Commando.Command {
             (i*5)+3,
             (i*5)+4
           ]
-          embeds.push(new MessageEmbed()
-            .addField(vidDetails[a[0]].title, vidDetails[a[0]].desc)
-            .addField(vidDetails[a[1]].title, vidDetails[a[1]].desc)
-            .addField(vidDetails[a[2]].title, vidDetails[a[2]].desc)
-            .addField(vidDetails[a[3]].title, vidDetails[a[3]].desc)
-            .addField(vidDetails[a[4]].title, vidDetails[a[4]].desc)
-            .setFooter(`Page ${i+1}/10`)
-          );
+          var embed = new MessageEmbed()
+            .setFooter(`Page ${i+1}/${Math.ceil(videos.length/5)}`);
+          for (let j = 0; (j+a[j]) < Object.keys(vidDetails).length; j++) {
+            embed.addField(vidDetails[a[j]].title,vidDetails[a[j]].desc);
+          }
+          embeds.push(embed);
         }
         // Make pagination embed
         var page = 0;
@@ -175,14 +174,13 @@ module.exports = class PlayCommand extends Commando.Command {
           var index = (i - 1) + (page * 5);
           vid = await yt.getVideoByID(videos[index].id);
         } catch (e) {
-          console.error(e);
-          return message.channel.send(`An error occured while trying to get that video! You should contact the devs, along with this log:\n\`\`\`${e}\`\`\``)
-        }
-        const url = `https://www.youtube.com/watch?v=${vid.raw.id}`;
-        const title = vid.title;
-        song = {
-          url,
-          title
+          if (e.constructor.name == "TypeError") {
+            // Item not in list
+            return message.channel.send("That video is not in the list of search results.")
+          } else {
+            console.error(e);
+            return message.channel.send(`An error occured while trying to get that video! You should contact the devs, along with this log:\n\`\`\`${e}\`\`\``);
+          }
         }
       } catch (e) {
         console.error(e);
@@ -197,6 +195,10 @@ module.exports = class PlayCommand extends Commando.Command {
     // Queue process
     try {
       // Add to queue
+      var song = {
+        url: `https://www.youtube.com/watch?v=${vid.raw.id}`,
+        title: vid.title
+      };
       db.queue.push(song);
       await musicDB.reload(); // Reload due to code like song embeds allowing for various changes to the DB to happen while command is being run
       musicDB.push(`/${vcid}/queue`,db.queue);
@@ -210,6 +212,7 @@ module.exports = class PlayCommand extends Commando.Command {
       } 
       else return message.channel.send(`${song.title} has been added to the queue! Queue size is now ${db.queue.length}.`);
     } catch (e) {
+      console.error(e);
       return message.channel.send(`Error occured while trying to add that song to queue! You shouldn't have to see this. Please contact the devs or bot owner about this, along with this log:\n\`\`\`${e}\`\`\``);
     }
   }
