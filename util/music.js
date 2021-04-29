@@ -2,7 +2,7 @@ const ytdl = require('ytdl-core');
 
 const Config = require('../config');
 
-exports.playSong = function (queue, message, vc, db) {
+exports.playSong = function (queue, message, vc, db, id) {
   vc
     .join()
     .then(connection => {
@@ -22,17 +22,19 @@ exports.playSong = function (queue, message, vc, db) {
             `:musical_note: Now playing: ${queue[0].title}`
           );
         })
-        .on('finish', () => {
-          queue.shift();
-          db.push(`/${vc.id}/queue`,queue);
-          if (queue.length >= 1) {
-            db.save();
-            return playSong(queue, message);
-          } else {
-            db.push(`/${vc.id}/isPlaying`,false);
-            db.save();
-            isPlaying = false;
-            return vc.leave();
+        .on('finish', c => {
+          if (c !== "0") {
+            queue.shift();
+            db.push(`/${id}/queue`,queue);
+            if (queue.length >= 1) {
+              db.save();
+              return playSong(queue, message, vc, db, id);
+            } else {
+              db.push(`/${id}/isPlaying`,false);
+              db.save();
+              isPlaying = false;
+              return vc.leave();
+            }
           }
         })
         .on('error', e => {

@@ -47,18 +47,19 @@ module.exports = class PlayCommand extends Commando.Command {
     // Grab VC and make sure user is in it
     const vc = message.member.voice.channel;
     if (!vc) return message.channel.send("You aren't in a VC! Join one, then retry the command.");
+    if (vc !== message.guild.me.voice.channel && (message.guild.me.voice.channel)) return message.channel.send("You aren't in the same VC I'm in! Join the one I'm in or do `join` to make me join the one you're at.");
+    const id = message.guild.id;
     // Get database info
-    const vcid = vc.id;
     var db = {
       queue: [],
       isPlaying: false
     }
     try {
       await musicDB.reload();
-      db = musicDB.getData(`/${vcid}`);
+      db = musicDB.getData(`/${id}`);
     } catch (e) {
       if (e.constructor.name == "DataError") {
-        musicDB.push(`/${vcid}`,db);
+        musicDB.push(`/${id}`,db);
       } else {
         console.error(e);
         return message.channel.send(`Error occurred while getting DB! You shouldn't have to see this. Please contact the devs or bot owner about this, along with this log:\n\`\`\`${e}\`\`\``);
@@ -201,14 +202,14 @@ module.exports = class PlayCommand extends Commando.Command {
       };
       db.queue.push(song);
       await musicDB.reload(); // Reload due to code like song embeds allowing for various changes to the DB to happen while command is being run
-      musicDB.push(`/${vcid}/queue`,db.queue);
+      musicDB.push(`/${id}/queue`,db.queue);
       musicDB.save();
       // Play if no song is playing, otherwise say it's added to queue
       if (!db.isPlaying) {
         db.isPlaying = true;
-        musicDB.push(`/${vcid}/isPlaying`,true);
+        musicDB.push(`/${id}/isPlaying`,true);
         musicDB.save();
-        return playSong(db.queue, message, vc, musicDB);
+        return playSong(db.queue, message, vc, musicDB, id);
       } 
       else return message.channel.send(`${song.title} has been added to the queue! Queue size is now ${db.queue.length}.`);
     } catch (e) {

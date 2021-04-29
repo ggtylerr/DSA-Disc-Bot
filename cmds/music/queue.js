@@ -29,14 +29,13 @@ module.exports = class QueueCommand extends Commando.Command {
     });
   }
   async run(message) {
-    // Get VC and check if the bot is actually on one
-    var vc = message.guild.me.voice.channel;
-    if (!vc) return message.reply("I'm not in a VC on this server.");
+    // Get ID
+    const id = message.guild.id;
     // Get queue
     var q = {};
     try {
       await musicDB.reload();
-      q = musicDB.getData(`/${vc.id}`);
+      q = musicDB.getData(`/${id}`);
     } catch (e) {
       if (e.constructor.name == "DataError") {
         return message.reply("Queue is empty.");
@@ -67,7 +66,7 @@ module.exports = class QueueCommand extends Commando.Command {
       .setArray(embeds)
       .setChannel(message.channel)
       .setColor('#e52d27')
-      .setTitle('Current queue in VC')
+      .setTitle('Current queue in server')
     .build();
     load.delete();
   }

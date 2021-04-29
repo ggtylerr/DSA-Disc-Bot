@@ -1,7 +1,7 @@
 /**
  * THIS CODE WAS MADE FOR THE DSA DISCORD BOT AND CAN BE REUSED FOR ANY PURPOSE WITHOUT CREDIT. FOR FULL LEGAL AND LICENSING DISCLAIMERS, PLEASE READ LEGAL.TXT.
  * 
- * Disconnect / Leaving command. Simple command that disconnects the bot.
+ * Clear queue command. Simple command that clears the current queue in the DB.
  * 
  * ~~~developed by ggtylerr~~~
  */
@@ -13,30 +13,30 @@ const DBConfig = require('node-json-db/dist/lib/JsonDBConfig').Config;
 
 var musicDB = new JsonDB(new DBConfig(process.env.appRoot + "/db/musicDB",false,true,'/'));
 
-module.exports = class PlayCommand extends Commando.Command {
+module.exports = class ClearCommand extends Commando.Command {
   constructor(client) {
     super(client, {
-      name: 'leave',
-      aliases: ['disconnect', 'dc', 'end', 'stop'],
+      name: 'clear',
+      aliases: ['cl'],
       group: 'music',
-      memberName: 'leave',
+      memberName: 'clear',
       guildOnly: true,
-      description: 'Leaves the current VC'
+      description: 'Leaves the VC that the bot is in.',
+      userPermissions: ['ADMINISTRATOR']
     });
   }
   async run(message) {
     // Get VC and check if the bot is actually on one
     var vc = message.guild.me.voice.channel;
-    if (!vc) return message.reply("I can't leave a VC that I'm not in...");
+    if (!vc) return message.reply("I can't clear the queue when I'm not in a VC.");
     const id = message.guild.id;
-    // Leave VC
-    vc.leave();
     // Stop dispatcher (if it exists)
     if (!(typeof vc.dispatcher == 'undefined' || vc.dispatcher == null))
-      vc.dispatcher.end("0"); // dont clear queue
-    // Set to stop playing
+      vc.dispatcher.pause();
+    // Clear queue
     try {
       await musicDB.reload();
+      musicDB.push(`/${id}/queue`,[]);
       musicDB.push(`/${id}/isPlaying`,false);
       musicDB.save();
     } catch (e) {
@@ -45,6 +45,6 @@ module.exports = class PlayCommand extends Commando.Command {
       return message.channel.send(`The bot left the channel, but an error occurred while getting/pushing to DB! You shouldn't have to see this. Please contact the devs or bot owner about this, along with this log:\n\`\`\`${e}\`\`\``);
     }
     // Profit!
-    message.reply("Left VC!");
+    message.reply("Cleared the queue!");
   }
 }
