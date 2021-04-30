@@ -21,14 +21,12 @@ module.exports = class ClearCommand extends Commando.Command {
       group: 'music',
       memberName: 'clear',
       guildOnly: true,
-      description: 'Leaves the VC that the bot is in.',
-      userPermissions: ['ADMINISTRATOR']
+      description: 'Clears the queue.',
+      userPermissions: ['PRIORITY_SPEAKER']
     });
   }
   async run(message) {
-    // Get VC and check if the bot is actually on one
-    var vc = message.guild.me.voice.channel;
-    if (!vc) return message.reply("I can't clear the queue when I'm not in a VC.");
+    // Get ID
     const id = message.guild.id;
     // Stop dispatcher (if it exists)
     if (!(typeof vc.dispatcher == 'undefined' || vc.dispatcher == null))
