@@ -19,6 +19,6 @@ module.exports = class InviteCommand extends Commando.Command {
     });
   }
   async run(message) {
-    message.channel.send("Interested in me? I'm flattered.\nInvite link: <https://discordapp.com/api/oauth2/authorize?client_id=675555531901108296&permissions=8&scope=bot>\nMain website: <https://ggtylerr.digital/projects/dsabot/>");
+    message.channel.send("Interested in me? I'm flattered.\nInvite link: <https://discordapp.com/api/oauth2/authorize?client_id=675555531901108296&permissions=8&scope=bot>\nMain website: <https://ggtylerr.dev/projects/dsabot/>");
   }
 }

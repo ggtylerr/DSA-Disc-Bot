@@ -26,11 +26,13 @@ module.exports = class ClearCommand extends Commando.Command {
     });
   }
   async run(message) {
-    // Get ID
+    // Get ID and VC
+    const vc = message.guild.me.voice.channel;
     const id = message.guild.id;
     // Stop dispatcher (if it exists)
-    if (!(typeof vc.dispatcher == 'undefined' || vc.dispatcher == null))
-      vc.dispatcher.pause();
+    if (vc)
+      if (!(typeof vc.dispatcher == 'undefined' || vc.dispatcher == null))
+        vc.dispatcher.pause();
     // Clear queue
     try {
       await musicDB.reload();

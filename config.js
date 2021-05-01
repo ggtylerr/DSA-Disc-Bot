@@ -30,16 +30,15 @@ DebugLogs: false,
 HostWeb: true,
 // Music limitations
 // These are global limitations and server owners/mods can change these to a lower value
-// via a command.
+// via the 'settings' command.
 // YTNoStreams: If set to true, disables livestreams.
 // YTDuration : If set to anything but -1, it will only allow that amount of hours per video.
 //              (Setting it to 1 will only allow up to 1 hour, 2 for 2 hours, etc.)
-// YTQuality  : Quality of audio. If you're familiar with YTDL, it's the same quality
-//              settings, just without the 'audio' bit added at the end of the option.
+// YTQuality  : Quality of audio. either 'highest' or 'lowest'
 // MQueueLimit: Amount of songs/videos allowed in a queue. Limit disabled if set to -1.
 YTNoStreams: false,
 YTDuration : -1,
-YTQuality  : 'highest',
+YTQuality  : 'highestaudio',
 MQueueLimit: -1,
 //
 // ~~~~~~~~~~~~~

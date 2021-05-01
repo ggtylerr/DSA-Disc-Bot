@@ -44,7 +44,7 @@ module.exports = class SmashGGQueueCommand extends Commando.Command {
     var id = message.channel.guild.id;
     var dbd8a = false;
     try {
-      dbd8a = serverDB.getData(`/${id}/smashqueueadmin`);
+      dbd8a = serverDB.getData(`/${id}/settings/smashqueueadmin`);
     } catch (e) {
       // Not set as admin only, ignore.
     }

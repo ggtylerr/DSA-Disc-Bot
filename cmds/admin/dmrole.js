@@ -44,7 +44,7 @@ module.exports = class InviteCommand extends Commando.Command {
   async run(message, {role,msg}) {
     // Fetch members to check for cache (if they have more than 250 members)
     if (message.guild.memberCount > 249)
-      message.guild.fetchMembers();
+      message.guild.members.fetch();
     // Make a special embed
     const embed = new Discord.MessageEmbed()
       .setColor(role.color)

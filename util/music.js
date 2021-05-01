@@ -1,8 +1,6 @@
 const ytdl = require('ytdl-core');
 
-const Config = require('../config');
-
-exports.playSong = function (queue, message, vc, db, id) {
+exports.playSong = function (queue, message, vc, db, id, settings) {
   vc
     .join()
     .then(connection => {
@@ -12,23 +10,23 @@ exports.playSong = function (queue, message, vc, db, id) {
         .play(
           ytdl(queue[0].url, { 
             volume: 0.1, 
-            quality: Config.YTQuality + 'audio',
+            quality: settings.quality,
             highWaterMark: 1024 * 1024 * 10
           })
         )
         .on('start', () => {
           vc.dispatcher = dispatcher;
-          return message.channel.send(
-            `:musical_note: Now playing: ${queue[0].title}`
-          );
+          return message.channel.send(`:musical_note: Now playing: ${queue[0].title}`);
         })
         .on('finish', c => {
           if (c !== "0") {
+            db.reload();
+            queue = db.getData(`/${id}/queue`);
             queue.shift();
             db.push(`/${id}/queue`,queue);
             if (queue.length >= 1) {
               db.save();
-              return playSong(queue, message, vc, db, id);
+              return exports.playSong(queue, message, vc, db, id, settings);
             } else {
               db.push(`/${id}/isPlaying`,false);
               db.save();

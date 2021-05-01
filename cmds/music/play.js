@@ -23,6 +23,7 @@ const {playSong} = require('../../util/music');
 const Config = require('../../config');
 
 var musicDB = new JsonDB(new DBConfig(process.env.appRoot + "/db/musicDB",false,true,'/'));
+var serverDB = new JsonDB(new DBConfig(process.env.appRoot + "/db/serverDB",false,true,'/'));
 
 module.exports = class PlayCommand extends Commando.Command {
   constructor(client) {
@@ -65,8 +66,30 @@ module.exports = class PlayCommand extends Commando.Command {
         return message.channel.send(`Error occurred while getting DB! You shouldn't have to see this. Please contact the devs or bot owner about this, along with this log:\n\`\`\`${e}\`\`\``);
       }
     }
+    // Get settings
+    var settings = {
+      stream: Config.YTNoStreams,
+      duration: Config.YTDuration,
+      quality: Config.YTQuality,
+      limit: Config.MQueueLimit
+    }
+    try {
+      await serverDB.reload();
+      const a = serverDB.getData(`/${id}/settings`);
+      if (!(a.YTNoStreams == null)) settings.stream = a.YTNoStreams;
+      if (!(a.YTDuration == null)) settings.duration = a.YTDuration;
+      if (!(a.YTQuality == null)) settings.quality = a.YTQuality;
+      if (!(a.MQueueLimit == null)) settings.limit = a.MQueueLimit;
+    } catch (e) {
+      if (e.constructor.name == "DataError") {
+        // Server has no settings, ignore and move on.
+      } else {
+        console.error(e);
+        return message.channel.send(`Error occurred while getting DB! You shouldn't have to see this. Please contact the devs or bot owner about this, along with this log:\n\`\`\`${e}\`\`\``);
+      }
+    }
     // Check for queue limit
-    if (Config.MQueueLimit != -1 && db.queue.length > Config.MQueueLimit)
+    if (settings.limit != -1 && db.queue.length > settings.limit)
       return message.channel.send('Queue limit reached! Either wait a bit or remove some songs.');
     // Get video from query
     var vid;
@@ -189,16 +212,18 @@ module.exports = class PlayCommand extends Commando.Command {
       }
     }
     // Apply limitations
-    if (Config.YTNoStreams && vid.raw.snippet.liveBroadcastContent === 'live') 
+    if (settings.stream && vid.raw.snippet.liveBroadcastContent === 'live') 
     return message.channel.send("Live streams are disabled!");
-    if (Config.YTDuration != -1 && vid.duration.hours < Config.YTDuration)
-    return message.channel.send(`I cannot play videos longer than ${Config.YTDuration} hour${Config.YTDuration != 1 ? 's' : ''}!`);
+    if (settings.duration != -1 && vid.duration.hours < settings.duration)
+    return message.channel.send(`I cannot play videos longer than ${settings.duration} hour${settings.duration != 1 ? 's' : ''}!`);
     // Queue process
     try {
       // Add to queue
       var song = {
         url: `https://www.youtube.com/watch?v=${vid.raw.id}`,
-        title: vid.title
+        title: vid.title,
+        duration: vid.durationSeconds,
+        user: message.author.id
       };
       db.queue.push(song);
       await musicDB.reload(); // Reload due to code like song embeds allowing for various changes to the DB to happen while command is being run
@@ -209,7 +234,7 @@ module.exports = class PlayCommand extends Commando.Command {
         db.isPlaying = true;
         musicDB.push(`/${id}/isPlaying`,true);
         musicDB.save();
-        return playSong(db.queue, message, vc, musicDB, id);
+        return playSong(db.queue, message, vc, musicDB, id, settings);
       } 
       else return message.channel.send(`${song.title} has been added to the queue! Queue size is now ${db.queue.length}.`);
     } catch (e) {

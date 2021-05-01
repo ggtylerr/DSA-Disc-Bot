@@ -53,7 +53,7 @@ module.exports = class SayHelpCommand extends Command {
 			if(commands.length === 1) {
         embed
           .setTitle(`Command ${commands[0].name}`)
-          .setDescription(commands[0].description + (commands[0].guildOnly ? ' (Usable only in servers' : '') + (commands[0].nsfw ? ' (NSFW)' : ''))
+          .setDescription(commands[0].description + (commands[0].guildOnly ? ' (Usable only in servers)' : '') + (commands[0].nsfw ? ' (NSFW)' : ''))
           .addField('Format',msg.anyUsage(`${commands[0].name}${commands[0].format ? ` ${commands[0].format}` : ''}`));
         if(commands[0].aliases.length > 0) embed.addField('Aliases',commands[0].aliases.join(', '));
         embed.addField('Group',`${commands[0].group.name} (\`${commands[0].groupID}:${commands[0].memberName}\`)`);
