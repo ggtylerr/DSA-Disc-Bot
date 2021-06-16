@@ -93,8 +93,28 @@ module.exports = class PlayCommand extends Commando.Command {
       return message.channel.send('Queue limit reached! Either wait a bit or remove some songs.');
     // Get video from query
     var vid;
-    // URLs
-    if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)) {
+    var pl = true;
+    // Playlist URLs
+    if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtube.com\/playlist\?list=.+/)) {
+      try {
+        // Get playlist and videos
+        var playlist = await yt.getPlaylist(query);
+        var videos = await playlist.getVideos();
+        // Create playlist object for reference
+        pl = {
+          t: playlist.title,
+          l: videos.length,
+          v: videos
+        };
+        // Add first video
+        vid = videos[0];
+      } catch (e) {
+        console.error(e);
+        return message.channel.send(`Error ocurred while trying to get playlist (or its videos)! If the URL works, you should contact the devs about this, along with this log:\n\`\`\`${e}\`\`\``);
+      }
+    }
+    // Video URLs
+    else if (query.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)) {
       const url = query;
       try {
         // Grab video from query
@@ -216,30 +236,64 @@ module.exports = class PlayCommand extends Commando.Command {
     return message.channel.send("Live streams are disabled!");
     if (settings.duration != -1 && vid.duration.hours < settings.duration)
     return message.channel.send(`I cannot play videos longer than ${settings.duration} hour${settings.duration != 1 ? 's' : ''}!`);
-    // Queue process
-    try {
-      // Add to queue
-      var song = {
-        url: `https://www.youtube.com/watch?v=${vid.raw.id}`,
-        title: vid.title,
-        duration: vid.durationSeconds,
-        user: message.author.id
-      };
-      db.queue.push(song);
-      await musicDB.reload(); // Reload due to code like song embeds allowing for various changes to the DB to happen while command is being run
-      musicDB.push(`/${id}/queue`,db.queue);
-      musicDB.save();
-      // Play if no song is playing, otherwise say it's added to queue
-      if (!db.isPlaying) {
-        db.isPlaying = true;
-        musicDB.push(`/${id}/isPlaying`,true);
+    // Queue process for single songs
+    if (pl === true) {
+      try {
+        // Add to queue
+        var song = {
+          url: `https://www.youtube.com/watch?v=${vid.raw.id}`,
+          title: vid.title,
+          duration: vid.durationSeconds,
+          user: message.author.id
+        };
+        db.queue.push(song);
+        await musicDB.reload(); // Reload due to code like song embeds allowing for various changes to the DB to happen while command is being run
+        musicDB.push(`/${id}/queue`,db.queue);
         musicDB.save();
-        return playSong(db.queue, message, vc, musicDB, id, settings);
-      } 
-      else return message.channel.send(`${song.title} has been added to the queue! Queue size is now ${db.queue.length}.`);
-    } catch (e) {
-      console.error(e);
-      return message.channel.send(`Error occured while trying to add that song to queue! You shouldn't have to see this. Please contact the devs or bot owner about this, along with this log:\n\`\`\`${e}\`\`\``);
+        // Play if no song is playing, otherwise say it's added to queue
+        if (!db.isPlaying) {
+          db.isPlaying = true;
+          musicDB.push(`/${id}/isPlaying`,true);
+          musicDB.save();
+          return playSong(db.queue, message, vc, musicDB, id, settings);
+        } 
+        return message.channel.send(`${song.title} has been added to the queue! Queue size is now ${db.queue.length}.`);
+      } catch (e) {
+        console.error(e);
+        return message.channel.send(`Error occured while trying to add that song to queue! You shouldn't have to see this. Please contact the devs or bot owner about this, along with this log:\n\`\`\`${e}\`\`\``);
+      }
+    } 
+    // Queue process for playlists
+    // TODO: Try and streamline this process and above one
+    else {
+      try {
+        // Add songs to queue
+        for (var i = 0; i < pl.l; i++) {
+          var v = pl.v[i];
+          var song = {
+            url: `https://www.youtube.com/watch?v=${v.id}`,
+            title: v.title,
+            duration: v.durationSeconds,
+            user: message.author.id
+          }
+          db.queue.push(song);
+        }
+        console.log(pl.v[0]);
+        await musicDB.reload();
+        musicDB.push(`/${id}/queue`,db.queue);
+        musicDB.save();
+        // If no song is playing, play it. State songs are added either way.
+        if (!db.isPlaying) {
+          db.isPlaying = true;
+          musicDB.push(`/${id}/isPlaying`,true);
+          musicDB.save();
+          playSong(db.queue, message, vc, musicDB, id, settings);
+        }
+        return message.channel.send(`Added ${pl.l} songs from ${pl.t}! Queue size is now ${db.queue.length}.`);
+      } catch (e) {
+        console.error(e);
+        return message.channel.send(`Error ocurred while trying to add those songs to queue! You shouldn't have to see this. Please contact the devs or bot owner about this, along with this log:\n\`\`\`${e}\`\`\``);
+      }
     }
   }
 }

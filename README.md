@@ -8,7 +8,7 @@ Need help? [Check out the support server.](https://discord.gg/Nfkdm6vnbD)
 # Commands
 A command list can be DM'd to you by pinging it and adding 'help' or by saying '{prefix}help'. You can also do '{prefix}sayhelp' to send it to the current channel instead.
 
-Alternatively, [an online command list is available.](http://ggtylerr.digital/projects/dsabot/commands)
+Alternatively, [an online command list is available.](http://ggtylerr.dev/dsabot/commands)
 
 # Installation
 This bot was primarily made for running on a repl.it node.js server, accompanied with express and UptimeRobot, which is easier for running it 24/7. It can also be run on any normal software after making a few adjustments.
