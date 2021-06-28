@@ -5,7 +5,13 @@ exports.playSong = function (queue, message, vc, db, id, settings) {
     .join()
     .then(connection => {
       // Create stream
+      console.log(process.env.ytcookie);
       const stream = ytdl(queue[0].url, {
+        requestOptions: {
+          headers: {
+            Cookie: process.env.ytcookie
+          }
+        },
         volume: 0.1, 
         quality: settings.quality,
         highWaterMark: 1024 * 1024 * 10
@@ -37,7 +43,7 @@ exports.playSong = function (queue, message, vc, db, id, settings) {
           }
         })
         .on('error', e => {
-          message.channel.send('Looks like there\'s an error and I can\'t play that ;(');
+          message.channel.send(`Looks like there's an error and I can't play that ;(\`\`\`${e}\`\`\``);
           console.error(e);
           db.reload();
           queue = db.getData(`/${id}/queue`);

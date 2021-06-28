@@ -25,7 +25,7 @@
     "smashgg.js": "^4.1.17",
     "sqlite": "^3.0.0",
     "xmlhttprequest": "^1.8.0",
-    "ytdl-core": "^4.5.0"
+    "ytdl-core": "^4.8.3"
   },
   "devDependencies": {},
   "scripts": {

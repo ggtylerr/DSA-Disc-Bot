@@ -278,7 +278,6 @@ module.exports = class PlayCommand extends Commando.Command {
           }
           db.queue.push(song);
         }
-        console.log(pl.v[0]);
         await musicDB.reload();
         musicDB.push(`/${id}/queue`,db.queue);
         musicDB.save();
