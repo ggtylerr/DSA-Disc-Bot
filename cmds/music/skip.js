@@ -38,7 +38,7 @@ module.exports = class SkipCommand extends Commando.Command {
       return message.channel.send(`Error ocurred while trying to get queue data! You shouldn't have to see this. Please contact the devs or bot owner about this, along with this log:\n\`\`\`${e}\`\`\``);
     }
     // Check if user either has permission or is the person who requested it
-    if (message.author.id !== q[0].id && !(message.guild.member(message.author).hasPermission('PRIORITY_SPEAKER')))
+    if (message.author.id !== q[0].user && !(message.guild.member(message.author).hasPermission('PRIORITY_SPEAKER')))
       return message.channel.send("You didn't request this song, and you don't have the perms (Priority Speaker) to skip it!");
     // Stop dispatcher (if it exists)
     if (vc)

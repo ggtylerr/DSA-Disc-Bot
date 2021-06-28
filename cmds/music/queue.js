@@ -52,6 +52,7 @@ module.exports = class QueueCommand extends Commando.Command {
     // Make embeds
     const embeds = [];
     var d = 0;
+    var t = full(d);
     for (let i = 0; i < q.queue.length; i += 9) {
       const embed = new MessageEmbed()
         .setFooter(`Page ${Math.floor(i/9)+1}/${Math.floor(q.queue.length/9)+1}`);
@@ -59,8 +60,16 @@ module.exports = class QueueCommand extends Commando.Command {
       for (let j = i; j < Math.min(i+9,q.queue.length); j++) {
         const u = await this.client.users.fetch(q.queue[j].user);
         c++;
-        embed.addField(`${c}. ${q.queue[j].title}`,`URL: ${q.queue[j].url}\nDuration: ${full(q.queue[j].duration)}\nTime till this plays: ${full(d)}\nRequested by: ${u.tag.replace(/\\/g,"\\\\")}`,true);
-        d += q.queue[j].duration;
+        embed.addField(`${c}. ${q.queue[j].title}`,`URL: ${q.queue[j].url}\nDuration: ${full(q.queue[j].duration)}\nTime till this plays: ${t}\nRequested by: ${u.tag.replace(/\\/g,"\\\\")}`,true);
+        // Workaround for durations in playlists being broken
+        if (q.queue[j].duration === -1) {
+          t = "???";
+        } else {
+          d += q.queue[j].duration;
+        }
+        if (t !== "???") {
+          t = full(d);
+        }
       }
       embeds.push(embed);
     }
@@ -76,6 +85,9 @@ module.exports = class QueueCommand extends Commando.Command {
 }
 
 function full(a) {
+  if (a === -1) {
+    return "???";
+  }
   var h = Math.floor(a / 3600);
   var m = Math.floor(a % 3600 / 60);
   var s = Math.floor(a % 3600 % 60);

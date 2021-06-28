@@ -59,7 +59,7 @@ client
       .catch(console.error);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     console.log('          DSABOT');
-    console.log('         v0.9-dv8');
+    console.log('         v0.9-dv9');
     console.log('~~~developed by ggtylerr~~~');
     console.log('If you have issues, please');
     console.log(' go to the support server!');

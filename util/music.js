@@ -5,7 +5,6 @@ exports.playSong = function (queue, message, vc, db, id, settings) {
     .join()
     .then(connection => {
       // Create stream
-      console.log(process.env.ytcookie);
       const stream = ytdl(queue[0].url, {
         requestOptions: {
           headers: {
