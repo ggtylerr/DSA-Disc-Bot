@@ -130,8 +130,5 @@ UptimeRobot is a "pinging service", meaning it pings a service (like a website, 
 3. Set the monitor type to HTTP(s), set the friendly name to anything you want, and set the URL to the one you copied.
 4. Anddd now you're done!
 
-#### Further configuration
-There are a lot of things you can configure server-side. These are available in `config.js`. Simply open the file in a text editor and go through any value you want to change.
-
 # Licensing and Legal Disclaimers
 This bot is completely public domain and can be used by anyone for any purpose. For full disclaimers, please read legal.txt.
