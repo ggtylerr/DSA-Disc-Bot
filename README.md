@@ -27,6 +27,8 @@ There are plans to improve the installation process, but as of right now, no eff
 2. Download the repository. You can do this through here (GitHub) or through the repl (link above)
 3. Extract it.
 4. In your command prompt / terminal, make sure the selected directory is the same folder as the extracted one and run `npm install`
+  * If you have errors while running this, use Node v14 and run `npm install -g windows-build-tools`. Make sure you're running that on PowerShell in admin mode.
+  * If that doesn't work either, run this: `choco install -y visualstudio2019buildtools visualstudio2019-workload-vctools` then this: `npm config set msvs_version 2019` (Do note that this requires [Chocolatey](https://chocolatey.org/))
 5. In config.js, you can make any adjustments you want to make, such as the default prefix. Just follow the notes.
 
 ### The rest of the installation process

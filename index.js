@@ -8,6 +8,8 @@
  * ~~~developed by ggtylerr~~~ 
  */
 
+require("dotenv").config();
+
 /**
  * Wondering where configuration went? 
  * It's now in a more proper place - config.js. 
@@ -59,7 +61,7 @@ client
       .catch(console.error);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     console.log('          DSABOT');
-    console.log('         v0.9-dv9');
+    console.log('        v0.9-dev10');
     console.log('~~~developed by ggtylerr~~~');
     console.log('If you have issues, please');
     console.log(' go to the support server!');
