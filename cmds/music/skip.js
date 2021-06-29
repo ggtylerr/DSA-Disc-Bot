@@ -1,7 +1,7 @@
 /**
  * THIS CODE WAS MADE FOR THE DSA DISCORD BOT AND CAN BE REUSED FOR ANY PURPOSE WITHOUT CREDIT. FOR FULL LEGAL AND LICENSING DISCLAIMERS, PLEASE READ LEGAL.TXT.
  * 
- * Clear queue command. Simple command that clears the current queue in the DB.
+ * Skip command. Simple command that ends the currently playing song, which automatically plays the next song.
  * 
  * ~~~developed by ggtylerr~~~
  */

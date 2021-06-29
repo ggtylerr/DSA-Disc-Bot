@@ -1,7 +1,7 @@
 /**
  * THIS CODE WAS MADE FOR THE DSA DISCORD BOT AND CAN BE REUSED FOR ANY PURPOSE WITHOUT CREDIT. FOR FULL LEGAL AND LICENSING DISCLAIMERS, PLEASE READ LEGAL.TXT.
  * 
- * Skip to command. Command that changes the queue in a way that it skips to that position in the queue.
+ * Remove command. Simple command that removes a song from the queue.
  * 
  * ~~~developed by ggtylerr~~~
  */
@@ -13,25 +13,25 @@ const DBConfig = require('node-json-db/dist/lib/JsonDBConfig').Config;
 
 var musicDB = new JsonDB(new DBConfig(process.env.appRoot + "/db/musicDB",false,true,'/'));
 
-module.exports = class SkipToCommand extends Commando.Command {
+module.exports = class RemoveCommand extends Commando.Command {
   constructor(client) {
     super(client, {
-      name: 'skipto',
-      aliases: ['sto'],
+      name: 'remove',
+      aliases: ['rm'],
       group: 'music',
-      memberName: 'skipto',
+      memberName: 'remove',
       guildOnly: true,
-      description: 'Skips to that position in the queue.',
+      description: 'Removes that song from the queue.',
       args: [
         {
-          key: 'pos',
-          prompt: 'What song do you want to skip to? (Reply with # in queue)',
+          key: 'song',
+          prompt: 'What song do you want to remove? (Reply with # in queue)',
           type: 'integer'
         }
       ]
     });
   }
-  async run(message, {pos}) {
+  async run(message, {song}) {
     // Get ID and VC
     const vc = message.guild.me.voice.channel;
     const id = message.guild.id;
@@ -45,23 +45,25 @@ module.exports = class SkipToCommand extends Commando.Command {
       return message.channel.send(`Error ocurred while trying to get queue data! You shouldn't have to see this. Please contact the devs or bot owner about this, along with this log:\n\`\`\`${e}\`\`\``);
     }
     // Check if position is valid
-    if (pos <= 0 || pos > q.length) {
+    if (song <= 0 || song > q.length) {
       return message.channel.send("Incorrect position!");
     }
     // Check if user either has permission or is the person who requested it
-    let reqchk = false;
-    for (var i = 0; i < pos; i++) {
-      if (message.author.id !== q[i].user) {
-        reqchk = true;
-        break;
+    if (message.author.id !== q[song-1].user && !(message.guild.member(message.author).hasPermission('PRIORITY_SPEAKER'))) {
+      return message.channel.send("You didn't request the songs inbetween, and you don't have the perms (Priority Speaker) to skip it!");
+    }
+    // Remove song
+    q.splice(song-1,1);
+    // If the song is the 1st song, and there's a song playing, 
+    // add an empty value at the start.
+    // This is because we'll treat it as a skip, and to do that we'll end
+    // the dispatcher, which automatically skips the song playing.
+    if (song == 1 && vc) {
+      if (!(typeof vc.dispatcher == 'undefined' || vc.dispatcher == null)) {
+        q.unshift({});
       }
     }
-    if (reqchk && !(message.guild.member(message.author).hasPermission('PRIORITY_SPEAKER'))) {
-      return message.channel.send("You didn't request the preceding songs, and you don't have the perms (Priority Speaker) to skip it!");
-    }
-    // Remove songs from queue except the last one before the requested one
-    // This is because the dispatcher shifts automatically when ending
-    q.splice(0, pos-2);
+    // Save queue to db
     try {
       musicDB.push(`/${id}/isPlaying`,true);
       musicDB.save();
@@ -69,13 +71,13 @@ module.exports = class SkipToCommand extends Commando.Command {
       console.error(e);
       return message.channel.send(`Error ocurred while trying to save queue data! You shouldn't have to see this. Please contact the devs or bot owner about this, along with this log:\n\`\`\`${e}\`\`\``);
     }
-    // Stop dispatcher (if it exists)
-    if (vc) {
+    // Stop dispatcher (if it exists and the song is the 1st song)
+    if (song == 1 && vc) {
       if (!(typeof vc.dispatcher == 'undefined' || vc.dispatcher == null)) {
         vc.dispatcher.end();
       }
     }
     // Profit!
-    message.reply("Skipped to that song!");
+    message.reply("Removed that song!");
   }
 }

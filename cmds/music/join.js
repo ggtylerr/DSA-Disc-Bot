@@ -1,7 +1,7 @@
 /**
  * THIS CODE WAS MADE FOR THE DSA DISCORD BOT AND CAN BE REUSED FOR ANY PURPOSE WITHOUT CREDIT. FOR FULL LEGAL AND LICENSING DISCLAIMERS, PLEASE READ LEGAL.TXT.
  * 
- * Disconnect / Leaving command. Simple command that disconnects the bot and clears the queue.
+ * Joining command. Simple command that connects the bot to a VC.
  * 
  * ~~~developed by ggtylerr~~~
  */
