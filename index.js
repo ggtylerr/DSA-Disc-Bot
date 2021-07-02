@@ -61,7 +61,7 @@ client
       .catch(console.error);
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     console.log('          DSABOT');
-    console.log('        v0.9-dev10');
+    console.log('        v0.9-dev11');
     console.log('~~~developed by ggtylerr~~~');
     console.log('If you have issues, please');
     console.log(' go to the support server!');
