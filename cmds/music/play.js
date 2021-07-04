@@ -264,7 +264,6 @@ module.exports = class PlayCommand extends Commando.Command {
       }
     } 
     // Queue process for playlists
-    // TODO: Try and streamline this process and above one
     else {
       try {
         // Add songs to queue

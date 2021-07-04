@@ -1,14 +1,17 @@
+# THIS IS NOW DEPRECATED AND ON PERMANENT MAINTENANCE MODE
+
+A replacement is currently in the works. This will no longer get new features, and only critical bugs and security flaws will be fixed. [Please see this post for more information.](https://www.ggtylerr.dev/blog/07-04-2021)
+
 # DSA Discord Bot
+
 A Discord bot originally made for the DSA Esports server, which is now being made as a general-purpose / esports discord bot.
 
 Need help? [Check out the support server.](https://discord.gg/Nfkdm6vnbD)
 
-[Roadmap](https://trello.com/b/1nwmnqVx/dsa-bot-roadmap)
-
 # Commands
 A command list can be DM'd to you by pinging it and adding 'help' or by saying '{prefix}help'. You can also do '{prefix}sayhelp' to send it to the current channel instead.
 
-Alternatively, [an online command list is available.](http://ggtylerr.dev/dsabot/commands)
+Alternatively, [an online command list is available.](https://www.ggtylerr.dev/dsabot/commands)
 
 # Installation
 This bot was primarily made for running on a repl.it node.js server, accompanied with express and UptimeRobot, which is easier for running it 24/7. It can also be run on any normal software after making a few adjustments.
