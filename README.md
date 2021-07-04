@@ -1,14 +1,17 @@
+# THIS IS NOW DEPRECATED AND ON PERMANENT MAINTENANCE MODE
+
+A replacement is currently in the works. This will no longer get new features, and only critical bugs and security flaws will be fixed. [Please see this post for more information.](https://www.ggtylerr.dev/blog/07-04-2021)
+
 # DSA Discord Bot
+
 A Discord bot originally made for the DSA Esports server, which is now being made as a general-purpose / esports discord bot.
 
 Need help? [Check out the support server.](https://discord.gg/Nfkdm6vnbD)
 
-[Roadmap](https://trello.com/b/1nwmnqVx/dsa-bot-roadmap)
-
 # Commands
 A command list can be DM'd to you by pinging it and adding 'help' or by saying '{prefix}help'. You can also do '{prefix}sayhelp' to send it to the current channel instead.
 
-Alternatively, [an online command list is available.](http://ggtylerr.digital/projects/dsabot/commands)
+Alternatively, [an online command list is available.](https://www.ggtylerr.dev/dsabot/commands)
 
 # Installation
 This bot was primarily made for running on a repl.it node.js server, accompanied with express and UptimeRobot, which is easier for running it 24/7. It can also be run on any normal software after making a few adjustments.
@@ -19,7 +22,7 @@ There are plans to improve the installation process, but as of right now, no eff
 
 ### Getting the bot on repl.it
 1. [Fork this repl](https://repl.it/@TylerFlowers/DSA-Disc-Bot)
-2. In index.js, you can make any adjustments you want to make, such as the default prefix. Just follow the comments.
+2. In config.js, you can make any adjustments you want to make, such as the default prefix. Just follow the notes.
 3. Skip the next section and go straight to the rest of the installation process.
 
 ### Getting the bot on node.js
@@ -27,7 +30,9 @@ There are plans to improve the installation process, but as of right now, no eff
 2. Download the repository. You can do this through here (GitHub) or through the repl (link above)
 3. Extract it.
 4. In your command prompt / terminal, make sure the selected directory is the same folder as the extracted one and run `npm install`
-5. In index.js, you can make any adjustments you want to make, such as the default prefix. Just follow the comments.
+  * If you have errors while running this, use Node v14 and run `npm install -g windows-build-tools`. Make sure you're running that on PowerShell in admin mode.
+  * If that doesn't work either, run this: `choco install -y visualstudio2019buildtools visualstudio2019-workload-vctools` then this: `npm config set msvs_version 2019` (Do note that this requires [Chocolatey](https://chocolatey.org/))
+5. In config.js, you can make any adjustments you want to make, such as the default prefix. Just follow the notes.
 
 ### The rest of the installation process
 #### Making the discord bot user and adding it
@@ -50,6 +55,7 @@ id="ownerid"
 #### Adding Challonge and smash.gg API keys
 *Challonge and smash.gg require API keys for commands that don't require them or don't do actions requiring an account (i.e. challongematches or smashggtourney)*
 **_You may skip this section if you aren't using this bot for esports purposes, but some commands will not function if you do._**
+
 1. On Challonge, log in and [copy your API key.](https://challonge.com/settings/developer)
 2. In .env, make a new line, type in "challongeapi=" and paste in your API key.
 3. On smash.gg, log in and [go to your developer settings.](https://smash.gg/admin/user/a4829083/developer)
@@ -64,13 +70,62 @@ challongeapi="challongeapikey"
 smashggapi="smashggtoken"
 ```
 
+#### Adding YouTube API keys
+*YouTube require API keys for any command that needs data from YouTube, (i.e. play)*
+**_You may skip this section if you aren't using this bot for music purposes, but some commands will not function if you do._**
+
+1. Head to the [Google Cloud Platform](https://console.cloud.google.com/apis/dashboard) and create a new project.
+  * If you haven't used this platform before, accept to the terms and conditions and create a new project by pressing "CREATE PROJECT".
+  * If you have and have already made a project, press the dropdown menu next to the Google Cloud Platform logo, then press "NEW PROJECT" in the top right corner.
+2. Name this project whatever you want.
+3. Using the search bar, go to YouTube Data API v3 and enable it.
+4. Press the "CREATE CREDENTIALS" button on the right, select "YouTube Data API v3" and Public Data.
+5. Copy the API key given to you, go to .env, type in "ytapi=", and paste in your key.
+  * If you lose this key, you can go to "APIs and Services", "Credentials", "API Keys", and copy the key.
+6. The .env file should now look like this *(If you've been following along with all prior steps)*:
+```
+token="bottoken"
+id="botid"
+challongeapi="challongeapikey"
+smashggapi="smashggtoken"
+ytapi="ytapikey"
+```
+
+#### Adding YouTube cookies
+*While this isn't required, you may recieve a 429 error code. [Click here for more info.](https://github.com/fent/node-ytdl-core/issues/635)*
+
+1. Open a web browser and go to YouTube
+  * You can do this with an account, but do note that doing so will allow users to **play any private / purchased videos** you have access to.
+2. Open up dev tools
+  * On Chrome / Chromium, this is CTRL+SHIFT+J, or CMD+OPT+J on Mac.
+  * On Firefox, this is CTRL+SHIFT+I, or CMD+OPT+I on Mac.
+3. Go to the Network tab.
+4. Click on any request.
+  * On Chrome / Chromium, this is one of the items listed under "Name".
+5. Go to the Headers tab if you aren't there already.
+6. Scroll down to "Request Headers"
+7. Find the "Cookie" header and copy everything.
+8. Go to .env, type in "ytcookie=", and paste in your cookie value.
+  * It should look like this: `"key1=value1; key2=value2; key3=value3"`
+9. The .env file should now look like this *(If you've been following along with all prior steps)*:
+```
+token="bottoken"
+id="botid"
+challongeapi="challongeapikey"
+smashggapi="smashggtoken"
+ytapi="ytapikey"
+ytcookie="ytcookie"
+```
+
+***IF you're still experiencing 429 issues:*** Please note that this may not come into effect until a few days later. This is an issue with YouTube and can not be fixed. You may try to use a VPN or different IP address if you're self-hosting.
+
 #### Running it, finally
 1. If you're on repl.it, press the Run button.
 2. If you're on node.js, run `node index.js` in your command prompt/terminal (make sure the current directory is the same one as the bot's directory)
 3. You're done! (At least, if you don't want UptimeRobot)
 
 #### Regarding UptimeRobot
-UptimeRobot is a "pinging service", meaning it pings a service (like a website, or a discord bot) every 5 minutes. This was implemented as this bot was hosted on repl.it, which previously was a requirement. As of 2/2/2021, however, this is no longer the case if you pay their subscription. You also don't need this service if you're running it on any other platform. If you want to use this service, read "Configuring UptimeRobot". If you don't, you can simply ignore it. You can also set `HostWeb` to `false` in line 28 in `index.js` if you want to save resources.
+UptimeRobot is a "pinging service", meaning it pings a service (like a website, or a discord bot) every 5 minutes. This was implemented as this bot was hosted on repl.it, which previously was a requirement. As of 2/2/2021, however, this is no longer the case if you pay their subscription. You also don't need this service if you're running it on any other platform. If you want to use this service, read "Configuring UptimeRobot". If you don't, you can simply ignore it. You can also set `HostWeb` to `false` in `config.js` if you want to save resources.
 
 #### Configuring UptimeRobot
 1. On the upper right corner, a website will show up with the current date and time. Copy its URL.
