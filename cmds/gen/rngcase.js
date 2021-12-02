@@ -27,11 +27,13 @@ module.exports = class RNGCaseCommand extends Commando.Command {
     });
   }
   async run(message, {msg}) {
-    msg = msg.replace('@','*@*')
     var newmsg = "";
     for (var i = 0; i < msg.length; i++) {
       newmsg += (Math.floor(Math.random()*2)==0) ? msg.charAt(i).toLowerCase() : msg.charAt(i).toUpperCase();
     }
-    message.channel.send(newmsg);
+    message.channel.send({
+      content: newmsg,
+      allowedMentions: { parse: [] }
+    });
   }
 }

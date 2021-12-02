@@ -26,9 +26,9 @@ module.exports = class OwoifyCommand extends Commando.Command {
     });
   }
   async run(message, {msg}) {
-    msg = msg.replace('@','*@*');
-    msg = msg.replace(/[lr]/g,"w");
-    msg = msg.replace(/[LR]/g,"W");
-    message.channel.send(msg);
+    return message.channel.send({
+      content: msg.replace(/[lr]/g,"w").replace(/[LR]/g,"W"),
+      allowedMentions: { parse: [] }
+    });
   }
 }

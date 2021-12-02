@@ -28,8 +28,7 @@ module.exports = class EvalCommand extends Commando.Command {
   }
   async run(message, {code}) {
     if (message.author.id === '143117463788191746') {
-      message.channel.send('swag :sunglasses:');
-      message.channel.send(eval(code));
+      message.channel.send(`Nice :sunglasses:\n__-----------__\n${eval(code)}`);
     } else {
       message.channel.send('haha this command is disabled for normal users, nice try ;)');
     }

@@ -27,7 +27,10 @@ module.exports = class VoteCommand extends Commando.Command {
     });
   }
   async run(message,{msg}) {
-    message.channel.send('Vote on `' + msg + '`\n')
+    message.channel.send({
+      content: 'Vote on `' + msg + '`\n',
+      allowedMentions: { parse: [] }
+    })
     .then(function (message) {
       message.react("👍");
       message.react("👎");

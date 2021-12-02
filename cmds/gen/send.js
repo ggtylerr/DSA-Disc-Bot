@@ -28,9 +28,11 @@ module.exports = class SendCommand extends Commando.Command {
     });
   }
   async run(message, {msg}) {
-    msg = msg.replace('@','*@*');
     message.delete();
     if (msg == '') message.channel.send(String.fromCharCode(8204));
-    else message.channel.send(msg);
+    else message.channel.send({
+      content: msg,
+      allowedMentions: { parse: [] }
+    });
   }
 }
