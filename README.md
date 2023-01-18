@@ -2,6 +2,8 @@
 
 A replacement is currently in the works. This will no longer get new features, and only critical bugs and security flaws will be fixed. [Please see this post for more information.](https://www.ggtylerr.dev/blog/07-04-2021)
 
+***Please note that this is heavily outdated. This may not be functional anymore.***
+
 # DSA Discord Bot
 
 A Discord bot originally made for the DSA Esports server, which is now being made as a general-purpose / esports discord bot.

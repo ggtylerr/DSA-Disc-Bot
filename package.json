@@ -23,7 +23,7 @@
     "opusscript": "0.0.8",
     "simple-youtube-api": "^5.2.1",
     "smashgg-promise": "^2.0.1",
-    "smashgg.js": "^4.1.17",
+    "smashgg.js": "^3.3.4",
     "sqlite": "^3.0.0",
     "xmlhttprequest": "^1.8.0",
     "ytdl-core": "^4.8.3"
