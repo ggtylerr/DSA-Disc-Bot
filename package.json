@@ -11,7 +11,7 @@
     "discord.js": "^12.5.3",
     "discord.js-commando": "github:discordjs/Commando",
     "dotenv": "^6.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "ffmpeg-static": "^4.3.0",
     "graphql": "^15.3.0",
     "graphql-request": "^3.0.0",
